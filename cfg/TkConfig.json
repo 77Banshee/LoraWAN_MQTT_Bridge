@@ -1,0 +1,940 @@
+{
+    "TK": [
+        {
+            "DevEUI": "07293314052DA5ED",
+            "Quantity": 15
+        },
+        {
+            "DevEUI": "07293314052D6DAA",
+            "Quantity": 26
+        },
+        {
+            "DevEUI": "07293314052D7BC5",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7046",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D224C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D3F85",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D9692",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7F48",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8CB8",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D3571",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D4613",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D6646",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D4AD8",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D8BF5",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052DF486",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D25BC",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D3F88",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DFB1F",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DA60B",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D782C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DA0A3",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8003",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DC47C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DB026",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D3041",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DB459",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D1D66",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D972F",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D86CB",
+            "Quantity": 27
+        },
+        {
+            "DevEUI": "07293314052DBA70",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D2E6F",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D2E83",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D24BB",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE64A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DA39A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052C52B6",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D713C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE71B",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC3C3",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DAC51",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DA23C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DFF3E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D3944",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DFA2C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DFB0C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D3279",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2556",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D8A67",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2D77",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DCC5A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D5A99",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D60EE",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D607B",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052D1C43",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052D201C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D40C0",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052C961D",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052DAA13",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC6E1",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D14B0",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DD0B6",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D6C75",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D85D7",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052C4FE7",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DB4A2",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052D5F4A",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DF99E",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D511F",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052CB8A4",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DB946",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D4523",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DDF85",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE2DD",
+            "Quantity": 20
+        },
+        {
+            "DevEUI": "07293314052CBC14",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D4504",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DFD9A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D338D",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE59E",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DE3C4",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D88D0",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D4832",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D6853",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DDBD5",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D1267",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D2A3A",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D68B6",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC7D1",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052CCC43",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DD777",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DFB10",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D93C6",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D0539",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D956C",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D2B95",
+            "Quantity": 27
+        },
+        {
+            "DevEUI": "07293314052D8F0B",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052DED0B",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052DAFDC",
+            "Quantity": 27
+        },
+        {
+            "DevEUI": "07293314052D8D8C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DBC01",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D6D12",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D87E2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DEF1C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DCD41",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D4B83",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D962E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D5B68",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DA925",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D10B2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D1B5E",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DB86B",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D7E27",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D3377",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8C1C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DBD0A",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052D73E1",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DFF55",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D4D6A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052CBD4A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D77B3",
+            "Quantity": 27
+        },
+        {
+            "DevEUI": "07293314052D190A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DB2D3",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D1FCD",
+            "Quantity": 15
+        },
+        {
+            "DevEUI": "07293314052DFE33",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC0DA",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D55CA",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7A18",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D329F",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8085",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D6DB4",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DABE8",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D32EF",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D0DE5",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D479A",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D29E8",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DF892",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D1812",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D37C4",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D42AB",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D1F0A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D108D",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7D77",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2157",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DAC8C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DCC56",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D292D",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8226",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D92A3",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2FFC",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7A4D",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D94CE",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D647F",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D0AD0",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052C393E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D123C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D65B7",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D833A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DF3DC",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052DF78E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D0A06",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D63D6",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D67D1",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DFD3E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D00F0",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D812B",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE8A4",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D0CA3",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052D8B21",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DA3F2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8BA9",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D16AA",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052C52D2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D90F5",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D419C",
+            "Quantity": 19
+        },
+        {
+            "DevEUI": "07293314052DE794",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D5FAC",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052DE34B",
+            "Quantity": 14
+        },
+        {
+            "DevEUI": "07293314052D7F98",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DABC1",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D5B2F",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DF1B8",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DA40F",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D3762",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D7E68",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D408A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D4884",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE6CF",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DD5CD",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2087",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D5B78",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D973A",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DD17D",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052D07D7",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC27C",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D4EE2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DE7E3",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DD262",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DEE09",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DBD04",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DDBD3",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D6650",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D9461",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D53B3",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D3DC8",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D6C9B",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7528",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D4A59",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D61DF",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2F44",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8D75",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D22B2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC23E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC611",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DB628",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "07293314052D152E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC417",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052D012F",
+            "Quantity": 24
+        },
+        {
+            "DevEUI": "07293314052D246F",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052D700F",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DA096",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D3527",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2DA2",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D7702",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D8131",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D9E1E",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052DC7EB",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052CB0D2",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052D3B94",
+            "Quantity": 13
+        },
+        {
+            "DevEUI": "07293314052DFAD7",
+            "Quantity": 17
+        },
+        {
+            "DevEUI": "07293314052D2027",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052D98C5",
+            "Quantity": 16
+        },
+        {
+            "DevEUI": "07293314052D71A6",
+            "Quantity": 15
+        },
+        {
+            "DevEUI": "07293314052DA030",
+            "Quantity": 15
+        },
+        {
+            "DevEUI": "07293314052D605E",
+            "Quantity": 18
+        },
+        {
+            "DevEUI": "0729331405555555",
+            "Quantity": 13
+        }
+    ]
+}
