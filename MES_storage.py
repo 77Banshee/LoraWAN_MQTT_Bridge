@@ -1,5 +1,3 @@
-import MES_device
-
 class SingletonMetaClass(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -14,9 +12,10 @@ class devices(metaclass=SingletonMetaClass):
     __thermometers = []
     __piezometers = []
     __hygrometers = []
-    
+   
+   # Check  
     def allowed_type(cls, device): # check input instance for allowed type (to avoid the case with wrong input instance)
-        if isinstance(device, MES_device.device) and device.get_devType() in cls.__allowed_to_store:
+        if device.get_devType() in cls.__allowed_to_store:
             return True
         return False
     
