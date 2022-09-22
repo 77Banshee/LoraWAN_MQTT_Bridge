@@ -1,0 +1,50 @@
+{
+  "applicationID": "3",
+  "applicationName": "Thermometer",
+  "deviceName": "1342",
+  "devEUI": "BykzFAUt/1U=",
+  "rxInfo": [
+    {
+      "gatewayID": "eF7o//4gANk=",
+      "time": null,
+      "timeSinceGPSEpoch": null,
+      "rssi": -112,
+      "loRaSNR": 0.5,
+      "channel": 2,
+      "rfChain": 0,
+      "board": 0,
+      "antenna": 0,
+      "location": {
+        "latitude": 0,
+        "longitude": 0,
+        "altitude": 0,
+        "source": "UNKNOWN",
+        "accuracy": 0
+      },
+      "fineTimestampType": "NONE",
+      "context": "ml4xBA==",
+      "uplinkID": "/HyYIwinTEGsl7JLTnNDKw==",
+      "crcStatus": "CRC_OK"
+    }
+  ],
+  "txInfo": {
+    "frequency": 864500000,
+    "modulation": "LORA",
+    "loRaModulationInfo": {
+      "bandwidth": 125,
+      "spreadingFactor": 12,
+      "codeRate": "4/5",
+      "polarizationInversion": false
+    }
+  },
+  "adr": false,
+  "dr": 0,
+  "fCnt": 758,
+  "fPort": 60,
+  "data": "BQkQYyyUqACLAHsAcwB5AIEAiwCXAJQ=",
+  "objectJSON": "",
+  "tags": {},
+  "confirmedUplink": true,
+  "devAddr": "AfCKJA==",
+  "publishedAt": "2022-09-22T17:05:34.972006520Z"
+}

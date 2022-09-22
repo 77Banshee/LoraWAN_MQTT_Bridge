@@ -1,0 +1,50 @@
+{
+  "applicationID": "2",
+  "applicationName": "Inclinometer",
+  "deviceName": "10671",
+  "devEUI": "BykzFAUt/54=",
+  "rxInfo": [
+    {
+      "gatewayID": "eF7o//4gANk=",
+      "time": null,
+      "timeSinceGPSEpoch": null,
+      "rssi": -105,
+      "loRaSNR": 6,
+      "channel": 3,
+      "rfChain": 0,
+      "board": 0,
+      "antenna": 0,
+      "location": {
+        "latitude": 0,
+        "longitude": 0,
+        "altitude": 0,
+        "source": "UNKNOWN",
+        "accuracy": 0
+      },
+      "fineTimestampType": "NONE",
+      "context": "0ffUDA==",
+      "uplinkID": "DzSricKJSDeldbaroJQ1lg==",
+      "crcStatus": "CRC_OK"
+    }
+  ],
+  "txInfo": {
+    "frequency": 864700000,
+    "modulation": "LORA",
+    "loRaModulationInfo": {
+      "bandwidth": 125,
+      "spreadingFactor": 12,
+      "codeRate": "4/5",
+      "polarizationInversion": false
+    }
+  },
+  "adr": false,
+  "dr": 0,
+  "fCnt": 66,
+  "fPort": 60,
+  "data": "E0BfGqAA",
+  "objectJSON": "",
+  "tags": {},
+  "confirmedUplink": true,
+  "devAddr": "ABY7EQ==",
+  "publishedAt": "2022-09-22T16:09:32.837754410Z"
+}

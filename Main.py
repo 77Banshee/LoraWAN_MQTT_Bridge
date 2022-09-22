@@ -35,6 +35,7 @@ def init_devices(json_device_list, json_tk_config):
             for i in tk_config['TK']:
                 if i['DevEUI'] == dev_eui:
                     device_instance.set_quantity(i['Quantity'])
+                    break
         MES_storage.devices.append_device(device_storage, device_instance)
 
 def main():

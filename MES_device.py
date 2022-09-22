@@ -31,7 +31,7 @@ class device_factory(object):
 
 class device(object):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
-        self.__dev_eui = dev_eui
+        self.__dev_eui = dev_eui.lower()
         self.__mqtt_name = mqtt_name
         self.__object_id = object_id
         self.__object_code = object_code
