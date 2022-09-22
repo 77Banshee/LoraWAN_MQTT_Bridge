@@ -1,8 +1,4 @@
 
-import json
-from select import select
-
-
 class device_factory(object):
     __device_created = 0
   
@@ -54,6 +50,8 @@ class device(object):
         return self.__object_code
     def get_uspd_code(self):
         return self.__uspd_code
+    def set_chirpstack_name(self, chirpstack_name):
+        self.__chirpstack_name = chirpstack_name
     def __str__(self):
         return f"Device: {self.__dev_type}\nDev EUI: {self.__dev_eui}\nMQTT Name: {self.__mqtt_name}\nObject Code: {self.__object_code}\nUSPD Code: {self.__uspd_code}\nChirpstack Name: {self.__chirpstack_name}"
 
