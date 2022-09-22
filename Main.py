@@ -3,16 +3,22 @@ import json
 import MES_device
 import MES_storage
 
-#TODO: Append MES_storage in init_devices method and fill device collections.
-#TODO: Init TkConfig.json and append quantity methods to every initialized Thermometer 
+#TODO: Make Package classes
+#TODO: Create feature for pass data.json files as args
+#TODO: Fill chirpstack name with value from mqtt topic.
 
-def init_devices(sourceJson):
-    f = open(sourceJson, 'r')
-    DeviceList = json.load(f)
+device_storage = MES_storage.devices()
+
+# Создание экземпляро каждого устройства на обьекте.
+def init_devices(json_device_list, json_tk_config):
+    dev_list_file = open(json_device_list, 'r')
+    device_list = json.load(dev_list_file)
     
-    devArr = {}
-    for i in range(0, len(DeviceList['devices'])):
-        j_object = DeviceList['devices'][i]
+    tk_config_file = open(json_tk_config)
+    tk_config = json.load(tk_config_file)
+    
+    for i in range(0, len(device_list['devices'])):
+        j_object = device_list['devices'][i]
         dev_eui = j_object['devEui'] 
         dev_mqtt_name = j_object['MqttName']
         dev_type = j_object['type']
@@ -25,13 +31,15 @@ def init_devices(sourceJson):
                                                                   dev_object_id,
                                                                   dev_object_code,
                                                                   dev_uspd_code)
-        devArr.update({device_instance : 0}) 
-    print(f"[*] Device created: {MES_device.device_factory.get_device_created()}")
-    
+        if dev_type == 'Thermometer':
+            for i in tk_config['TK']:
+                if i['DevEUI'] == dev_eui:
+                    device_instance.set_quantity(i['Quantity'])
+        MES_storage.devices.append_device(device_storage, device_instance)
 
 def main():
     print("[*] Main called")
-    init_devices("cfg/DeviceList.json")
+    init_devices("cfg/DeviceList.json", "cfg/TkConfig.json")
     #INIT localMQTT and externalMQTT connections.
     #INIT DEVICES
 

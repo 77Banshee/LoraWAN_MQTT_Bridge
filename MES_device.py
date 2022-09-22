@@ -19,16 +19,16 @@ class device_factory(object):
         match dev_type:
             case "Inclinometer":
                 cls.__count_increment(cls)
-                return inclinometer(dev_eui, mqtt_name, object_id, object_code, uspd_code, dev_type)
+                return inclinometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case "Thermometer":
                 cls.__count_increment(cls)
-                return thermometer(dev_eui, mqtt_name, object_id, object_code, uspd_code, dev_type)
+                return thermometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case "Pizeometer":
                 cls.__count_increment(cls)
-                return piezometer(dev_eui, mqtt_name, object_id, object_code, uspd_code, dev_type)
+                return piezometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case "Hygrometer":
                 cls.__count_increment(cls)
-                return hygrometer(dev_eui, mqtt_name, object_id, object_code, uspd_code, dev_type)
+                return hygrometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case _:
                 raise ValueError(f"Device not recognized: {type}")
         #Get dev info from ... json/straight params?
@@ -76,7 +76,7 @@ class thermometer(device):
     def set_quantity(self, value):
        self.__quantity = value
     def __str__(self):
-        return super().__str__()
+        return super().__str__() + f'\nQuantity: {self.__quantity}'
     #@property
     #def quantity(self):
     #    return self.quantity
@@ -85,7 +85,7 @@ class thermometer(device):
     #    self.quantity = quantity
     #S_BAT
     #S_INFO
-    #MEASURES x3
+    #MEASURES x3+
     
 class piezometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):

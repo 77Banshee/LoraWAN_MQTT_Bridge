@@ -1,3 +1,4 @@
+#Implementation of Design Pattern - Singleton
 class SingletonMetaClass(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -13,20 +14,36 @@ class devices(metaclass=SingletonMetaClass):
     __piezometers = []
     __hygrometers = []
    
-   # Check  
     def allowed_type(cls, device): # check input instance for allowed type (to avoid the case with wrong input instance)
         if device.get_devType() in cls.__allowed_to_store:
             return True
+        else:
+            print(f"Not allowed: {device.get_devType()}")
         return False
     
-    def append_device(device):
-        if cls.allowed_type(device) and not cls.contains_device(device):
-            pass
+    def append_device(self, device):
+        if self.allowed_type(device) and not self.contains_device(device):
+            match device.get_devType():
+                case 'Inclinometer':
+                    self.__inclinometers.append(device)
+                    print(f"Appended:\n" + device.__str__() + "\n")
+                case 'Thermometer':
+                    self.__thermometers.append(device)
+                    print(f"Appended:\n" + device.__str__() + "\n")
+                case 'Piezometer':
+                    self.__piezometers.append(device)
+                    print(f"Appended:\n" + device.__str__() + "\n")
+                case 'Hygrometer':
+                    self.__hygrometers.append(device)
+                    print(f"Appended:\n" + device.__str__() + "\n")
+        else:
+            print("[*] append_device() ->  Device NOT allowd!")
 
     def remove_device(device):
+        #TODO: IMPLEMENT!
         pass
     
-    def contains_device(device): #TODO: Require tests!
+    def contains_device(self, device): #TODO: Require tests!
         match device.get_devType():
             case "Inclinometer":
                 if device in devices.__inclinometers:
@@ -65,5 +82,3 @@ class devices(metaclass=SingletonMetaClass):
 
 if __name__ == "__main__":
     print("Entry point: MES_device.py")
-    dev = MES_device.device("123", "123","123","123","123","Inclinometer")
-    print(devices.contains_device(dev))
