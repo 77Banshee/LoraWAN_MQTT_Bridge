@@ -53,8 +53,12 @@ class device(object):
     def set_chirpstack_name(self, chirpstack_name):
         self.__chirpstack_name = chirpstack_name
     def __str__(self):
-        return f"Device: {self.__dev_type}\nDev EUI: {self.__dev_eui}\nMQTT Name: {self.__mqtt_name}\nObject Code: {self.__object_code}\nUSPD Code: {self.__uspd_code}\nChirpstack Name: {self.__chirpstack_name}"
-
+        return (f"Device: {self.__dev_type}\n"
+                f"Dev EUI: {self.__dev_eui}\n"
+                f"MQTT Name: {self.__mqtt_name}\n"
+                f"Object Code: {self.__object_code}\n"
+                f"USPD Code: {self.__uspd_code}\n"
+                f"Chirpstack Name: {self.__chirpstack_name}")
        
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
