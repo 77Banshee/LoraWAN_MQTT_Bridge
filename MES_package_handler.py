@@ -1,8 +1,10 @@
 import base64
 import json
 import struct
+import time
 #TODO: В классе пакет проинициализировать поля которые встречаются в каждом пакете.
 #TODO: Продумать логику как определять пакет (по первому байту?) и сделать методы по созданию экземпляра конкретного пакета.
+#TODO: Продумать как отбрасывать дубликаты пакетов (где хранить последние 20 пришедших пакетов? в мейне? в packet_factory?).
 
 # RSSI
 # SNR
@@ -20,12 +22,12 @@ class packet(object):
         self._dev_eui = base64.b64decode(rx_json['devEUI'])
         self._dev_name = rx_json['deviceName']
         self._f_cnt = rx_json['fCnt']
-        self._hex_data = base64.b85decode(rx_json['data'])
+        self._hex_data = base64.b64decode(rx_json['data'])
         self._rssi = str(rx_json['rxInfo'][0]['rssi'])
         self._snr = str(rx_json['rxInfo'][0]['loRaSNR'])
     def __str__(self):
         return (f"dev_type: {self._dev_type}\n" 
-        f"dev_eui: {self._dev_eui}\n"
+        f"dev_eui: {self._dev_eui.hex()}\n"
         f"dev_name: {self._dev_name}\n"
         f"f_cnt: {self._f_cnt}\n"
         f"hex_data: {self._hex_data.hex()}\n"
@@ -42,19 +44,25 @@ class inclinometer_data_packet(packet):
         for i in range(0, 4):
             bArr_uts.append(str_hex_data[i+1])
             bArr_x.append(str_hex_data[8 - i])
-            bArr_y.append(str_hex_data[12 - i])
-        [self.x_angle] = struct.unpack('f', bArr_x)
+            bArr_y. append(str_hex_data[12 - i])
         [self.y_angle] = struct.unpack('f', bArr_y)
+        [self.x_angle] = struct.unpack('f', bArr_x)
+        self.timestamp = int.from_bytes(bArr_uts, 'big')
         print('\tAng X: ' + '{0:.0f}'.format(self.x_angle))
-        print('\tAng Y: ' + '{0:.0f}'.format(self.y_angle))
     def __init__(self, rx_json):
         super().__init__(rx_json)
         self.x_angle = None
         self.y_angle = None
-        self.timesptamp = None
+        self.timestamp = None
         self.__decode_measures(self._hex_data)
     def __str__(self) -> str:
-        return super().__str__() + '\n x_angle: ' + '{0:.0f}'.format(self.x_angle) + '\n y_angle: ' + '{0:.0f}'.format(self.y_angle) 
+        return (super().__str__() 
+                + '\n x_angle: ' 
+                + '{0:.0f}'.format(self.x_angle) 
+                + '\n y_angle: ' 
+                + '{0:.0f}'.format(self.y_angle) 
+                + f'\ntimestamp: {self.timestamp}'
+                + f'\ndate: {time.ctime(self.timestamp)}') 
     
 
 class thermometer_data_packet(packet):
@@ -82,6 +90,7 @@ class battery_info_packet(packet):
 class status_packet_info(packet):
     def __init__(self, rx_json):
         super().__init__(rx_json)
+        self.error_code = None
     def __str__(self):
         return super().__str__()
 
