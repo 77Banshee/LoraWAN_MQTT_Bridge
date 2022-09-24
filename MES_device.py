@@ -31,34 +31,34 @@ class device_factory(object):
 
 class device(object):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
-        self.__dev_eui = dev_eui.lower()
-        self.__mqtt_name = mqtt_name
-        self.__object_id = object_id
-        self.__object_code = object_code
-        self.__uspd_code = uspd_code
-        self.__dev_type = dev_type
-        self.__chirpstack_name = "UNKNOWN"
+        self._dev_eui = dev_eui.lower()
+        self._mqtt_name = mqtt_name
+        self._object_id = object_id
+        self._object_code = object_code
+        self._uspd_code = uspd_code
+        self._dev_type = dev_type
+        self._chirpstack_name = "UNKNOWN"
     def get_devEui(self):
-        return self.__dev_eui
+        return self._dev_eui
     def get_devType(self):
-        return self.__dev_type
+        return self._dev_type
     def get_mqtt_nqme(self):
-        return self.__mqtt_name
+        return self._mqtt_name
     def get_object_id(self):
-        return self.__object_id
+        return self._object_id
     def get_object_code(self):
-        return self.__object_code
+        return self._object_code
     def get_uspd_code(self):
-        return self.__uspd_code
+        return self._uspd_code
     def set_chirpstack_name(self, chirpstack_name):
-        self.__chirpstack_name = chirpstack_name
+        self._chirpstack_name = chirpstack_name
     def __str__(self):
-        return (f"Device: {self.__dev_type}\n"
-                f"Dev EUI: {self.__dev_eui}\n"
-                f"MQTT Name: {self.__mqtt_name}\n"
-                f"Object Code: {self.__object_code}\n"
-                f"USPD Code: {self.__uspd_code}\n"
-                f"Chirpstack Name: {self.__chirpstack_name}")
+        return (f"Device: {self._dev_type}\n"
+                f"Dev EUI: {self._dev_eui}\n"
+                f"MQTT Name: {self._mqtt_name}\n"
+                f"Object Code: {self._object_code}\n"
+                f"USPD Code: {self._uspd_code}\n"
+                f"Chirpstack Name: {self._chirpstack_name}")
        
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
