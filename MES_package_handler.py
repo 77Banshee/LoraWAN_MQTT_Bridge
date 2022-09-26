@@ -81,18 +81,42 @@ class inclinometer_data_packet(packet):
     
 
 class thermometer_data_packet(packet):
+    def __decode_measures(self, str_hex_data):
+        self.first_sensor = str_hex_data[1]
+        self.last_sensor = str_hex_data[2]
+        bArr_timestamp = bytearray()
+        for i in range(3, 6):
+            bArr_timestamp.append(str_hex_data[i])
+        self.timestamp = int.from_bytes(bArr_timestamp, 'big')
+        measures_hex_data = self._hex_data[7:] # отрезаем первые 7 байт чтобы оставить только измерения.
+        for i in range(self.first_sensor, self.last_sensor + 1):
+            bMeasure = bytearray()
+            bMeasure.append(measures_hex_data[0])
+            bMeasure.append(measures_hex_data[1])
+            measures_hex_data = measures_hex_data[2:]
+            self.measures[i] = int.from_bytes(bMeasure, 'big', signed=True) / 100
+    def __init__(self, rx_json) -> None:
+        super().__init__(rx_json)
+        self.first_sensor = None
+        self.last_sensor = None
+        self.timestamp = None
+        self.measures = {}
+        self.__decode_measures(self._hex_data)
+        # print()
+    def __str__(self) -> str:
+        str_measures = ''
+        for i in range(self.first_sensor, self.last_sensor + 1):
+            # print(self.measures.get(8))
+            str_measures += (f"\n{i}: {self.measures.get(i)}")
+        return super().__str__() + str_measures
+
+class piezometer_data_packet(packet): # 1b - type | 4b - tempo float | 4b - pressure float
     def __init__(self, rx_json) -> None:
         super().__init__(rx_json)
     def __str__(self) -> str:
         return super().__str__()
 
-class piezometer_data_packet(packet):
-    def __init__(self, rx_json) -> None:
-        super().__init__(rx_json)
-    def __str__(self) -> str:
-        return super().__str__()
-
-class hygrometer_data_packet(packet):
+class hygrometer_data_packet(packet): # 1b -type | 4b - unix time | 4b - tempo measures float | 4b relative humidity float
     def __init__(self, rx_json) -> None:
         super().__init__(rx_json)
 
@@ -102,6 +126,7 @@ class battery_info_packet(packet):
         for i in range(0, 4):
             bArr_v_bat.append(str_hex_data[4 - i])
         [self.u_battery] = struct.unpack('f', bArr_v_bat)
+        self.u_battery = round(self.u_battery, 3) 
         self.battery_level = round(((self.u_battery - 3.0)/(3.6 - 3.0))*100.0)
         print("1") 
     def __init__(self, rx_json):
@@ -147,7 +172,12 @@ if __name__ == "__main__":
     # print(sp.__str__())
 
 
-    inc_13_o = open("debug/Thermometer_07293314052dff55/13.txt", 'r')
-    rx_json = json.load(inc_13_o)
-    p_bat = battery_info_packet(rx_json)
-    print(p_bat.__str__())
+    # inc_13_o = open("debug/Thermometer_07293314052dff55/13.txt", 'r')
+    # rx_json = json.load(inc_13_o)
+    # p_bat = battery_info_packet(rx_json)
+    # print(p_bat.__str__())
+
+    # thermo_05_o = open("debug/thermo_07293314052d6646/5.json", 'r')
+    # rx_json = json.load(thermo_05_o)
+    # thermo = thermometer_data_packet(rx_json)
+    # print(thermo.__str__())
