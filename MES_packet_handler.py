@@ -6,6 +6,9 @@ import time
 #TODO: В классе пакет проинициализировать поля которые встречаются в каждом пакете.
 #TODO: Продумать логику как определять пакет (по первому байту?) и сделать методы по созданию экземпляра конкретного пакета.
 #TODO: Продумать как отбрасывать дубликаты пакетов (где хранить последние 20 пришедших пакетов? в мейне? в packet_factory?).
+#TODO: Проверить гигрометр.
+#TODO: Округлить все значения float до двух символов после запятой?
+
 
 # RSSI
 # SNR
@@ -35,7 +38,7 @@ class packet_factory(object):
 class packet(object):
     def __init__(self, rx_json):
         self._dev_type = rx_json['applicationName']
-        self._dev_eui = base64.b64decode(rx_json['devEUI'])
+        self._dev_eui = base64.b64decode(rx_json['devEUI']).hex()
         self._dev_name = rx_json['deviceName']
         self._f_cnt = rx_json['fCnt']
         self._hex_data = base64.b64decode(rx_json['data'])
@@ -43,7 +46,7 @@ class packet(object):
         self._snr = str(rx_json['rxInfo'][0]['loRaSNR'])
     def __str__(self):
         return (f"dev_type: {self._dev_type}\n" 
-        f"dev_eui: {self._dev_eui.hex()}\n"
+        f"dev_eui: {self._dev_eui}\n"
         f"dev_name: {self._dev_name}\n"
         f"f_cnt: {self._f_cnt}\n"
         f"hex_data: {self._hex_data.hex()}\n"
@@ -51,16 +54,22 @@ class packet(object):
         f"snr: {self._snr}")
     def get_hex_data(self):
         return self._hex_data
+    def get_dev_eui(self):
+        return self._dev_eui
+    def get_dev_type(self):
+        return self._dev_type
+    def get_dev_name(self):
+        return self._dev_name
 
 class inclinometer_data_packet(packet):
-    def __decode_measures(self, str_hex_data):
+    def __decode_measures(self, byte_hex_data):
         bArr_x = bytearray()
         bArr_y = bytearray()
         bArr_uts = bytearray()
         for i in range(0, 4):
-            bArr_uts.append(str_hex_data[i+1])
-            bArr_x.append(str_hex_data[8 - i])
-            bArr_y. append(str_hex_data[12 - i])
+            bArr_uts.append(byte_hex_data[i+1])
+            bArr_x.append(byte_hex_data[8 - i])
+            bArr_y. append(byte_hex_data[12 - i])
         [self.y_angle] = struct.unpack('f', bArr_y)
         [self.x_angle] = struct.unpack('f', bArr_x)
         self.timestamp = int.from_bytes(bArr_uts, 'big')
@@ -81,12 +90,12 @@ class inclinometer_data_packet(packet):
     
 
 class thermometer_data_packet(packet):
-    def __decode_measures(self, str_hex_data):
-        self.first_sensor = str_hex_data[1]
-        self.last_sensor = str_hex_data[2]
+    def __decode_measures(self, byte_hex_data):
+        self.first_sensor = byte_hex_data[1]
+        self.last_sensor = byte_hex_data[2]
         bArr_timestamp = bytearray()
         for i in range(3, 6):
-            bArr_timestamp.append(str_hex_data[i])
+            bArr_timestamp.append(byte_hex_data[i])
         self.timestamp = int.from_bytes(bArr_timestamp, 'big')
         measures_hex_data = self._hex_data[7:] # отрезаем первые 7 байт чтобы оставить только измерения.
         for i in range(self.first_sensor, self.last_sensor + 1):
@@ -111,24 +120,60 @@ class thermometer_data_packet(packet):
         return super().__str__() + str_measures
 
 class piezometer_data_packet(packet): # 1b - type | 4b - tempo float | 4b - pressure float
+    def __decode_measures(self, byte_hex_data):
+        bArr_timestamp = bytearray()
+        bArr_temperature = bytearray()
+        bArr_pressure = bytearray()
+        for i in range(0, 4):
+            bArr_timestamp.append(byte_hex_data[i+1])
+            bArr_temperature.append(byte_hex_data[i + 5])
+            bArr_pressure.append(byte_hex_data[i + 9])
+        self.timestamp = int.from_bytes(bArr_timestamp, 'big')
+        self.measures_temperature = int.from_bytes(bArr_temperature, 'big')
+        self.measures_pressure = int.from_bytes(bArr_pressure, 'big')
+        self.measures_pressure = 222.35 + self.measures_pressure/10000
     def __init__(self, rx_json) -> None:
         super().__init__(rx_json)
+        self.timestamp = None
+        self.measures_temperature = None
+        self.measures_pressure = None
+        self.__decode_measures(self._hex_data)
     def __str__(self) -> str:
-        return super().__str__()
+        return (super().__str__() + f"\ntimestamp: {self.timestamp}" 
+                + f"\nmeasures_temperature: {self.measures_temperature}" 
+                + f"\nmeasures_pressure: {self.measures_pressure}")
 
 class hygrometer_data_packet(packet): # 1b -type | 4b - unix time | 4b - tempo measures float | 4b relative humidity float
+    def __decode_measures(self, byte_hex_data):
+        bArr_timestamp = bytearray()
+        bArr_temperature = bytearray()
+        bArr_humidity = bytearray()
+        for i in range(0, 4):
+                bArr_timestamp.append(byte_hex_data[i + 1])
+                bArr_temperature.append(byte_hex_data[8 - i])
+                bArr_humidity.append(byte_hex_data[12 - i])
+        self.timestamp = int.from_bytes(bArr_timestamp, 'big')        
+        [self.measures_temperature] = struct.unpack('f', bArr_temperature)
+        [self.measures_humidity] = struct.unpack('f', bArr_humidity)
     def __init__(self, rx_json) -> None:
         super().__init__(rx_json)
-
+        self.timestamp = None
+        self.measures_temperature = None
+        self.measures_humidity = None
+        self.__decode_measures(self._hex_data)
+    def __str__(self):
+        return (super().__str__()
+                + f"\ntimestamp: {self.timestamp}"
+                + f"\nmeasures_temperature: {self.measures_temperature}"
+                + f"\nmeasures_humidity: {self.measures_humidity}")
 class battery_info_packet(packet):
-    def __battery_info_decode(self, str_hex_data):
+    def __battery_info_decode(self, byte_hex_data):
         bArr_v_bat = bytearray()
         for i in range(0, 4):
-            bArr_v_bat.append(str_hex_data[4 - i])
+            bArr_v_bat.append(byte_hex_data[4 - i])
         [self.u_battery] = struct.unpack('f', bArr_v_bat)
         self.u_battery = round(self.u_battery, 3) 
         self.battery_level = round(((self.u_battery - 3.0)/(3.6 - 3.0))*100.0)
-        print("1") 
     def __init__(self, rx_json):
         super().__init__(rx_json)
         self.battery_level = None
@@ -140,11 +185,11 @@ class battery_info_packet(packet):
                 + f"\nbattery_level: {self.battery_level}" + "%")
 
 class status_packet_info(packet):
-    def __decode_status(self, str_hex_data):
-        self.error_code = str(str_hex_data[1])
-        self.protocol_version = str(str_hex_data[4])
-        self.firmmware_version = str(str_hex_data[5]) + "." + str(str_hex_data[6])
-        self.device_version = str(str_hex_data[7]) + str(str_hex_data[8])
+    def __decode_status(self, byte_hex_data):
+        self.error_code = str(byte_hex_data[1])
+        self.protocol_version = str(byte_hex_data[4])
+        self.firmmware_version = str(byte_hex_data[5]) + "." + str(byte_hex_data[6])
+        self.device_version = str(byte_hex_data[7]) + str(byte_hex_data[8])
     def __init__(self, rx_json):
         super().__init__(rx_json)
         self.error_code = None
@@ -181,3 +226,8 @@ if __name__ == "__main__":
     # rx_json = json.load(thermo_05_o)
     # thermo = thermometer_data_packet(rx_json)
     # print(thermo.__str__())
+
+    piez_1b_o = open("debug/piezometer_zap_07293314052d2ef0/3.json", 'r')
+    rx_json = json.load(piez_1b_o)
+    piez = piezometer_data_packet(rx_json)
+    print(piez.__str__())

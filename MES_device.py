@@ -1,4 +1,8 @@
 
+from struct import pack
+from unittest import makeSuite
+
+
 class device_factory(object):
     __device_created = 0
   
@@ -63,22 +67,77 @@ class device(object):
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
+        self.measure_packet = None
+        self.sinfo_packet = None
+        self.sbat_packet = None
+        self.ready_to_send = False
     def __str__(self):
         return super().__str__()
-    #S_BAT
-    #S_INFO
-    #MEASURES   
+    def __is_ready_or_not(self):
+        return self.measure_packet != None and self.sinfo_packet != None and self.sbat_packet != None
+    def reset_packets(self):
+        self.measure_packet = None
+        self.sinfo_packet = None
+        self.sbat_packet = None
+        self.ready_to_send = False
+    def insert_measure_packet(self, packet):
+        self.measure_packet = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_sbat_packet(self, packet):
+        self.sbat_packet = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_sinfo_packet(self, packet):
+        self.sinfo_packet = packet
+        self.ready_to_send = self.__is_ready_or_not()
 
 class thermometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
         self.__quantity = 0
+        self.measures = {}
+        self.sbat_packet = None
+        self.sinfo_packet = None
+        self.ready_to_send = False
+    def __is_ready_or_not(self):
+        return self.sbat_packet != None and self.sinfo_packet != None and None not in self.measures
+    def insert_measure_packet(self, packet, stage):
+        match stage:
+            case 1:
+                self.measures['measures_1'] = packet
+            case 2:
+                self.measures['measures_2'] = packet
+            case 3:
+                self.measures['measures_3'] = packet
+            case 4:
+                self.measures['measures_4'] = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_sbat_packet(self, packet):
+        pass
+    def insert_sinfo_packet(self, packet):
+        pass
     def get_quantity(self):
         return self.__quantity
     def set_quantity(self, value):
        self.__quantity = value
+       self.__init_measure_container(value)
+    def __init_measure_container(self, quantity):
+        match quantity:
+            case quantity if 1 <= quantity <= 8:
+                containers = {"measures_1" : None} 
+                self.measures.update(containers)
+            case quantity if 9 <= quantity <= 16:
+                containers = {"measures_1": None, "measures_2": None}
+                self.measures.update(containers)
+            case quantity if 17 <= quantity <= 24:
+                containers = {"measures_1": None, "measures_2" : None, "measures_3": None}
+                self.measures.update(containers)
+            case quantity if 25 <= quantity <= 32:
+                # ТАК НЕ БЫВАЕТ
+                    raise ValueError()
     def __str__(self):
-        return super().__str__() + f'\nQuantity: {self.__quantity}'
+        return (super().__str__() 
+                + f'\nQuantity: {self.__quantity}'
+                + f'\nMeasures: {self.measures}')
     #@property
     #def quantity(self):
     #    return self.quantity

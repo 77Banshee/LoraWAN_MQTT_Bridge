@@ -1,0 +1,50 @@
+{
+    "applicationID": "5",
+    "applicationName": "Piezometer",
+    "deviceName": "802",
+    "devEUI": "BykzFAUtLvA=",
+    "rxInfo": [
+        {
+            "gatewayID": "eF7o//4gAPE=",
+            "time": null,
+            "timeSinceGPSEpoch": null,
+            "rssi": -102,
+            "loRaSNR": 6.8,
+            "channel": 1,
+            "rfChain": 0,
+            "board": 0,
+            "antenna": 0,
+            "location": {
+                "latitude": 0,
+                "longitude": 0,
+                "altitude": 0,
+                "source": "UNKNOWN",
+                "accuracy": 0
+            },
+            "fineTimestampType": "NONE",
+            "context": "2B1vTA==",
+            "uplinkID": "I8zEItR2QEy7aomThd7w/A==",
+            "crcStatus": "CRC_OK"
+        }
+    ],
+    "txInfo": {
+        "frequency": 864300000,
+        "modulation": "LORA",
+        "loRaModulationInfo": {
+            "bandwidth": 125,
+            "spreadingFactor": 12,
+            "codeRate": "4/5",
+            "polarizationInversion": false
+        }
+    },
+    "adr": false,
+    "dr": 0,
+    "fCnt": 18,
+    "fPort": 60,
+    "data": "E0BcCDEA",
+    "objectJSON": "",
+    "tags": {},
+    "confirmedUplink": true,
+    "devAddr": "AOE7UQ==",
+    "publishedAt": "2022-09-26T23:03:33.769959863Z"
+}
