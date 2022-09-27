@@ -1,7 +1,4 @@
 
-from struct import pack
-from unittest import makeSuite
-
 
 class device_factory(object):
     __device_created = 0
@@ -42,6 +39,10 @@ class device(object):
         self._uspd_code = uspd_code
         self._dev_type = dev_type
         self._chirpstack_name = "UNKNOWN"
+        self.measures = None
+        self.sinfo = None
+        self.sbat = None
+        self.ready_to_send = False
     def get_devEui(self):
         return self._dev_eui
     def get_devType(self):
@@ -63,45 +64,39 @@ class device(object):
                 f"Object Code: {self._object_code}\n"
                 f"USPD Code: {self._uspd_code}\n"
                 f"Chirpstack Name: {self._chirpstack_name}")
+    def __is_ready_or_not(self):
+        return self.measures != None and self.sinfo != None and self.sbat != None
+    def reset_packets(self):
+        self.measures = None
+        self.sinfo = None
+        self.sbat = None
+        self.ready_to_send = False
+    def insert_measure_packet(self, packet):
+        self.measures = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_sbat_packet(self, packet):
+        self.sbat = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_sinfo_packet(self, packet):
+        self.sinfo = packet
+        self.ready_to_send = self.__is_ready_or_not()
        
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
-        self.measure_packet = None
-        self.sinfo_packet = None
-        self.sbat_packet = None
-        self.ready_to_send = False
     def __str__(self):
         return super().__str__()
-    def __is_ready_or_not(self):
-        return self.measure_packet != None and self.sinfo_packet != None and self.sbat_packet != None
-    def reset_packets(self):
-        self.measure_packet = None
-        self.sinfo_packet = None
-        self.sbat_packet = None
-        self.ready_to_send = False
-    def insert_measure_packet(self, packet):
-        self.measure_packet = packet
-        self.ready_to_send = self.__is_ready_or_not()
-    def insert_sbat_packet(self, packet):
-        self.sbat_packet = packet
-        self.ready_to_send = self.__is_ready_or_not()
-    def insert_sinfo_packet(self, packet):
-        self.sinfo_packet = packet
-        self.ready_to_send = self.__is_ready_or_not()
+    
 
 class thermometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
         self.__quantity = 0
         self.measures = {}
-        self.sbat_packet = None
-        self.sinfo_packet = None
-        self.ready_to_send = False
     def __is_ready_or_not(self):
-        return self.sbat_packet != None and self.sinfo_packet != None and None not in self.measures
-    def insert_measure_packet(self, packet, stage):
-        match stage:
+        return (self.sbat != None) and (self.sinfo != None) and (None not in self.measures.values())
+    def insert_measure_packet(self, packet):
+        match packet.stage:
             case 1:
                 self.measures['measures_1'] = packet
             case 2:
@@ -111,10 +106,6 @@ class thermometer(device):
             case 4:
                 self.measures['measures_4'] = packet
         self.ready_to_send = self.__is_ready_or_not()
-    def insert_sbat_packet(self, packet):
-        pass
-    def insert_sinfo_packet(self, packet):
-        pass
     def get_quantity(self):
         return self.__quantity
     def set_quantity(self, value):
@@ -137,7 +128,9 @@ class thermometer(device):
     def __str__(self):
         return (super().__str__() 
                 + f'\nQuantity: {self.__quantity}'
-                + f'\nMeasures: {self.measures}')
+                + f'\nMeasures: {self.measures}'
+                + f'\nsbat: {self.sbat}'
+                + f'\nsinfo: {self.sinfo}')
     #@property
     #def quantity(self):
     #    return self.quantity
@@ -153,6 +146,8 @@ class piezometer(device):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
+
+    #MEASURES
     #S_BAT
     #S_INFO
     #MEASURES
@@ -162,9 +157,6 @@ class hygrometer(device):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
-    #S_BAT
-    #S_INFO
-    #MEASURES
 
 if __name__ == "__main__":
    pass 

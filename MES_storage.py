@@ -1,3 +1,4 @@
+import MES_device
 #Implementation of Design Pattern - Singleton
 class SingletonMetaClass(type):
     _instances = {}
@@ -44,39 +45,42 @@ class devices(metaclass=SingletonMetaClass):
         pass
     
     def contains_device(self, device): #TODO: Require tests!
+        if isinstance(device, MES_device.device) == False:
+            return
         match device.get_devType():
             case "Inclinometer":
-                if device in devices.__inclinometers:
+                if device in self.__inclinometers:
                     return True
             case "Thermometer":
-                if device in devices.__thermometers:
+                if device in self.__thermometers:
                     return True
             case "Piezometer":
-                if device in devices.__piezometers:
+                if device in self.__piezometers:
                     return True
             case "Hygrometer":
-                if device in devices.__hygrometers:
+                if device in self.__hygrometers:
                     return True
         return False
 
-    def get_device(dev_eui, dev_type): #TODO: require tests!
+    def get_device(self, dev_eui, dev_type): #TODO: require tests!
+        print(len(self.__inclinometers))
         match dev_type:
             case "Inclinometer":
-                for i in range(0, len(devices.__inclinometer)):
-                    if devices.__inclinometers[i].get_devType() == dev_eui:
-                        return devices.__inclinometers[i]
+                for i in range(0, len(self.__inclinometers)):
+                    if self.__inclinometers[i].get_devEui() == dev_eui:
+                        return self.__inclinometers[i]
             case "Thermometer":
-                for i in range(0, len(devices.__thermometers)):
-                    if devices.__thermometers[i].get_devType() == dev_eui:
-                        return devices.__thermometers[i]
+                for i in range(0, len(self.__thermometers)):
+                    if self.__thermometers[i].get_devEui() == dev_eui:
+                        return self.__thermometers[i]
             case "Piezometer":
-                for i in range(0, len(devices.__piezometers)):
-                    if devices.__piezometers[i].get_devType() == dev_eui:
-                        return devices.__piezometers[i]
+                for i in range(0, len(self.__piezometers)):
+                    if self.__piezometers[i].get_devEui() == dev_eui:
+                        return self.__piezometers[i]
             case "Hygrometer":
-                for i in range(0, len(devices.__hygrometers)):
-                    if devices.__hygrometers[i].get_devType() == dev_eui:
-                        return devices.__hygrometers[i]
+                for i in range(0, len(self.__hygrometers)):
+                    if self.__hygrometers[i].get_devEui() == dev_eui:
+                        return self.__hygrometers[i]
         return False
     
 

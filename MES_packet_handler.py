@@ -110,8 +110,17 @@ class thermometer_data_packet(packet):
         self.last_sensor = None
         self.timestamp = None
         self.measures = {}
+        self.stage = 0
         self.__decode_measures(self._hex_data)
-        # print()
+        match self.first_sensor:
+            case 1:
+                self.stage = 1
+            case 9:
+                self.stage = 2
+            case 17:
+                self.stage = 3
+            case 25:
+                self.stage = 4
     def __str__(self) -> str:
         str_measures = ''
         for i in range(self.first_sensor, self.last_sensor + 1):
