@@ -157,7 +157,7 @@ class hygrometer(device):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
-
+        
 if __name__ == "__main__":
    pass 
 

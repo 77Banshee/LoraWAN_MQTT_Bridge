@@ -33,7 +33,27 @@ class device_error_code(enum.Enum):
     clock_chip_damaged = "30"
 
 class packet_factory(object):
-    pass    
+    def __init__(self):
+       self.received_packets ={} 
+    def create_packet(rx_json):
+        hex_data = base64.b64decode(rx_json['data'])
+        match hex_data:
+            case 0x11:
+                return inclinometer_data_packet(rx_json)
+            case 0x12:
+                return status_packet_info(rx_json)
+            case 0x13:
+                return battery_info_packet(rx_json)
+            case 0x05:
+                return thermometer_data_packet(rx_json)
+            case 0x1b:
+                return piezometer_data_packet(rx_json)
+                pass
+            case 0x1a:
+                return hygrometer_data_packet(rx_json)
+            case 0x03:
+                raise ValueError("Not implemented!")
+                #TODO: IMPLEMENT!
 
 class packet(object):
     def __init__(self, rx_json):
@@ -175,6 +195,7 @@ class hygrometer_data_packet(packet): # 1b -type | 4b - unix time | 4b - tempo m
                 + f"\ntimestamp: {self.timestamp}"
                 + f"\nmeasures_temperature: {self.measures_temperature}"
                 + f"\nmeasures_humidity: {self.measures_humidity}")
+
 class battery_info_packet(packet):
     def __battery_info_decode(self, byte_hex_data):
         bArr_v_bat = bytearray()
