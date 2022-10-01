@@ -7,7 +7,8 @@ import MES_packet_handler
 import paho.mqtt.client as mqtt
 
 # TODO: Получаем rx_json из mqtt.
-    # TODO: ПРОДУМАТЬ ПРОВЕРКУ НА ДУБЛИКАТЫ. (Проверять в on_message при получении rx_json, сделать в MES_storage коллекцию где храним последние 30 пакетов, сравнивать с ними.)
+    # TODO: ПРОДУМАТЬ ПРОВЕРКУ НА ДУБЛИКАТЫ. (Проверять в on_message при получении rx_json, сделать в MES_packet_handlers.packet_factory
+    # коллекцию где храним последние 30 пакетов, сравнивать с ними.)
     # TODO: Берем из полученой инфы тип утройства.(в on_message)
         # TODO: Берем оттуда же dev_eui
         # TODO: ..находим устройство в MES_storage, вытаскиваем и даем ему chirpstack_name. 
@@ -23,6 +24,8 @@ import paho.mqtt.client as mqtt
     # TODO: Chirpstack and gateway status
     # TODO: GPIO
     # TODO: MAKE PROPER COMMENTARIES!!
+    # TODO: check that we getting values from accesors and mutators
+
 #   --Arguments
 host = 'localhost'
 port = '1883'
@@ -48,12 +51,9 @@ def on_connect(client, userdata, flags, rc):
     #TODO: Implement
     pass
 
-
-
-
-# Создание экземпляро каждого устройства на обьекте.
-# Добавление их в MES_storage.devices
+#   --Functions
 def init_devices(json_device_list, json_tk_config):
+    """Создание экземпляро каждого устройства на обьекте. Добавление их в MES_storage.devices"""
     dev_list_file = open(json_device_list, 'r')
     device_list = json.load(dev_list_file)
     
@@ -80,6 +80,7 @@ def init_devices(json_device_list, json_tk_config):
                     device_instance.set_quantity(i['Quantity'])
                     break
         MES_storage.devices.append_device(device_storage, device_instance)
+
 
 def main():
     print("[*] Bridge server start...")

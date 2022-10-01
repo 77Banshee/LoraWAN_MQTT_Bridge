@@ -40,11 +40,12 @@ class devices(metaclass=SingletonMetaClass):
         else:
             print("[*] append_device() ->  Device NOT allowd!")
 
+    #TODO: IMPLEMENT!
     def remove_device(device):
-        #TODO: IMPLEMENT!
-        pass
-    
-    def contains_device(self, device): #TODO: Require tests!
+        raise NotImplemented()    
+
+    #TODO: Require tests!
+    def contains_device(self, device): 
         if isinstance(device, MES_device.device) == False:
             return
         match device.get_devType():
@@ -62,7 +63,8 @@ class devices(metaclass=SingletonMetaClass):
                     return True
         return False
 
-    def get_device(self, dev_eui, dev_type): #TODO: require tests!
+    #TODO: require tests!
+    def get_device(self, dev_eui, dev_type): 
         print(len(self.__inclinometers))
         match dev_type:
             case "Inclinometer":
