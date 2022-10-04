@@ -1,6 +1,7 @@
 import base64
 import enum
 import json
+import queue
 import struct
 import time
 #TODO: Проверить гигрометр.
@@ -16,7 +17,7 @@ import time
 
 class device_error_code(enum.Enum):
     no_error = "00"
-    no_respone = "01"
+    sensor_not_respond = "01"
     power_overload = "02"
     low_voltage = "03"
     thermometer_elctro_leak = "04"
@@ -31,8 +32,25 @@ class device_error_code(enum.Enum):
 
 class packet_factory(object):
     def __init__(self):
-       self.received_packets ={} 
-    def create_packet(rx_json):
+       self.__received_json =[] 
+    def __received_free(self):
+        if self.__received_json.count() >= 20:
+            self.__received_json.pop(0)
+    def __contains_json(self, rx_json):
+        if rx_json in self.__received_json:
+            return True
+        else:
+            return False
+    def append_json(self, rx_json):
+        if self.__contains_json:
+            return False
+        else:
+            self.__received_json.append(rx_json)
+            self.__received_free()
+            return True
+    def create_packet(self, rx_json):
+        if self.__append_json(rx_json) != True:
+            return False
         hex_data = base64.b64decode(rx_json['data'])
         match hex_data:
             case 0x11:

@@ -1,18 +1,11 @@
-from cmath import pi
 import sys
 import json
 import MES_device
 import MES_storage
 import MES_packet_handler
 import paho.mqtt.client as mqtt
+import base64
 
-# TODO: Получаем rx_json из mqtt.
-    # TODO: ПРОДУМАТЬ ПРОВЕРКУ НА ДУБЛИКАТЫ. (Проверять в on_message при получении rx_json, сделать в MES_packet_handlers.packet_factory
-    # коллекцию где храним последние 30 пакетов, сравнивать с ними.)
-    # TODO: Берем из полученой инфы тип утройства.(в on_message)
-        # TODO: Берем оттуда же dev_eui
-        # TODO: ..находим устройство в MES_storage, вытаскиваем и даем ему chirpstack_name. 
-    # TODO: packet_nandler возвращает готовый пакет
     # TODO: Вставляем пакет в экземпляр устройства. Проверяем все ли пришли. Продумать логину как пушить пакет после того как прешли все. 
         # TODO: (Сделать очередь для пуша как у горизонта?) (Сделать класс Mqtt_Topic? На вход подавать конкретный экземпляр класса, предварительно проверив ready_to_send)
     
@@ -41,8 +34,21 @@ external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 
 #   --MQTT
 def on_message(client, userdata, msg):
-    #TODO: Implement
-    pass
+    if msg.topic.endswith("/event/up") and msg.topic.startswith("application"):  
+        rx_json = json.loads(msg.payload)
+        rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
+        rx_dev_type = rx_json['type']
+        rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
+        if rx_device == False:
+            print("Device not found!")
+            return
+        rx_device.set_chirpstack_name(rx_json['deviceName'])
+        rx_packet = packet_factory.create_packet(rx_json)
+        #TODO: Check packet for type. WHere? packet_handler? Create enum for each packet?
+        #TODO: Insert packet to device
+        #TODO: Check ready statement and push data to mqtt
+        
+        
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print(f"[*] Server: {host} connected.")
@@ -90,8 +96,8 @@ def main():
     local_mqtt_client.subscribe('gateway/+/event/#', qos=2)
     local_mqtt_client.on_connect = on_connect
     local_mqtt_client.on_message = on_message
-    local_mqtt_client.loop_start()
     # TODO: local_mqtt_client.subscribe() implement for check gateway status and switch gateway status flag
+    local_mqtt_client.loop_start()
     external_mqtt_client.connect(host, port)
     external_mqtt_client.loop_start()
     print("[*] Device initialized: TODO COUNT")

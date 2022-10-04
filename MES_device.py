@@ -28,7 +28,6 @@ class device_factory(object):
                 return hygrometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case _:
                 raise ValueError(f"Device not recognized: {type}")
-        #Get dev info from ... json/straight params?
 
 class device(object):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
@@ -131,26 +130,12 @@ class thermometer(device):
                 + f'\nMeasures: {self.measures}'
                 + f'\nsbat: {self.sbat}'
                 + f'\nsinfo: {self.sinfo}')
-    #@property
-    #def quantity(self):
-    #    return self.quantity
-    #@quantity.setter
-    #def set_quantity(self, quantity):
-    #    self.quantity = quantity
-    #S_BAT
-    #S_INFO
-    #MEASURES x3+
     
 class piezometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
-
-    #MEASURES
-    #S_BAT
-    #S_INFO
-    #MEASURES
     
 class hygrometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
