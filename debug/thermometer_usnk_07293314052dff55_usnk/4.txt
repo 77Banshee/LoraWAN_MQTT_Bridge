@@ -8,9 +8,9 @@
       "gatewayID": "eF7o//4gANk=",
       "time": null,
       "timeSinceGPSEpoch": null,
-      "rssi": -112,
-      "loRaSNR": 0.5,
-      "channel": 2,
+      "rssi": -109,
+      "loRaSNR": 3.8,
+      "channel": 3,
       "rfChain": 0,
       "board": 0,
       "antenna": 0,
@@ -22,13 +22,13 @@
         "accuracy": 0
       },
       "fineTimestampType": "NONE",
-      "context": "ml4xBA==",
-      "uplinkID": "/HyYIwinTEGsl7JLTnNDKw==",
+      "context": "5LJ9/A==",
+      "uplinkID": "zqRRRpH0R9m6gQhEt+B6Bg==",
       "crcStatus": "CRC_OK"
     }
   ],
   "txInfo": {
-    "frequency": 864500000,
+    "frequency": 864700000,
     "modulation": "LORA",
     "loRaModulationInfo": {
       "bandwidth": 125,
@@ -39,12 +39,12 @@
   },
   "adr": false,
   "dr": 0,
-  "fCnt": 758,
+  "fCnt": 352,
   "fPort": 60,
-  "data": "BQkQYyyUqACLAHsAcwB5AIEAiwCXAJQ=",
-  "objectJSON": "",
+  "data": "BRERYz0dqwCWAJQAhgCAAIcAiwCQAJQ=",
+  "objectJSON": "{\"ferst_sensor_in_pkt\":17,\"last_sensor_in_pkt\":17,\"sensor\":{\"Sensor 17\":\"1.50\"},\"time\":\"Wed, 05 Oct 2022 06:06:31 UTC\",\"time_uts\":1664949675}",
   "tags": {},
   "confirmedUplink": true,
-  "devAddr": "AfCKJA==",
-  "publishedAt": "2022-09-22T17:05:34.972006520Z"
+  "devAddr": "AKZqKg==",
+  "publishedAt": "2022-10-05T06:06:31.845983159Z"
 }

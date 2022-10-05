@@ -2,8 +2,10 @@ import base64
 import enum
 import json
 import queue
+from re import I
 import struct
 import time
+from xmlrpc.client import Boolean
 #TODO: Проверить гигрометр.
 #TODO: Округлить все значения float до двух символов после запятой?
 
@@ -30,46 +32,6 @@ class device_error_code(enum.Enum):
     queue_overflow = "20"
     clock_chip_damaged = "30"
 
-class packet_factory(object):
-    def __init__(self):
-       self.__received_json =[] 
-    def __received_free(self):
-        if self.__received_json.count() >= 20:
-            self.__received_json.pop(0)
-    def __contains_json(self, rx_json):
-        if rx_json in self.__received_json:
-            return True
-        else:
-            return False
-    def append_json(self, rx_json):
-        if self.__contains_json:
-            return False
-        else:
-            self.__received_json.append(rx_json)
-            self.__received_free()
-            return True
-    def create_packet(self, rx_json):
-        if self.__append_json(rx_json) != True:
-            return False
-        hex_data = base64.b64decode(rx_json['data'])
-        match hex_data:
-            case 0x11:
-                return inclinometer_data_packet(rx_json)
-            case 0x12:
-                return status_packet_info(rx_json)
-            case 0x13:
-                return battery_info_packet(rx_json)
-            case 0x05:
-                return thermometer_data_packet(rx_json)
-            case 0x1b:
-                return piezometer_data_packet(rx_json)
-                pass
-            case 0x1a:
-                return hygrometer_data_packet(rx_json)
-            case 0x03:
-                raise ValueError("Not implemented!")
-                #TODO: IMPLEMENT!
-
 class packet(object):
     def __init__(self, rx_json):
         self._dev_type = rx_json['applicationName']
@@ -95,6 +57,12 @@ class packet(object):
         return self._dev_type
     def get_dev_name(self):
         return self._dev_name
+    def get_packet_type(self):
+        return self.__class__.__name__
+    def __eq__(self, other):
+        if isinstance(other, Boolean) or other == None:
+            return False
+        return self.get_hex_data() == other.get_hex_data()
 
 class inclinometer_data_packet(packet):
     def __decode_measures(self, byte_hex_data):
@@ -159,7 +127,6 @@ class thermometer_data_packet(packet):
     def __str__(self) -> str:
         str_measures = ''
         for i in range(self.first_sensor, self.last_sensor + 1):
-            # print(self.measures.get(8))
             str_measures += (f"\n{i}: {self.measures.get(i)}")
         return super().__str__() + str_measures
 
@@ -248,6 +215,66 @@ class status_packet_info(packet):
                 + f"\nprotocol_version: {self.protocol_version}"
                 + f"\nfirmware_version: {self.firmmware_version}"
                 + f"\ndevice_version: {self.device_version}")
+
+class packet_factory(object):
+    def __init__(self):
+       self.__received_packet_history = []
+       self.__measure_packet_types = []
+       self.__status_packet_types = []
+       self.__fill_packet_types() # TODO: CHECK!
+    def __received_history_free(self):
+        if len(self.__received_packet_history) >= 20:
+            self.__received_packet_history.pop(0)
+    def is_dublicate(self, packet):
+        if packet in self.__received_packet_history:
+            return True
+        else:
+            return False
+    def __append_to_history(self, packet):
+        if self.is_dublicate(packet):
+            return False
+        else:
+            self.__received_packet_history.append(packet)
+            self.__received_history_free()
+            return True
+    def create_packet(self, rx_json):
+        hex_data = base64.b64decode(rx_json['data'])
+        print('\n', self.__received_packet_history)
+        current_packet = None
+        match hex_data[0]:
+            case 0x11:
+                current_packet = inclinometer_data_packet(rx_json)
+            case 0x12:
+                current_packet = status_packet_info(rx_json)
+            case 0x13:
+                current_packet = battery_info_packet(rx_json)
+            case 0x05:
+                current_packet =  thermometer_data_packet(rx_json)
+            case 0x1b:
+                current_packet =  piezometer_data_packet(rx_json)
+                pass
+            case 0x1a:
+                current_packet = hygrometer_data_packet(rx_json)
+            case 0x03:
+                raise ValueError("Not implemented!")
+                #TODO: IMPLEMENT!
+        if self.__append_to_history(current_packet) != True:
+            return False
+        #TODO: CHECK FOR DUBLICATE
+        return current_packet
+    def __fill_packet_types(self):
+        #fill measures
+        self.__measure_packet_types.append(inclinometer_data_packet.__name__)
+        self.__measure_packet_types.append(thermometer_data_packet.__name__)
+        self.__measure_packet_types.append(piezometer_data_packet.__name__)
+        self.__measure_packet_types.append(hygrometer_data_packet.__name__)
+        #fill status
+        self.__status_packet_types.append(status_packet_info.__name__)
+        self.__status_packet_types.append(battery_info_packet.__name__)
+    def is_measures(self, packet):
+        return packet.get_packet_type() in self.__measure_packet_types
+    def is_status(self, packet):
+        return packet.get_packet_type() in self.__status_packet_types
 
 if __name__ == "__main__":
     print("Entry point: MES_package_handler")

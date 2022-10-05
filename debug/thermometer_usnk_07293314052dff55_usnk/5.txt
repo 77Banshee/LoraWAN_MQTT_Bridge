@@ -8,8 +8,8 @@
       "gatewayID": "eF7o//4gANk=",
       "time": null,
       "timeSinceGPSEpoch": null,
-      "rssi": -114,
-      "loRaSNR": 2.8,
+      "rssi": -121,
+      "loRaSNR": 4,
       "channel": 4,
       "rfChain": 0,
       "board": 0,
@@ -22,8 +22,8 @@
         "accuracy": 0
       },
       "fineTimestampType": "NONE",
-      "context": "mxOIFA==",
-      "uplinkID": "cmR8vLesTYSZLcauiN0e3A==",
+      "context": "5O1pjA==",
+      "uplinkID": "qoZaBexhRi+xdTyE7MbI9w==",
       "crcStatus": "CRC_OK"
     }
   ],
@@ -39,12 +39,12 @@
   },
   "adr": false,
   "dr": 0,
-  "fCnt": 760,
+  "fCnt": 353,
   "fPort": 60,
   "data": "EgAAAAUDIAEAAA==",
-  "objectJSON": "",
+  "objectJSON": "{\"erorr\":\"Нет ошибок\",\"fw_ver\":\"3.32\",\"s_ver\":0,\"type\":\"Inclinometer\"}",
   "tags": {},
   "confirmedUplink": true,
-  "devAddr": "AfCKJA==",
-  "publishedAt": "2022-09-22T17:05:46.861234600Z"
+  "devAddr": "AKZqKg==",
+  "publishedAt": "2022-10-05T06:06:35.706476146Z"
 }

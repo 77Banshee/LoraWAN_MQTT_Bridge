@@ -1,0 +1,50 @@
+{
+  "applicationID": "3",
+  "applicationName": "Thermometer",
+  "deviceName": "1342",
+  "devEUI": "BykzFAUt/1U=",
+  "rxInfo": [
+    {
+      "gatewayID": "eF7o//4gANk=",
+      "time": null,
+      "timeSinceGPSEpoch": null,
+      "rssi": -117,
+      "loRaSNR": 3,
+      "channel": 1,
+      "rfChain": 0,
+      "board": 0,
+      "antenna": 0,
+      "location": {
+        "latitude": 0,
+        "longitude": 0,
+        "altitude": 0,
+        "source": "UNKNOWN",
+        "accuracy": 0
+      },
+      "fineTimestampType": "NONE",
+      "context": "4nOhDA==",
+      "uplinkID": "OAVZri59Qna7N1N3IGKQZg==",
+      "crcStatus": "CRC_OK"
+    }
+  ],
+  "txInfo": {
+    "frequency": 864300000,
+    "modulation": "LORA",
+    "loRaModulationInfo": {
+      "bandwidth": 125,
+      "spreadingFactor": 12,
+      "codeRate": "4/5",
+      "polarizationInversion": false
+    }
+  },
+  "adr": false,
+  "dr": 0,
+  "fCnt": 349,
+  "fPort": 60,
+  "data": "BQEIYz0dqwA+AKgBPwGQAYsBSgD8AM8=",
+  "objectJSON": "{\"ferst_sensor_in_pkt\":1,\"last_sensor_in_pkt\":8,\"sensor\":{\"Sensor 1\":\"0.62\",\"Sensor 2\":\"1.68\",\"Sensor 3\":\"3.19\",\"Sensor 4\":\"4.00\",\"Sensor 5\":\"3.95\",\"Sensor 6\":\"3.30\",\"Sensor 7\":\"2.52\",\"Sensor 8\":\"2.07\"},\"time\":\"Wed, 05 Oct 2022 06:05:54 UTC\",\"time_uts\":1664949675}",
+  "tags": {},
+  "confirmedUplink": true,
+  "devAddr": "AKZqKg==",
+  "publishedAt": "2022-10-05T06:05:54.181048076Z"
+}

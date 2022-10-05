@@ -76,7 +76,6 @@ class devices(metaclass=SingletonMetaClass):
 
     #TODO: require tests!
     def get_device(self, dev_eui, dev_type): 
-        print(len(self.__inclinometers))
         match dev_type:
             case "Inclinometer":
                 for i in range(0, len(self.__inclinometers)):

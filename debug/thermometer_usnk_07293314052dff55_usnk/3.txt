@@ -9,8 +9,8 @@
       "time": null,
       "timeSinceGPSEpoch": null,
       "rssi": -115,
-      "loRaSNR": -1.2,
-      "channel": 1,
+      "loRaSNR": 0.5,
+      "channel": 0,
       "rfChain": 0,
       "board": 0,
       "antenna": 0,
@@ -22,13 +22,13 @@
         "accuracy": 0
       },
       "fineTimestampType": "NONE",
-      "context": "m/JbDA==",
-      "uplinkID": "jxMNoEycSTWuk7pDmsoemw==",
+      "context": "5HAKfA==",
+      "uplinkID": "8yBuCym2Qfi7WR9rlXfp8g==",
       "crcStatus": "CRC_OK"
     }
   ],
   "txInfo": {
-    "frequency": 864300000,
+    "frequency": 864100000,
     "modulation": "LORA",
     "loRaModulationInfo": {
       "bandwidth": 125,
@@ -39,12 +39,12 @@
   },
   "adr": false,
   "dr": 0,
-  "fCnt": 762,
+  "fCnt": 351,
   "fPort": 60,
-  "data": "E0BeyLQA",
-  "objectJSON": "",
+  "data": "BQkQYz0dqwCwAJQAhgCAAIcAiwCQAJQ=",
+  "objectJSON": "{\"ferst_sensor_in_pkt\":9,\"last_sensor_in_pkt\":16,\"sensor\":{\"Sensor 10\":\"1.48\",\"Sensor 11\":\"1.34\",\"Sensor 12\":\"1.28\",\"Sensor 13\":\"1.35\",\"Sensor 14\":\"1.39\",\"Sensor 15\":\"1.44\",\"Sensor 16\":\"1.48\",\"Sensor 9\":\"1.76\"},\"time\":\"Wed, 05 Oct 2022 06:06:27 UTC\",\"time_uts\":1664949675}",
   "tags": {},
   "confirmedUplink": true,
-  "devAddr": "AfCKJA==",
-  "publishedAt": "2022-09-22T17:06:01.462492300Z"
+  "devAddr": "AKZqKg==",
+  "publishedAt": "2022-10-05T06:06:27.509994100Z"
 }

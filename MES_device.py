@@ -1,4 +1,6 @@
 
+from MES_packet_handler import battery_info_packet, status_packet_info
+
 
 class device_factory(object):
     __device_created = 0
@@ -79,7 +81,12 @@ class device(object):
     def insert_sinfo_packet(self, packet):
         self.sinfo = packet
         self.ready_to_send = self.__is_ready_or_not()
-       
+    def insert_status_packet(self, packet):
+        if status_packet_info.__name__ == packet.get_packet_type():
+            self.insert_sinfo_packet(packet)
+        elif battery_info_packet.__name__ == packet.get_packet_type():
+            self.insert_sbat_packet(packet)
+
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)

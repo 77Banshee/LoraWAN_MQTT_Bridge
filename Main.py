@@ -6,12 +6,13 @@ import MES_packet_handler
 import paho.mqtt.client as mqtt
 import base64
 
-    # TODO: Вставляем пакет в экземпляр устройства. Проверяем все ли пришли. Продумать логину как пушить пакет после того как прешли все. 
+    # TODO:  Продумать логину как пушить пакет после того как прешли все. 
         # TODO: (Сделать очередь для пуша как у горизонта?) (Сделать класс Mqtt_Topic? На вход подавать конкретный экземпляр класса, предварительно проверив ready_to_send)
     
-    # TODO: -- Пакет пришел > Достали устройство > Обработали пакет > Добавили в устройство > В мейне тут же проверили ready_to_send, если вернул True > Сделали два топика
+    # TODO: -- Пакет пришел CHECK > Достали устройство CHECK > Обработали пакет CHECK > Добавили в устройство CHECK > В мейне тут же проверили ready_to_send, если вернул True CHECK > Сделали два топика
         #TODO:  (mqtt_topic [measures, status]) > Запихиваем в очередь которая проверяется в бесконечном цикле и сразу чистим девайс.
 
+    #TODO: Create mqtt object class
 # TODO: Addittional
     # TODO: CSV
     # TODO: Chirpstack and gateway status
@@ -35,18 +36,26 @@ external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 #   --MQTT
 def on_message(client, userdata, msg):
     if msg.topic.endswith("/event/up") and msg.topic.startswith("application"):  
+        # Get device info
         rx_json = json.loads(msg.payload)
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
         rx_dev_type = rx_json['type']
+        # Get device
         rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
         if rx_device == False:
-            print("Device not found!")
-            return
+            raise ValueError("Device not found in storage!")
         rx_device.set_chirpstack_name(rx_json['deviceName'])
+        # Handle packet
         rx_packet = packet_factory.create_packet(rx_json)
-        #TODO: Check packet for type. WHere? packet_handler? Create enum for each packet?
-        #TODO: Insert packet to device
+        # Insert packet into device
+        if packet_factory.is_measures(rx_packet):
+            rx_device.insert_measure_packet(rx_packet)
+        elif packet_factory.is_status(rx_packet):
+            rx_device.insert_status_packet(rx_packet)
+        # Check ready state.
+         # Push?
         #TODO: Check ready statement and push data to mqtt
+        #TODO: RESET PACKETS IN DEVICE!!
         
         
 def on_connect(client, userdata, flags, rc):
@@ -104,8 +113,44 @@ def main():
     
 
 def debug():
+    init_devices("cfg/DeviceList.json", "cfg/TkConfig.json")
+    for i in range(0, 6):
+        if i == 0:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/1.txt",'r')
+        if i == 1:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/2.txt",'r')
+        if i == 2:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/3.txt",'r')
+        if i == 3:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/4.txt",'r')
+        if i == 4:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/5.txt",'r')
+        if i == 5:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/6.txt",'r')
+        rx_json = json.load(rx_json)
+        ## COPY FROM HERE
+        rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
+        rx_dev_type = rx_json['applicationName']
+        # Get device
+        rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
+        if rx_device == False:
+            raise ValueError("Device not found in storage!")
+        rx_device.set_chirpstack_name(rx_json['deviceName'])
+        # Handle packet
+        rx_packet = packet_factory.create_packet(rx_json)
+        if rx_packet == False:
+            print("Packet is discarded.")
+            continue
+        # Insert packet into device
+        if packet_factory.is_measures(rx_packet):
+            rx_device.insert_measure_packet(rx_packet)
+        elif packet_factory.is_status(rx_packet):
+            rx_device.insert_status_packet(rx_packet)
+        print("--DEBUG", rx_device.ready_to_send)
+        # TODO: RESET PACKETS!
+        # TODO: PUSH TO Queue
+        # TODO: Grab from queue and push to mqtt
     # Thermometer debug
-    # init_devices("cfg/DeviceList.json", "cfg/TkConfig.json")
     # packet_factory = MES_packet_handler.packet_factory()
     # thermo1 = device_storage.get_device('07293314052def1c'.lower(), 'Thermometer')
     # f1 = open("debug/thermo_07293314052d6646/1.json", 'r')
@@ -163,5 +208,5 @@ def debug():
     # pack_1b_3_o = open('debug/piezometer_zap_07293314052d2ef0/1b_3.json') 
     pass
 if __name__ == "__main__":
-    main()
-    # debug()
+    # main()
+    debug()
