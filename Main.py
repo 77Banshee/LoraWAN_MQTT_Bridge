@@ -6,19 +6,26 @@ import MES_packet_handler
 import paho.mqtt.client as mqtt
 import base64
 
-    # TODO:  Продумать логину как пушить пакет после того как прешли все. 
-        # TODO: (Сделать очередь для пуша как у горизонта?) (Сделать класс Mqtt_Topic? На вход подавать конкретный экземпляр класса, предварительно проверив ready_to_send)
-    
-    # TODO: -- Пакет пришел CHECK > Достали устройство CHECK > Обработали пакет CHECK > Добавили в устройство CHECK > В мейне тут же проверили ready_to_send, если вернул True CHECK > Сделали два топика
-        #TODO:  (mqtt_topic [measures, status]) > Запихиваем в очередь которая проверяется в бесконечном цикле и сразу чистим девайс.
+# Map
+# -- Пакет пришел CHECK > Достали устройство CHECK > Обработали пакет CHECK > 
+#    Добавили в устройство CHECK > 
+    # TODO: В мейне тут же проверили ready_to_send, если вернул True > 
+#     Дулаем топики > Запихиваем в очередь которая проверяется в бесконечном цикле > и сразу чистим девайс.
 
-    #TODO: Create mqtt object class
+# TODO: Devices
+# Finish piezometer, hygrometer.
+
+# TODO: Time
+    #  Handle 03 packet.
+    #  Solve time difference issue
+
 # TODO: Addittional
     # TODO: CSV
     # TODO: Chirpstack and gateway status
     # TODO: GPIO
     # TODO: MAKE PROPER COMMENTARIES!!
     # TODO: check that we getting values from accesors and mutators
+    # TODO: Check that we gain values from accessors from external.
 
 #   --Arguments
 host = 'localhost'
@@ -136,7 +143,7 @@ def debug():
             rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/12.txt", 'r')
         if i == 2:
             rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/13.txt", 'r')
-            
+
         rx_json = json.load(rx_json)
         ## COPY FROM HERE
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
