@@ -95,6 +95,13 @@ class devices(metaclass=SingletonMetaClass):
                         return self.__hygrometers[i]
         return False
     
+class mqtt_object(object):
+    def __init__(self, measure_topic, status_topic) -> None:
+        self.measure_topic = measure_topic
+        self.status_topic = status_topic
+    def __str__(self) -> str:
+        print(f"Measures: {self.measure_topic}\nStatus: {self.status_topic}")
+    
 
 if __name__ == "__main__":
     print("Entry point: MES_device.py")

@@ -86,12 +86,32 @@ class device(object):
             self.insert_sinfo_packet(packet)
         elif battery_info_packet.__name__ == packet.get_packet_type():
             self.insert_sbat_packet(packet)
+    def create_measure_topic(self):
+        return (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" +
+                f"{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
+    def create_status_topic(self):
+        return (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" +
+                f"/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
+    def fill_status(self):
+        device_status = 1
+        if self.sinfo.error_code != 0:
+            device_status = 0
+        return (f"DeviceName: {self._chirpstack_name}\r\n" +
+                f"Ubat: {self.sbat.u_battery}\r\n" +
+                f"Pbat: {self.sbat.battery_level}\r\n" +
+                f"RSSI: {self.sbat._rssi}\r\n" +
+                f"SINR: {self.sbat._snr}\r\n" +
+                f"Sost: \r\n {device_status}" +
+                f"FwVer: {self.sinfo.firmware_version}") 
 
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
+    
+    def fill_measures(self):
+        return f"{self.measures.timestamp}\r\n{self.measures.x_angle}\r\n{self.measures.y_angle}"
     
 
 class thermometer(device):
@@ -137,6 +157,21 @@ class thermometer(device):
                 + f'\nMeasures: {self.measures}'
                 + f'\nsbat: {self.sbat}'
                 + f'\nsinfo: {self.sinfo}')
+    def fill_measures(self):
+        # measure_topic_value = f"{self.measures.timestamp}\r\n{self.__quantity}\r\n"
+        measures_array = list(self.measures.values())
+        res = ""
+        for i in range (0, len(measures_array)):
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            temp = measures_array[0].concat_measures()
+            print(temp)
+            res += measures_array[i].__str__()
+        # print(x)
+        # s = ", ".join(x)
+        # for i in range(0, self.__quantity):
+            # measure_topic_value += self.measures[i].values()
+    
+    
     
 class piezometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):

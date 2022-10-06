@@ -147,6 +147,8 @@ def debug():
         elif packet_factory.is_status(rx_packet):
             rx_device.insert_status_packet(rx_packet)
         print("--DEBUG", rx_device.ready_to_send)
+    print(rx_device.fill_measures())
+    print("Done!")
         # TODO: RESET PACKETS!
         # TODO: PUSH TO Queue
         # TODO: Grab from queue and push to mqtt

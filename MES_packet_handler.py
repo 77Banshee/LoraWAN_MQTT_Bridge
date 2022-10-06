@@ -124,11 +124,17 @@ class thermometer_data_packet(packet):
                 self.stage = 3
             case 25:
                 self.stage = 4
+    def concat_measures(self):
+        measures = ""
+        for i in range(self.first_sensor, self.last_sensor + 1):
+            measures += f"{self.measures.get(i)}\r\n"
+        return measures
     def __str__(self) -> str:
         str_measures = ''
         for i in range(self.first_sensor, self.last_sensor + 1):
             str_measures += (f"\n{i}: {self.measures.get(i)}")
         return super().__str__() + str_measures
+    
 
 class piezometer_data_packet(packet): # 1b - type | 4b - tempo float | 4b - pressure float
     def __decode_measures(self, byte_hex_data):
@@ -239,7 +245,6 @@ class packet_factory(object):
             return True
     def create_packet(self, rx_json):
         hex_data = base64.b64decode(rx_json['data'])
-        print('\n', self.__received_packet_history)
         current_packet = None
         match hex_data[0]:
             case 0x11:
