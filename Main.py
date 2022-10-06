@@ -114,19 +114,29 @@ def main():
 
 def debug():
     init_devices("cfg/DeviceList.json", "cfg/TkConfig.json")
-    for i in range(0, 6):
+    # Thermometer example
+    # for i in range(0, 6):
+        # if i == 0:
+            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/1.txt",'r')
+        # if i == 1:
+            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/2.txt",'r')
+        # if i == 2:
+            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/3.txt",'r')
+        # if i == 3:
+            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/4.txt",'r')
+        # if i == 4:
+            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/5.txt",'r')
+        # if i == 5:
+            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/6.txt",'r')
+    # Inclinometer example
+    for i in range(0, 3):
         if i == 0:
-            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/1.txt",'r')
+            rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/11.txt", 'r')
         if i == 1:
-            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/2.txt",'r')
+            rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/12.txt", 'r')
         if i == 2:
-            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/3.txt",'r')
-        if i == 3:
-            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/4.txt",'r')
-        if i == 4:
-            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/5.txt",'r')
-        if i == 5:
-            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/6.txt",'r')
+            rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/13.txt", 'r')
+            
         rx_json = json.load(rx_json)
         ## COPY FROM HERE
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
@@ -151,7 +161,8 @@ def debug():
     print(rx_device.get_formatted_measures())
     print(rx_device.create_status_topic())
     print(rx_device.get_formatted_status())
-    print()
+    print("\n\n\t NEXT")
+        # TODO: CHECK INCLINOMETER PROPER ORDER X Y IN get_formatted_measures()
         # TODO: RESET PACKETS!
         # TODO: PUSH TO Queue
         # TODO: Grab from queue and push to mqtt

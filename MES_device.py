@@ -109,8 +109,7 @@ class inclinometer(device):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
-    
-    def fill_measures(self):
+    def get_formatted_measures(self):
         return f"{self.measures.timestamp}\r\n{self.measures.x_angle}\r\n{self.measures.y_angle}"
     
 

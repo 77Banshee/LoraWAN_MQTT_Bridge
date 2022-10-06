@@ -91,6 +91,7 @@ class inclinometer_data_packet(packet):
                 + f'\ntimestamp: {self.timestamp}'
                 + f'\ndate: {time.ctime(self.timestamp)}') 
     
+    
 
 class thermometer_data_packet(packet):
     def __decode_measures(self, byte_hex_data):
