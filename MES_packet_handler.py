@@ -94,10 +94,11 @@ class inclinometer_data_packet(packet):
 
 class thermometer_data_packet(packet):
     def __decode_measures(self, byte_hex_data):
+        print(byte_hex_data.hex())
         self.first_sensor = byte_hex_data[1]
         self.last_sensor = byte_hex_data[2]
         bArr_timestamp = bytearray()
-        for i in range(3, 6):
+        for i in range(3, 7):
             bArr_timestamp.append(byte_hex_data[i])
         self.timestamp = int.from_bytes(bArr_timestamp, 'big')
         measures_hex_data = self._hex_data[7:] # отрезаем первые 7 байт чтобы оставить только измерения.

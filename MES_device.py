@@ -92,7 +92,7 @@ class device(object):
     def create_status_topic(self):
         return (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" +
                 f"/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
-    def fill_status(self):
+    def get_formatted_status(self):
         device_status = 1
         if self.sinfo.error_code != 0:
             device_status = 0
@@ -101,8 +101,8 @@ class device(object):
                 f"Pbat: {self.sbat.battery_level}\r\n" +
                 f"RSSI: {self.sbat._rssi}\r\n" +
                 f"SINR: {self.sbat._snr}\r\n" +
-                f"Sost: \r\n {device_status}" +
-                f"FwVer: {self.sinfo.firmware_version}") 
+                f"Sost: {device_status}\r\n" +
+                f"FwVer: {self.sinfo.firmmware_version}") 
 
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
@@ -157,15 +157,13 @@ class thermometer(device):
                 + f'\nMeasures: {self.measures}'
                 + f'\nsbat: {self.sbat}'
                 + f'\nsinfo: {self.sinfo}')
-    def fill_measures(self):
-        # measure_topic_value = f"{self.measures.timestamp}\r\n{self.__quantity}\r\n"
+    def get_formatted_measures(self):
         measures_array = list(self.measures.values())
-        res = ""
+        measure_topic_value = f"{measures_array[-1].timestamp}\r\n{self.__quantity}\r\n"
         for i in range (0, len(measures_array)):
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            temp = measures_array[0].concat_measures()
-            print(temp)
-            res += measures_array[i].__str__()
+            measure_topic_value += measures_array[i].concat_measures()
+            print()
+        print(measure_topic_value)
         # print(x)
         # s = ", ".join(x)
         # for i in range(0, self.__quantity):
