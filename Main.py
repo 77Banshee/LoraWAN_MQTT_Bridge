@@ -5,15 +5,15 @@ import MES_storage
 import MES_packet_handler
 import paho.mqtt.client as mqtt
 import base64
+import time
 
 # Map
 # -- Пакет пришел CHECK > Достали устройство CHECK > Обработали пакет CHECK > 
 #    Добавили в устройство CHECK > 
-    # TODO: В мейне тут же проверили ready_to_send, если вернул True > 
-#     Дулаем топики > Запихиваем в очередь которая проверяется в бесконечном цикле > и сразу чистим девайс.
+    # TODO: В мейне тут же проверили ready_to_send, если вернул True CHECK > 
+#     Дулаем топики CHECK > Запихиваем в очередь которая проверяется в бесконечном цикле CHECK> и сразу чистим девайс CHECK.
 
 # TODO: Devices
-# Finish piezometer, hygrometer.
 
 # TODO: Time
     #  Handle 03 packet.
@@ -43,10 +43,10 @@ external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 #   --MQTT
 def on_message(client, userdata, msg):
     if msg.topic.endswith("/event/up") and msg.topic.startswith("application"):  
+        rx_json = json.load(msg.payload)
         # Get device info
-        rx_json = json.loads(msg.payload)
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
-        rx_dev_type = rx_json['type']
+        rx_dev_type = rx_json['applicationName']
         # Get device
         rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
         if rx_device == False:
@@ -54,15 +54,25 @@ def on_message(client, userdata, msg):
         rx_device.set_chirpstack_name(rx_json['deviceName'])
         # Handle packet
         rx_packet = packet_factory.create_packet(rx_json)
+        if rx_packet == False:
+            print("Packet is discarded.")
+            return
         # Insert packet into device
         if packet_factory.is_measures(rx_packet):
             rx_device.insert_measure_packet(rx_packet)
         elif packet_factory.is_status(rx_packet):
             rx_device.insert_status_packet(rx_packet)
-        # Check ready state.
-         # Push?
-        #TODO: Check ready statement and push data to mqtt
-        #TODO: RESET PACKETS IN DEVICE!!
+        # Check ready statement and push data to mqtt
+        if rx_device.ready_to_send:
+            mqtt_payload = MES_storage.mqtt_object(
+                measure_topic = rx_device.create_measure_topic(),
+                status_topic = rx_device.create_status_topic(),
+                measure_values = rx_device.get_formatted_measures(),
+                status_values = rx_device.get_formatted_status()
+            )
+            device_storage.insert_to_send_queue(mqtt_payload)
+            rx_device.reset_packets()
+        
         
         
 def on_connect(client, userdata, flags, rc):
@@ -103,7 +113,6 @@ def init_devices(json_device_list, json_tk_config):
                     break
         MES_storage.devices.append_device(device_storage, device_instance)
 
-
 def main():
     print("[*] Bridge server start...")
     init_devices("cfg/DeviceList.json", "cfg/TkConfig.json")
@@ -117,118 +126,113 @@ def main():
     external_mqtt_client.connect(host, port)
     external_mqtt_client.loop_start()
     print("[*] Device initialized: TODO COUNT")
-    
+    while(True):
+        if device_storage.send_queue_not_empty:
+            mqtt_object = device_storage.pop_mqtt_object()
+            external_mqtt_client.publish(
+                topic= mqtt_object.measure_topic,
+                payload= mqtt_object.measure_values
+            )
+            external_mqtt_client.publish(
+                topic= mqtt_object.status_topic,
+                payload= mqtt_object.status_values
+            )
+        time.sleep(0.2) 
 
 def debug():
-    init_devices("cfg/DeviceList.json", "cfg/TkConfig.json")
     # Thermometer example
+    # init_devices("debug/thermometer_usnk_07293314052dff55_usnk/DeviceList.json", "cfg/TkConfig.json")
     # for i in range(0, 6):
-        # if i == 0:
-            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/1.txt",'r')
-        # if i == 1:
-            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/2.txt",'r')
-        # if i == 2:
-            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/3.txt",'r')
-        # if i == 3:
-            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/4.txt",'r')
-        # if i == 4:
-            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/5.txt",'r')
-        # if i == 5:
-            # rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/6.txt",'r')
-    # Inclinometer example
-    for i in range(0, 3):
-        if i == 0:
-            rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/11.txt", 'r')
-        if i == 1:
-            rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/12.txt", 'r')
-        if i == 2:
-            rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/13.txt", 'r')
+    #     if i == 0:
+    #         rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/1.txt",'r')
+    #     if i == 1:
+    #         rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/2.txt",'r')
+    #     if i == 2:
+    #         rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/3.txt",'r')
+    #     if i == 3:
+    #         rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/4.txt",'r')
+    #     if i == 4:
+    #         rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/5.txt",'r')
+    #     if i == 5:
+    #         rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/6.txt",'r')
 
-        rx_json = json.load(rx_json)
-        ## COPY FROM HERE
-        rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
-        rx_dev_type = rx_json['applicationName']
-        # Get device
-        rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
-        if rx_device == False:
-            raise ValueError("Device not found in storage!")
-        rx_device.set_chirpstack_name(rx_json['deviceName'])
-        # Handle packet
-        rx_packet = packet_factory.create_packet(rx_json)
-        if rx_packet == False:
-            print("Packet is discarded.")
-            continue
-        # Insert packet into device
-        if packet_factory.is_measures(rx_packet):
-            rx_device.insert_measure_packet(rx_packet)
-        elif packet_factory.is_status(rx_packet):
-            rx_device.insert_status_packet(rx_packet)
-        print("--DEBUG", rx_device.ready_to_send)
-    print(rx_device.create_measure_topic())
-    print(rx_device.get_formatted_measures())
-    print(rx_device.create_status_topic())
-    print(rx_device.get_formatted_status())
-    print("\n\n\t NEXT")
+    # Inclinometer example
+    # init_devices("debug/Inclinometer_07293314052DFF9E_usnk/DeviceList.json", "cfg/TkConfig.json")
+    # for i in range(0, 3):
+    #     if i == 0:
+    #         rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/11.txt", 'r')
+    #     if i == 1:
+    #         rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/12.txt", 'r')
+    #     if i == 2:
+    #         rx_json = open("debug/Inclinometer_07293314052DFF9E_usnk/13.txt", 'r')
+
+    # Piezometer example
+    # init_devices("debug/piezometer_zap_07293314052d2ef0/DeviceList.json", "cfg/TkConfig.json")
+    # for i in range(0, 6):
+    #     if i == 0:
+    #         rx_json = open("debug/piezometer_zap_07293314052d2ef0/1b_1.json", 'r')
+    #     if i == 1:
+    #         rx_json = open("debug/piezometer_zap_07293314052d2ef0/1b_2.json", 'r')
+    #     if i == 2:
+    #         rx_json = open("debug/piezometer_zap_07293314052d2ef0/1b_3.json", 'r')
+    #     if i == 3:
+    #         rx_json = open("debug/piezometer_zap_07293314052d2ef0/1b_4.json", 'r')
+    #     if i == 4:
+    #         rx_json = open("debug/piezometer_zap_07293314052d2ef0/12.json", 'r')
+    #     if i == 5:
+    #         rx_json = open("debug/piezometer_zap_07293314052d2ef0/13.json", 'r')
+
+    # Hygrometer example
+    
+    # init_devices("debug/hygrometer_pns3_07293314052c6056/DeviceList.json", "cfg/TkConfig.json")    
+    # for i in range(0, 7):
+    #     print(f"\tStep: {i}")
+    #     if i == 0:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/1.txt", 'r')
+    #     if i == 1:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/2.txt", 'r')
+    #     if i == 2:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/3.txt", 'r')
+    #     if i == 3:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/4.txt", 'r')
+    #     if i == 4:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/5.txt", 'r')
+    #     if i == 5:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/6.txt", 'r')
+    #     if i == 6:
+    #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/7.txt", 'r')
+
+    # DECODE PACKET FROM HERE
+    #     rx_json = json.load(rx_json)
+    #     ## COPY FROM HERE
+    #     rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
+    #     rx_dev_type = rx_json['applicationName']
+    #     # Get device
+    #     rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
+    #     if rx_device == False:
+    #         raise ValueError("Device not found in storage!")
+    #     rx_device.set_chirpstack_name(rx_json['deviceName'])
+    #     # Handle packet
+    #     rx_packet = packet_factory.create_packet(rx_json)
+    #     if rx_packet == False:
+    #         print("Packet is discarded.")
+    #         continue
+    #     # Insert packet into device
+    #     if packet_factory.is_measures(rx_packet):
+    #         rx_device.insert_measure_packet(rx_packet)
+    #     elif packet_factory.is_status(rx_packet):
+    #         rx_device.insert_status_packet(rx_packet)
+    #     print("--DEBUG", rx_device.ready_to_send)
+    # print(rx_device.create_measure_topic())
+    # print(rx_device.get_formatted_measures())
+    # print(rx_device.create_status_topic())
+    # print(rx_device.get_formatted_status())
+    # print(rx_device.sinfo)
+
         # TODO: CHECK INCLINOMETER PROPER ORDER X Y IN get_formatted_measures()
         # TODO: RESET PACKETS!
         # TODO: PUSH TO Queue
         # TODO: Grab from queue and push to mqtt
-    # Thermometer debug
-    # packet_factory = MES_packet_handler.packet_factory()
-    # thermo1 = device_storage.get_device('07293314052def1c'.lower(), 'Thermometer')
-    # f1 = open("debug/thermo_07293314052d6646/1.json", 'r')
-    # j1 = json.load(f1)
-    # pack_1 = MES_packet_handler.battery_info_packet(j1)
-    # f2 = open("debug/thermo_07293314052d6646/2.json", 'r')
-    # j2 = json.load(f2) 
-    # pack_2 = MES_packet_handler.status_packet_info(j2)
-    # f3 = open("debug/thermo_07293314052d6646/3.json", 'r')
-    # j3 = json.load(f3)
-    # pack_3 = MES_packet_handler.thermometer_data_packet(j3)
-    # f4 = open("debug/thermo_07293314052d6646/4.json", 'r')
-    # j4 = json.load(f4)
-    # pack_4 = MES_packet_handler.thermometer_data_packet(j4)
-    # f4 = open("debug/thermo_07293314052d6646/5.json", 'r')
-    # j4 = json.load(f4)
-    # pack_5 = MES_packet_handler.thermometer_data_packet(j4)
-    # thermo1.insert_sbat_packet(pack_1)
-    # thermo1.insert_sinfo_packet(pack_2)
-    # thermo1.insert_measure_packet(pack_3)
-    # thermo1.insert_measure_packet(pack_4)
-    # thermo1.insert_measure_packet(pack_5)
-
-    # Inclinometer debug
-    # inc = device_storage.get_device("07293314052DFF9E".lower(), 'Inclinometer')
-    # inc_f1 = open("debug/Inclinometer_07293314052DFF9E/11.txt",'r')
-    # inc_j1 = json.load(inc_f1)
-    # inc_f2 = open("debug/Inclinometer_07293314052DFF9E/12.txt",'r')
-    # inc_j2 = json.load(inc_f2)
-    # inc_f3 = open("debug/Inclinometer_07293314052DFF9E/13.txt",'r')
-    # inc_j3 = json.load(inc_f3)
-    # sbat = MES_packet_handler.battery_info_packet(inc_j3)
-    # sinfo = MES_packet_handler.status_packet_info(inc_j2)
-    # measures = MES_packet_handler.inclinometer_data_packet(inc_j1)
-    # inc.insert_measure_packet(measures)
-    # inc.insert_sbat_packet(sbat)
-    # inc.insert_sinfo_packet(sinfo)
-
-    # piezometer debug
-    # piez = MES_device.piezometer("07293314052d2ef0", "mqname", "Piezometer", "o_id999", "code1", "uspd_99")
-    # pack_12_o = open('debug/piezometer_zap_07293314052d2ef0/12.json') 
-    # pack_13_o = open('debug/piezometer_zap_07293314052d2ef0/13.json') 
-    # pack_1b_1_o = open('debug/piezometer_zap_07293314052d2ef0/1b_1.json') 
-    # j12 = json.load(pack_12_o)
-    # j13 = json.load(pack_13_o)
-    # j1b = json.load(pack_1b_1_o)
-    # sbat = MES_packet_handler.battery_info_packet(j13)
-    # sinfo = MES_packet_handler.status_packet_info(j12)
-    # piez_meas = MES_packet_handler.piezometer_data_packet(j1b)
-    # piez.insert_measure_packet(piez_meas)
-    # piez.insert_sbat_packet(sbat)
-    # piez.insert_sinfo_packet(sinfo)
-
-    # pack_1b_2_o = open('debug/piezometer_zap_07293314052d2ef0/1b_2.json') 
-    # pack_1b_3_o = open('debug/piezometer_zap_07293314052d2ef0/1b_3.json') 
     pass
 if __name__ == "__main__":
     # main()

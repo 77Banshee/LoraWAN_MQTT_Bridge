@@ -18,12 +18,14 @@ class devices(metaclass=SingletonMetaClass):
     __hygrometers = []
     __to_send_queue = queue.Queue()
    
-    def get_mqtt_object(self):
+    def pop_mqtt_object(self):
         if self.__to_send_queue.qsize() == 0:
             return False
         return self.__to_send_queue.get()
-    
-    def append_mqtt_object(self, mqtt_obj):
+    def send_queue_not_empty(self):
+        return self.__to_send_queue > 0
+
+    def insert_to_send_queue(self, mqtt_obj):
         self.__to_send_queue.put(mqtt_obj)
    
     def allowed_type(cls, device): # check input instance for allowed type (to avoid the case with wrong input instance)
@@ -74,7 +76,6 @@ class devices(metaclass=SingletonMetaClass):
                     return True
         return False
 
-    #TODO: require tests!
     def get_device(self, dev_eui, dev_type): 
         match dev_type:
             case "Inclinometer":
@@ -96,12 +97,13 @@ class devices(metaclass=SingletonMetaClass):
         return False
     
 class mqtt_object(object):
-    def __init__(self, measure_topic, status_topic) -> None:
+    def __init__(self, measure_topic, status_topic, measure_values, status_values) -> None:
         self.measure_topic = measure_topic
+        self.measure_values = measure_values
         self.status_topic = status_topic
+        self.status_values = status_values
     def __str__(self) -> str:
         print(f"Measures: {self.measure_topic}\nStatus: {self.status_topic}")
-    
 
 if __name__ == "__main__":
     print("Entry point: MES_device.py")

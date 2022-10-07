@@ -17,20 +17,7 @@ from xmlrpc.client import Boolean
 # Sost ???
 # FwVer
 
-class device_error_code(enum.Enum):
-    no_error = "00"
-    sensor_not_respond = "01"
-    power_overload = "02"
-    low_voltage = "03"
-    thermometer_elctro_leak = "04"
-    thermometer_error_scan = "05"
-    thermometer_is_missing = "06"
-    error_1wire = "07"
-    calibration_data_error = "08"
-    thermosensor_is_missing = "09"
-    thermometer_is_too_long = "10"
-    queue_overflow = "20"
-    clock_chip_damaged = "30"
+
 
 class packet(object):
     def __init__(self, rx_json):
@@ -95,7 +82,6 @@ class inclinometer_data_packet(packet):
 
 class thermometer_data_packet(packet):
     def __decode_measures(self, byte_hex_data):
-        print(byte_hex_data.hex())
         self.first_sensor = byte_hex_data[1]
         self.last_sensor = byte_hex_data[2]
         bArr_timestamp = bytearray()

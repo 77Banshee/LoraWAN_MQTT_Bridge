@@ -1,6 +1,5 @@
-
-from MES_packet_handler import battery_info_packet, status_packet_info
-
+import enum
+from MES_packet_handler import battery_info_packet, status_packet_info # TODO: IS THAT REALLY NECESSARY?
 
 class device_factory(object):
     __device_created = 0
@@ -22,7 +21,7 @@ class device_factory(object):
             case "Thermometer":
                 cls.__count_increment(cls)
                 return thermometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
-            case "Pizeometer":
+            case "Piezometer":
                 cls.__count_increment(cls)
                 return piezometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case "Hygrometer":
@@ -93,16 +92,18 @@ class device(object):
         return (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" +
                 f"/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
     def get_formatted_status(self):
-        device_status = 1
-        if self.sinfo.error_code != 0:
+        if self.sinfo.error_code == device_error_code.no_error.value:
+            device_status = 1
+        else:
             device_status = 0
-        return (f"DeviceName: {self._chirpstack_name}\r\n" +
-                f"Ubat: {self.sbat.u_battery}\r\n" +
-                f"Pbat: {self.sbat.battery_level}\r\n" +
-                f"RSSI: {self.sbat._rssi}\r\n" +
-                f"SINR: {self.sbat._snr}\r\n" +
-                f"Sost: {device_status}\r\n" +
-                f"FwVer: {self.sinfo.firmmware_version}") 
+            # TODO: PLACE TELEGRAM BOT NOTIFICATION HERE
+        return (f"DeviceName:{self._chirpstack_name}\r\n" +
+                f"Ubat:{self.sbat.u_battery}\r\n" +
+                f"Pbat:{self.sbat.battery_level}\r\n" +
+                f"RSSI:{self.sbat._rssi}\r\n" +
+                f"SINR:{self.sbat._snr}\r\n" +
+                f"Sost:{device_status}\r\n" +
+                f"FwVer:{self.sinfo.firmmware_version}") 
 
 class inclinometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
@@ -111,7 +112,6 @@ class inclinometer(device):
         return super().__str__()
     def get_formatted_measures(self):
         return f"{self.measures.timestamp}\r\n{self.measures.x_angle}\r\n{self.measures.y_angle}"
-    
 
 class thermometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
@@ -148,8 +148,9 @@ class thermometer(device):
                 containers = {"measures_1": None, "measures_2" : None, "measures_3": None}
                 self.measures.update(containers)
             case quantity if 25 <= quantity <= 32:
-                # ТАК НЕ БЫВАЕТ
-                    raise ValueError()
+                containers = {"measures_1": None, "measures_2": None, "measures_3": None, "measures_4": None}
+                self.measures.update(containers)
+                    
     def __str__(self):
         return (super().__str__() 
                 + f'\nQuantity: {self.__quantity}'
@@ -163,27 +164,36 @@ class thermometer(device):
             measure_topic_value += measures_array[i].concat_measures()
             print()
         print(measure_topic_value)
-        # print(x)
-        # s = ", ".join(x)
-        # for i in range(0, self.__quantity):
-            # measure_topic_value += self.measures[i].values()
-    
-    
     
 class piezometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
+    def get_formatted_measures(self):
+        return f"{self.measures.timestamp}\r\n{self.measures.measures_pressure}"
     
 class hygrometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
     def __str__(self):
         return super().__str__()
+    def get_formatted_measures(self):
+        return f"{self.measures.timestamp}\r\n{self.measures.measures_temperature}\r\n{self.measures.measures_humidity}"
         
+class device_error_code(enum.Enum):
+    no_error = "0"
+    sensor_not_respond = "1"
+    power_overload = "2"
+    low_voltage = "3"
+    thermometer_elctro_leak = "4"
+    thermometer_error_scan = "5"
+    thermometer_is_missing = "6"
+    error_1wire = "7"
+    calibration_data_error = "8"
+    thermosensor_is_missing = "9"
+    thermometer_is_too_long = "10"
+    queue_overflow = "20"
+    clock_chip_damaged = "30"       
 if __name__ == "__main__":
    pass 
-
-#Inclinometer init example
-#dev_1 = device_factory.create_device("07293314052D0EED", "i1.1", "10000089", "MRY", "U0042", "Inclinometer")

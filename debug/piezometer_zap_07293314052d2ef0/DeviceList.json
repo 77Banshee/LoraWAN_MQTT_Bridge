@@ -1,0 +1,188 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052DB42A",
+            "MqttName": "i1.1",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D6838",
+            "MqttName": "i1.2",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DD80B",
+            "MqttName": "i1.3",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DDB11",
+            "MqttName": "i1.4",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D6FD4",
+            "MqttName": "i1.5",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D55E4",
+            "MqttName": "i1.6",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DC6C1",
+            "MqttName": "i1.7",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DEDBB",
+            "MqttName": "i1.8",
+            "type": "Inclinometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D7B02",
+            "MqttName": "i2.1",
+            "type": "Inclinometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D4305",
+            "MqttName": "i2.2",
+            "type": "Inclinometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D2826",
+            "MqttName": "i2.3",
+            "type": "Inclinometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D68D0",
+            "MqttName": "i2.4",
+            "type": "Inclinometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DC1D9",
+            "MqttName": "i3.1",
+            "type": "Inclinometer",
+            "object_id": "10000101",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D5648",
+            "MqttName": "i3.2",
+            "type": "Inclinometer",
+            "object_id": "10000101",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D6D1F",
+            "MqttName": "i3.3",
+            "type": "Inclinometer",
+            "object_id": "10000101",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D6CBE",
+            "MqttName": "i3.4",
+            "type": "Inclinometer",
+            "object_id": "10000101",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D6DB4",
+            "MqttName": "BH002124",
+            "type": "Thermometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DF1B8",
+            "MqttName": "BH002125",
+            "type": "Thermometer",
+            "object_id": "10000099",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052DA23C",
+            "MqttName": "BH002126",
+            "type": "Thermometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052C393E",
+            "MqttName": "BH002127",
+            "type": "Thermometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052C52D2",
+            "MqttName": "BH002128",
+            "type": "Thermometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D8131",
+            "MqttName": "BH002129",
+            "type": "Thermometer",
+            "object_id": "10000100",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        },
+        {
+            "devEui": "07293314052D2EF0",
+            "MqttName": "BH002206",
+            "type": "Piezometer",
+            "object_id": "10000101",
+            "object_code": "MRY",
+            "uspd_code": "U0049"
+        }
+    ]
+}

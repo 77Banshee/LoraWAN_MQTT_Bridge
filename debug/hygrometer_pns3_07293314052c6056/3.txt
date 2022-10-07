@@ -1,0 +1,50 @@
+{
+            "applicationID": "4",
+            "applicationName": "Hygrometer",
+            "deviceName": "73783",
+            "devEUI": "BykzFAUsYFY=",
+            "rxInfo": [
+                {
+                    "gatewayID": "eF7o//4gAec=",
+                    "time": null,
+                    "timeSinceGPSEpoch": null,
+                    "rssi": -118,
+                    "loRaSNR": -17.2,
+                    "channel": 6,
+                    "rfChain": 1,
+                    "board": 0,
+                    "antenna": 0,
+                    "location": {
+                        "latitude": 0,
+                        "longitude": 0,
+                        "altitude": 0,
+                        "source": "UNKNOWN",
+                        "accuracy": 0
+                    },
+                    "fineTimestampType": "NONE",
+                    "context": "5P7A3A==",
+                    "uplinkID": "AoYEMlUyTkihedj+rDM3UA==",
+                    "crcStatus": "CRC_OK"
+                }
+            ],
+            "txInfo": {
+                "frequency": 868900000,
+                "modulation": "LORA",
+                "loRaModulationInfo": {
+                    "bandwidth": 125,
+                    "spreadingFactor": 12,
+                    "codeRate": "4/5",
+                    "polarizationInversion": false
+                }
+            },
+            "adr": false,
+            "dr": 0,
+            "fCnt": 245,
+            "fPort": 60,
+            "data": "EgAAAAUDIAEAAA==",
+            "objectJSON": "",
+            "tags": {},
+            "confirmedUplink": true,
+            "devAddr": "AdstwA==",
+            "publishedAt": "2022-09-12T05:02:16.528634610Z"
+        }
