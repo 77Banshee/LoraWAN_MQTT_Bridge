@@ -11,6 +11,14 @@ class server_info(object):
         self.object_id_list = self.get_object_id_list()
         self.sensor_config = self.init_external_mqtt_conf()
         self.extrnal_mqtt_config = self.init_external_mqtt_conf()
+        self.__gateway_state = False
+    def get_gateway_state(self):
+        return self.__gateway_state    
+    def reset_gateway_state(self):
+        self.__gateway_state = False
+    def set_gateway_online(self):
+        self.__gateway_state = True
+        
     def get_object_id_list(self):
         result_obj_id_list = []
         for i in self.device_list['devices']:
@@ -35,8 +43,8 @@ class server_info(object):
     def get_topic_status(self, object_id):
         return (f"/Gorizont/{self.extrnal_mqtt_config['object_code']}/{object_id}/"
                 + f"{self.extrnal_mqtt_config['uspd_code']}/status_measure")
-    def get_uspd_status_value(self, gw_status):
-        return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{gw_status}\r\nChirpstack:{self.get_chirpstack_state()}"
+    def get_uspd_status_value(self):
+        return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{self.__gateway_state}\r\nChirpstack:{self.get_chirpstack_state()}"
     def init_external_mqtt_conf(self):
         with open("cfg/ExternalMqttConf.json") as descriptor:
             ext_mqtt_conf = json.load(descriptor)

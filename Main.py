@@ -1,3 +1,4 @@
+from http import server
 import sys
 import json
 import MES_device
@@ -80,7 +81,7 @@ def on_message(client, userdata, msg):
             rx_device.insert_status_packet(rx_packet)
         # Check ready statement and push data to mqtt
         if rx_device.ready_to_send:
-            mqtt_payload = MES_storage.mqtt_object(
+            mqtt_payload = MES_storage.mqtt_device_object(
                 measure_topic = rx_device.create_measure_topic(),
                 status_topic = rx_device.create_status_topic(),
                 measure_values = rx_device.get_formatted_measures(),
@@ -88,6 +89,8 @@ def on_message(client, userdata, msg):
             )
             device_storage.insert_to_send_queue(mqtt_payload)
             rx_device.reset_packets()
+    if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
+        server_info.set_gateway_online()
         
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -124,6 +127,17 @@ def init_devices(device_list_json, tk_config_json):
                     break
         MES_storage.devices.append_device(device_storage, device_instance)
 
+def update_uspd_status(server_info_instance, mqtt_client):
+    object_count = len(server_info_instance.object_id_list)
+    for i in range(0, object_count):
+        topic = server_info_instance.get_topic_status(server_info_instance.object_id_list[i])
+        value = server_info_instance.get_uspd_status_value()
+        mqtt_client.publish(
+            topic= topic,
+            payload = value,
+            qos= 2
+        )
+
 def main():
     print("[*] Bridge server start...")
     init_devices(device_list, tk_config)
@@ -132,7 +146,6 @@ def main():
     local_mqtt_client.subscribe('gateway/+/event/#', qos=2)
     local_mqtt_client.on_connect = on_connect
     local_mqtt_client.on_message = on_message
-    # TODO: local_mqtt_client.subscribe() implement for check gateway status and switch gateway status flag
     local_mqtt_client.loop_start()
     external_mqtt_client.connect(host, port)
     external_mqtt_client.loop_start()
@@ -140,19 +153,22 @@ def main():
 
     while(True):
         if device_storage.send_queue_not_empty:
-            mqtt_object = device_storage.pop_mqtt_object()
+            mqtt_device_object = device_storage.pop_mqtt_object()
             external_mqtt_client.publish(
-                topic= mqtt_object.measure_topic,
-                payload= mqtt_object.measure_values, 
+                topic= mqtt_device_object.measure_topic,
+                payload= mqtt_device_object.measure_values, 
                 qos=2
             )
             external_mqtt_client.publish(
-                topic= mqtt_object.status_topic,
-                payload= mqtt_object.status_values,
+                topic= mqtt_device_object.status_topic,
+                payload= mqtt_device_object.status_values,
                 qos=2
             )
         if GW_STATUS_REQUEST:
-            pass
+            update_uspd_status(
+                server_info_instance= server_info,
+                mqtt_client= external_mqtt_client
+                )
             
         time.sleep(0.2) 
 
@@ -249,10 +265,11 @@ def debug():
     # Uspd status
     GW_STATUS_REQUEST = True
     if GW_STATUS_REQUEST:
-        object_count = len(server_info.object_id_list)
-        for i in range(0, object_count):
-            print(server_info.get_topic_status(server_info.object_id_list[i]))
-            print(server_info.get_uspd_status_value("OK"))
+        if GW_STATUS_REQUEST:
+            update_uspd_status(
+                server_info_instance= server_info,
+                mqtt_client= external_mqtt_client
+                )
 
         # TODO: CHECK INCLINOMETER PROPER ORDER X Y IN get_formatted_measures()
     pass

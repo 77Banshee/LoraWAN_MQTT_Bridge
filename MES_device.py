@@ -1,5 +1,5 @@
 import enum
-from MES_packet_handler import battery_info_packet, status_packet_info # TODO: IS THAT REALLY NECESSARY?
+from MES_packet_handler import battery_info_packet, status_info_packet # TODO: IS THAT REALLY NECESSARY?
 
 class device_factory(object):
     __device_created = 0
@@ -81,7 +81,7 @@ class device(object):
         self.sinfo = packet
         self.ready_to_send = self.__is_ready_or_not()
     def insert_status_packet(self, packet):
-        if status_packet_info.__name__ == packet.get_packet_type():
+        if status_info_packet.__name__ == packet.get_packet_type():
             self.insert_sinfo_packet(packet)
         elif battery_info_packet.__name__ == packet.get_packet_type():
             self.insert_sbat_packet(packet)

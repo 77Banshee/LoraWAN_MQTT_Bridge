@@ -190,7 +190,7 @@ class battery_info_packet(packet):
                 + f"\nu_battery: {self.u_battery}"
                 + f"\nbattery_level: {self.battery_level}" + "%")
 
-class status_packet_info(packet):
+class status_info_packet(packet):
     def __decode_status(self, byte_hex_data):
         self.error_code = str(byte_hex_data[1])
         self.protocol_version = str(byte_hex_data[4])
@@ -209,6 +209,21 @@ class status_packet_info(packet):
                 + f"\nprotocol_version: {self.protocol_version}"
                 + f"\nfirmware_version: {self.firmmware_version}"
                 + f"\ndevice_version: {self.device_version}")
+
+class time_response_packet(packet):
+    def __encode_time(self):
+        b_arr_send_time = bytearray()
+        b_arr_send_time.append(3)
+        current_time_bytes = self.current_timestamp.to_bytes(4, byteorder='big')
+        for i in range(0, 4):
+            b_arr_send_time.append(current_time_bytes[i])
+        # print('Device: ' + rx_json['devEUI'].upper() + ' Get Time: ' + time_sync_arr_hex + '\n')
+        send_time = base64.b64encode(b_arr_send_time).decode('ascii')
+        return send_time
+    def __init__(self, rx_json):
+        super().__init__(rx_json)
+        self.current_timestamp = int(time.time())
+        # send_timestamp = __encode_time()
 
 class packet_factory(object):
     def __init__(self):
@@ -238,7 +253,7 @@ class packet_factory(object):
             case 0x11:
                 current_packet = inclinometer_data_packet(rx_json)
             case 0x12:
-                current_packet = status_packet_info(rx_json)
+                current_packet = status_info_packet(rx_json)
             case 0x13:
                 current_packet = battery_info_packet(rx_json)
             case 0x05:
@@ -262,7 +277,7 @@ class packet_factory(object):
         self.__measure_packet_types.append(piezometer_data_packet.__name__)
         self.__measure_packet_types.append(hygrometer_data_packet.__name__)
         #fill status
-        self.__status_packet_types.append(status_packet_info.__name__)
+        self.__status_packet_types.append(status_info_packet.__name__)
         self.__status_packet_types.append(battery_info_packet.__name__)
     def is_measures(self, packet):
         return packet.get_packet_type() in self.__measure_packet_types
