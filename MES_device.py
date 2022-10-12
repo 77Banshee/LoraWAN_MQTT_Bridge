@@ -43,6 +43,14 @@ class device(object):
         self.sinfo = None
         self.sbat = None
         self.ready_to_send = False
+        self.require_time_update = False
+        self.reqire_setting_update = False
+    def is_require_time_update(self):
+        return self.require_time_update
+    def set_require_time_update(self):
+        self.require_time_update = True
+    def reset_require_time_update(self):
+        self.require_time_update = False
     def get_devEui(self):
         return self._dev_eui
     def get_devType(self):
@@ -57,6 +65,8 @@ class device(object):
         return self._uspd_code
     def set_chirpstack_name(self, chirpstack_name):
         self._chirpstack_name = chirpstack_name
+    def get_chirpstack_name(self):
+        return self._chirpstack_name
     def __str__(self):
         return (f"Device: {self._dev_type}\n"
                 f"Dev EUI: {self._dev_eui}\n"

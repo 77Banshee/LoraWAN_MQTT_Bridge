@@ -1,4 +1,3 @@
-from http import server
 import sys
 import json
 import MES_device
@@ -22,6 +21,11 @@ import time
     #  Handle 03 packet.
     #  Solve time difference issue
 
+# TODO: Settings
+    # dev handler -> self._require_settings CHECK!
+    # Fill devices with require update
+    # Check status where? on_message? Queue? device_handler? While True loop?
+    # Reset status on the same check.
 # TODO: Addittional
     # TODO: CSV
     # TODO: Chirpstack and gateway status
@@ -71,14 +75,29 @@ def on_message(client, userdata, msg):
         rx_device.set_chirpstack_name(rx_json['deviceName'])
         # Handle packet
         rx_packet = packet_factory.create_packet(rx_json)
-        if rx_packet == False:
-            print("Packet is discarded.")
-            return
+        match rx_packet:
+            case False:
+                print("Packet is discarded.")
+                return
+            case "TIME_RQ":
+                print(f"Time request for {rx_dev_type} {rx_dev_eui} {rx_device.get_chirpstack_name()}")
+                rx_device.set_require_time_update()
         # Insert packet into device
         if packet_factory.is_measures(rx_packet):
             rx_device.insert_measure_packet(rx_packet)
         elif packet_factory.is_status(rx_packet):
             rx_device.insert_status_packet(rx_packet)
+        ##!--TIME REQUESTS
+        if packet_factory.is_time_request(rx_packet) or rx_device.require_time_update(): # TODO: TEST!
+            command_topic = current_topic_command(msg.topic)
+            payload = server_info.get_formatted_command(type='time')
+            external_mqtt_client.publish(
+                topic=command_topic,
+                payload=payload,
+                qos=2
+            )
+            rx_device.reset_require_time_update()
+        ##!--
         # Check ready statement and push data to mqtt
         if rx_device.ready_to_send:
             mqtt_payload = MES_storage.mqtt_device_object(
@@ -138,6 +157,68 @@ def update_uspd_status(server_info_instance, mqtt_client):
             qos= 2
         )
 
+def current_topic_command(topic):
+    splitted_topic = topic.split('/')
+    command_topic = ""
+    for i in range(0,4):
+        command_topic += splitted_topic[i] + '/'
+    command_topic += "command/down"
+    return command_topic
+
+def on_message_debug(packet_type, json_obj):
+    if packet_type == 'device':  
+        rx_json = json.load(json_obj)
+        # rx_json = json_obj
+        # Get device info
+        rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
+        rx_dev_type = rx_json['applicationName']
+        # Get device
+        rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
+        if rx_device == False:
+            raise ValueError("Device not found in storage!")
+        rx_device.set_chirpstack_name(rx_json['deviceName'])
+        # Handle packet
+        rx_packet = packet_factory.create_packet(rx_json)
+        # rx_packet = 'TIME_RQ'
+        match rx_packet:
+            case False:
+                print("Packet is discarded.")
+                return
+            case "TIME_RQ":
+                print(f"Time request for {rx_dev_type} {rx_dev_eui} {rx_device.get_chirpstack_name()}")
+                rx_device.set_require_time_update()
+        # Insert packet into device
+        if packet_factory.is_measures(rx_packet):
+            rx_device.insert_measure_packet(rx_packet)
+        elif packet_factory.is_status(rx_packet):
+            rx_device.insert_status_packet(rx_packet)
+        ##!--TIME REQUESTS
+        if packet_factory.is_time_request(rx_packet) or rx_device.is_require_time_update(): # TODO: TEST!
+            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
+            command_topic = current_topic_command(msgtopic)
+            payload = server_info.get_formatted_command(type='time')
+            # external_mqtt_client.publish(
+            #     topic=command_topic,
+            #     payload=payload,
+            #     qos=2
+            # )
+            print(command_topic)
+            print(payload)
+            rx_device.reset_require_time_update()
+        ##!--
+        # Check ready statement and push data to mqtt
+        if rx_device.ready_to_send:
+            mqtt_payload = MES_storage.mqtt_device_object(
+                measure_topic = rx_device.create_measure_topic(),
+                status_topic = rx_device.create_status_topic(),
+                measure_values = rx_device.get_formatted_measures(),
+                status_values = rx_device.get_formatted_status()
+            )
+            device_storage.insert_to_send_queue(mqtt_payload)
+            rx_device.reset_packets()
+    # if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
+        # server_info.set_gateway_online()
+
 def main():
     print("[*] Bridge server start...")
     init_devices(device_list, tk_config)
@@ -169,13 +250,14 @@ def main():
                 server_info_instance= server_info,
                 mqtt_client= external_mqtt_client
                 )
+            server_info.reset_gateway_state()
             
         time.sleep(0.2) 
 
 def debug():
     # Thermometer example
     init_devices(device_list, tk_config)
-    for i in range(0, 6):
+    for i in range(0, 7):
         if i == 0:
             rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/1.txt",'r')
         if i == 1:
@@ -188,6 +270,9 @@ def debug():
             rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/5.txt",'r')
         if i == 5:
             rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/6.txt",'r')
+        if i == 6:
+            rx_json = open("debug/thermometer_usnk_07293314052dff55_usnk/7.txt",'r')
+
 
     # Inclinometer example
     # init_devices("debug/Inclinometer_07293314052DFF9E_usnk/DeviceList.json", "cfg/TkConfig.json")
@@ -236,40 +321,37 @@ def debug():
     #         rx_json = open("debug/hygrometer_pns3_07293314052c6056/7.txt", 'r')
 
     # DECODE PACKET FROM HERE
-        rx_json = json.load(rx_json)
+        # rx_json = json.load(rx_json)
         ## COPY FROM HERE
-        rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
-        rx_dev_type = rx_json['applicationName']
-        # Get device
-        rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
-        if rx_device == False:
-            raise ValueError("Device not found in storage!")
-        rx_device.set_chirpstack_name(rx_json['deviceName'])
-        # Handle packet
-        rx_packet = packet_factory.create_packet(rx_json)
-        if rx_packet == False:
-            print("Packet is discarded.")
-            continue
-        # Insert packet into device
-        if packet_factory.is_measures(rx_packet):
-            rx_device.insert_measure_packet(rx_packet)
-        elif packet_factory.is_status(rx_packet):
-            rx_device.insert_status_packet(rx_packet)
-        print("--DEBUG", rx_device.ready_to_send)
-    print(rx_device.create_measure_topic())
-    print(rx_device.get_formatted_measures())
-    print(rx_device.create_status_topic())
-    print(rx_device.get_formatted_status())
-    print(rx_device.sinfo)
+    #     rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
+    #     rx_dev_type = rx_json['applicationName']
+    #     # Get device
+    #     rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
+    #     if rx_device == False:
+    #         raise ValueError("Device not found in storage!")
+    #     rx_device.set_chirpstack_name(rx_json['deviceName'])
+    #     # Handle packet
+    #     rx_packet = packet_factory.create_packet(rx_json)
+    #     if rx_packet == False:
+    #         print("Packet is discarded.")
+    #         continue
+    #     # Insert packet into device
+    #     if packet_factory.is_measures(rx_packet):
+    #         rx_device.insert_measure_packet(rx_packet)
+    #     elif packet_factory.is_status(rx_packet):
+    #         rx_device.insert_status_packet(rx_packet)
+    #     print("--DEBUG", rx_device.ready_to_send)
+    # print(rx_device.create_measure_topic())
+    # print(rx_device.get_formatted_measures())
+    # print(rx_device.create_status_topic())
+    # print(rx_device.get_formatted_status())
+    # print(rx_device.sinfo)
+        on_message_debug(
+            packet_type='device',
+            json_obj=rx_json
+        )
     
-    # Uspd status
-    GW_STATUS_REQUEST = True
-    if GW_STATUS_REQUEST:
-        if GW_STATUS_REQUEST:
-            update_uspd_status(
-                server_info_instance= server_info,
-                mqtt_client= external_mqtt_client
-                )
+    
 
         # TODO: CHECK INCLINOMETER PROPER ORDER X Y IN get_formatted_measures()
     pass

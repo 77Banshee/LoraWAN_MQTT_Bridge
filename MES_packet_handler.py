@@ -3,8 +3,10 @@ import enum
 import json
 import queue
 from re import I
+import string
 import struct
 import time
+from tokenize import String
 from xmlrpc.client import Boolean
 #TODO: Проверить гигрометр.
 #TODO: Округлить все значения float до двух символов после запятой?
@@ -49,6 +51,8 @@ class packet(object):
     def __eq__(self, other):
         if isinstance(other, Boolean) or other == None:
             return False
+        elif isinstance(other, str):
+            return str(self) == other
         return self.get_hex_data() == other.get_hex_data()
 
 class inclinometer_data_packet(packet):
@@ -264,7 +268,7 @@ class packet_factory(object):
             case 0x1a:
                 current_packet = hygrometer_data_packet(rx_json)
             case 0x03:
-                raise ValueError("Not implemented!")
+                return "TIME_RQ"
                 #TODO: IMPLEMENT!
         if self.__append_to_history(current_packet) != True:
             return False
@@ -280,9 +284,15 @@ class packet_factory(object):
         self.__status_packet_types.append(status_info_packet.__name__)
         self.__status_packet_types.append(battery_info_packet.__name__)
     def is_measures(self, packet):
+        if type(packet) == str:
+            return
         return packet.get_packet_type() in self.__measure_packet_types
     def is_status(self, packet):
+        if type(packet) == str:
+            return
         return packet.get_packet_type() in self.__status_packet_types
+    def is_time_request(self, packet):
+        return packet == "TIME_RQ"
 
 if __name__ == "__main__":
     print("Entry point: MES_package_handler")
