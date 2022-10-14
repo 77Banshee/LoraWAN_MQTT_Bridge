@@ -18,6 +18,15 @@ class devices(metaclass=SingletonMetaClass):
     __hygrometers = []
     __to_send_queue = queue.Queue()
    
+    def update_settings(self):
+        for i in range(0, len(self.__inclinometers)):
+            self.__inclinometers[i].set_require_settings_update()
+        for i in range(0, len(self.__thermometers)):
+            self.__thermometers[i].set_require_settings_update()
+        for i in range(0, len(self.__hygrometers)):
+            self.__hygrometers[i].set_require_settings_update()
+        for i in range(0, len(self.__piezometers)):
+            self.__piezometers[i].set_require_settings_update()
     def pop_mqtt_object(self):
         if self.__to_send_queue.qsize() == 0:
             return False

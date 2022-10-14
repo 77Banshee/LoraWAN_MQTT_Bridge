@@ -18,14 +18,11 @@ import time
     # Add interval to trigger GW_STATUS_REQUEST
 
 # TODO: Time
-    #  Handle 03 packet.
-    #  Solve time difference issue
+    #  Done! Require tests!
 
 # TODO: Settings
-    # dev handler -> self._require_settings CHECK!
-    # Fill devices with require update
-    # Check status where? on_message? Queue? device_handler? While True loop?
-    # Reset status on the same check.
+    # Done! Require tests!
+    
 # TODO: Addittional
     # TODO: CSV
     # TODO: Chirpstack and gateway status
@@ -97,6 +94,14 @@ def on_message(client, userdata, msg):
                 qos=2
             )
             rx_device.reset_require_time_update()
+        if rx_device.is_require_settings_update():
+            command_topic = current_topic_command(msg.topic)
+            payload = server_info.get_formatted_command(type='settings')
+            external_mqtt_client.publish(
+                topic=command_topic,
+                payload=payload,
+                qos=2
+            )
         ##!--
         # Check ready statement and push data to mqtt
         if rx_device.ready_to_send:
@@ -189,7 +194,7 @@ def on_message_debug(packet_type, json_obj):
                 rx_device.set_require_time_update()
         # Insert packet into device
         if packet_factory.is_measures(rx_packet):
-            rx_device.insert_measure_packet(rx_packet)
+            rx_device.insert_measure_packet(rx_packet, rx_packet.timestamp)
         elif packet_factory.is_status(rx_packet):
             rx_device.insert_status_packet(rx_packet)
         ##!--TIME REQUESTS
@@ -205,6 +210,18 @@ def on_message_debug(packet_type, json_obj):
             print(command_topic)
             print(payload)
             rx_device.reset_require_time_update()
+        if rx_device.is_require_settings_update():
+            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
+            command_topic = current_topic_command(msgtopic)
+            payload = server_info.get_formatted_command(type='settings')
+            # external_mqtt_client.publish(
+            #     topic=command_topic,
+            #     payload=payload,
+            #     qos=2
+            # )
+            print(command_topic)
+            print(payload)
+            rx_device.reset_require_settings_update()
         ##!--
         # Check ready statement and push data to mqtt
         if rx_device.ready_to_send:
@@ -251,6 +268,10 @@ def main():
                 mqtt_client= external_mqtt_client
                 )
             server_info.reset_gateway_state()
+        device_settings_require_update = server_info.refresh_settings_config()
+        if device_settings_require_update:
+            device_storage.update_settings()
+            server_info.reset_sensor_config()
             
         time.sleep(0.2) 
 

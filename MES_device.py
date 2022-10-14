@@ -1,4 +1,6 @@
 import enum
+import time
+import MES_packet_handler
 from MES_packet_handler import battery_info_packet, status_info_packet # TODO: IS THAT REALLY NECESSARY?
 
 class device_factory(object):
@@ -43,14 +45,27 @@ class device(object):
         self.sinfo = None
         self.sbat = None
         self.ready_to_send = False
-        self.require_time_update = False
-        self.reqire_setting_update = False
+        self._require_time_update = False
+        self._reqire_setting_update = False
+
+    def is_correct_time(self, timestamp):
+        if abs(timestamp - int(time.time())) > 300:
+            self._require_time_update = True
+            return False
+        return True
+        
     def is_require_time_update(self):
-        return self.require_time_update
+        return self._require_time_update
     def set_require_time_update(self):
-        self.require_time_update = True
+        self._require_time_update = True
     def reset_require_time_update(self):
-        self.require_time_update = False
+        self._require_time_update = False
+    def is_require_settings_update(self):
+        return self._reqire_setting_update
+    def set_require_settings_update(self):
+        self._reqire_setting_update = True
+    def reset_require_settigs_update(self):
+        self.is_require_settings_update = False
     def get_devEui(self):
         return self._dev_eui
     def get_devType(self):
@@ -81,8 +96,11 @@ class device(object):
         self.sinfo = None
         self.sbat = None
         self.ready_to_send = False
-    def insert_measure_packet(self, packet):
+    def insert_measure_packet(self, packet, timestamp):
         self.measures = packet
+        if self.is_correct_time(timestamp):
+            print(f"Time offset detected for: {self._dev_type} {self._dev_eui} {self._chirpstack_name}")
+            self.set_require_time_update()
         self.ready_to_send = self.__is_ready_or_not()
     def insert_sbat_packet(self, packet):
         self.sbat = packet
@@ -130,10 +148,13 @@ class thermometer(device):
         self.measures = {}
     def __is_ready_or_not(self):
         return (self.sbat != None) and (self.sinfo != None) and (None not in self.measures.values())
-    def insert_measure_packet(self, packet):
+    def insert_measure_packet(self, packet, timestamp):
         match packet.stage:
             case 1:
                 self.measures['measures_1'] = packet
+                if self.is_correct_time(timestamp):
+                    print(f"Time offset detected for: {self._dev_type} {self._dev_eui} {self._chirpstack_name}")
+                self.set_require_time_update()
             case 2:
                 self.measures['measures_2'] = packet
             case 3:

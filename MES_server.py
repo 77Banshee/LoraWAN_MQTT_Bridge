@@ -9,7 +9,7 @@ class server_info(object):
         self.start_time = time.time()
         self.device_list = device_list
         self.object_id_list = self.get_object_id_list()
-        self.sensor_config = self.init_external_mqtt_conf()
+        self._sensor_config = self.refresh_settings_config()
         self.extrnal_mqtt_config = self.init_external_mqtt_conf()
         self.__gateway_state = False
     def get_gateway_state(self):
@@ -30,7 +30,7 @@ class server_info(object):
                 result_obj_id_list.append(i['object_id'])
         return result_obj_id_list
     def get_b64setting_payload(self):
-        b_settings_str = bytes.fromhex(self.sensor_config['settings_str_hex'])
+        b_settings_str = bytes.fromhex(self._sensor_config['settings_str_hex'])
         b_arr_settings_str = bytearray()
         for i in range(0, 8):
             b_arr_settings_str.append(b_settings_str[i])
@@ -53,11 +53,26 @@ class server_info(object):
         with open("cfg/ExternalMqttConf.json") as descriptor:
             ext_mqtt_conf = json.load(descriptor)
         return ext_mqtt_conf
+    def refresh_settings_config(self):
+        with open("cfg/SensorConfig.json") as descriptor:
+            sensor_conf = json.load(descriptor)
+        self._sensor_config = sensor_conf
+        require_update = self._sensor_config['update']
+        if require_update:
+            self._sensor_config['update'] = False
+            with open("cfg/SensorConfig.json", 'w') as descriptor:
+                json.dump(self._sensor_config, descriptor)
+                
+        return require_update # Bool
     def get_formatted_command(self, type):
         b_arr = bytearray()
         match type:
             case "settings":
-                pass # TODO: IMPLEMENT!
+                b_settings = bytes.fromhex(self._sensor_config['settings_str_hex'])
+                b_arr = bytearray()
+                for i in range(0, 8):
+                    b_arr.append(b_settings[i])
+                b64data = base64.encode(b_arr).decode('ascii')
             case "time":
                 current_time = int(time.time())
                 current_time_big = current_time.to_bytes(4, byteorder='big')
