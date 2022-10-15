@@ -2,6 +2,7 @@ import base64
 import json
 import urllib.request
 import time
+import threading
 
 class server_info(object):
     def __init__(self, address, device_list):
@@ -12,6 +13,27 @@ class server_info(object):
         self._sensor_config = self.refresh_settings_config()
         self.extrnal_mqtt_config = self.init_external_mqtt_conf()
         self.__gateway_state = False
+        self.__request_uspd_update = False
+        
+    def set_uspd_update(self):
+        self.require_uspd_update = True    
+        
+    def update_status_timer(self):
+        upd_timer = threading.Timer(
+            interval=60,
+            function=self.set_uspd_update,
+            args=None,
+            kwargs=None
+            )
+        upd_timer.start()
+        
+    def require_uspd_update(self):
+        if self.__request_uspd_update:
+            self.__request_uspd_update = False
+            self.update_status_timer()
+            return True
+        return False
+    
     def get_gateway_state(self):
         match self.__gateway_state:
             case True:

@@ -28,11 +28,13 @@ class devices(metaclass=SingletonMetaClass):
         for i in range(0, len(self.__piezometers)):
             self.__piezometers[i].set_require_settings_update()
     def pop_mqtt_object(self):
-        if self.__to_send_queue.qsize() == 0:
+        if self.send_queue_not_empty():
             return False
         return self.__to_send_queue.get()
     def send_queue_not_empty(self):
-        return self.__to_send_queue > 0
+        return self.__to_send_queue.qsize() > 0
+    def get_queue_size(self):
+        return self.__to_send_queue.qsize()
 
     def insert_to_send_queue(self, mqtt_obj):
         self.__to_send_queue.put(mqtt_obj)

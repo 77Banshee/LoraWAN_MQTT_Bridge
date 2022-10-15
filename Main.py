@@ -15,7 +15,7 @@ import time
 #    Дулаем топики CHECK > Запихиваем в очередь которая проверяется в бесконечном цикле CHECK> и сразу чистим девайс CHECK.
 
 # TODO: Uspd status
-    # Add interval to trigger GW_STATUS_REQUEST
+    # Done! Require tests!
 
 # TODO: Time
     #  Done! Require tests!
@@ -55,7 +55,6 @@ packet_factory = MES_packet_handler.packet_factory()
 local_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 server_info = MES_server.server_info(host, device_list)
-GW_STATUS_REQUEST = False
 
 
 #   --MQTT
@@ -81,27 +80,36 @@ def on_message(client, userdata, msg):
                 rx_device.set_require_time_update()
         # Insert packet into device
         if packet_factory.is_measures(rx_packet):
-            rx_device.insert_measure_packet(rx_packet)
+            rx_device.insert_measure_packet(rx_packet, rx_packet.timestamp)
         elif packet_factory.is_status(rx_packet):
             rx_device.insert_status_packet(rx_packet)
         ##!--TIME REQUESTS
-        if packet_factory.is_time_request(rx_packet) or rx_device.require_time_update(): # TODO: TEST!
-            command_topic = current_topic_command(msg.topic)
+        if packet_factory.is_time_request(rx_packet) or rx_device.is_require_time_update(): # TODO: TEST!
+            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
+            command_topic = current_topic_command(msgtopic)
             payload = server_info.get_formatted_command(type='time')
             external_mqtt_client.publish(
                 topic=command_topic,
                 payload=payload,
                 qos=2
             )
+            print(">>SEND_TIME")
+            print(command_topic)
+            print(payload)
             rx_device.reset_require_time_update()
         if rx_device.is_require_settings_update():
-            command_topic = current_topic_command(msg.topic)
+            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
+            command_topic = current_topic_command(msgtopic)
             payload = server_info.get_formatted_command(type='settings')
             external_mqtt_client.publish(
                 topic=command_topic,
                 payload=payload,
                 qos=2
             )
+            print(">>SEND_SETTINGS")
+            print(command_topic)
+            print(payload)
+            rx_device.reset_require_settings_update()
         ##!--
         # Check ready statement and push data to mqtt
         if rx_device.ready_to_send:
@@ -111,10 +119,16 @@ def on_message(client, userdata, msg):
                 measure_values = rx_device.get_formatted_measures(),
                 status_values = rx_device.get_formatted_status()
             )
+            print(">>SEND_DEVICE_DATA")
+            print(rx_device.create_measure_topic())
+            print(rx_device.create_status_topic())
+            print(rx_device.get_formatted_measures())
+            print(rx_device.get_formatted_status())
             device_storage.insert_to_send_queue(mqtt_payload)
             rx_device.reset_packets()
     if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
         server_info.set_gateway_online()
+    print(f"[*] Debug | QueueCount: {device_storage.get_queue_size()}")
         
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -173,7 +187,6 @@ def current_topic_command(topic):
 def on_message_debug(packet_type, json_obj):
     if packet_type == 'device':  
         rx_json = json.load(json_obj)
-        # rx_json = json_obj
         # Get device info
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
         rx_dev_type = rx_json['applicationName']
@@ -184,7 +197,6 @@ def on_message_debug(packet_type, json_obj):
         rx_device.set_chirpstack_name(rx_json['deviceName'])
         # Handle packet
         rx_packet = packet_factory.create_packet(rx_json)
-        # rx_packet = 'TIME_RQ'
         match rx_packet:
             case False:
                 print("Packet is discarded.")
@@ -250,7 +262,7 @@ def main():
     print("[*] Device initialized: TODO COUNT")
 
     while(True):
-        if device_storage.send_queue_not_empty:
+        if device_storage.send_queue_not_empty():
             mqtt_device_object = device_storage.pop_mqtt_object()
             external_mqtt_client.publish(
                 topic= mqtt_device_object.measure_topic,
@@ -262,7 +274,7 @@ def main():
                 payload= mqtt_device_object.status_values,
                 qos=2
             )
-        if GW_STATUS_REQUEST:
+        if server_info.require_uspd_update():
             update_uspd_status(
                 server_info_instance= server_info,
                 mqtt_client= external_mqtt_client

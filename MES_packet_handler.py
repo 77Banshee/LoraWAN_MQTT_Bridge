@@ -1,16 +1,10 @@
 import base64
-import enum
 import json
-import queue
 from re import I
-import string
 import struct
 import time
-from tokenize import String
-from xmlrpc.client import Boolean
 #TODO: Проверить гигрометр.
 #TODO: Округлить все значения float до двух символов после запятой?
-
 
 # RSSI
 # SNR
@@ -18,8 +12,6 @@ from xmlrpc.client import Boolean
 # Pbat
 # Sost ???
 # FwVer
-
-
 
 class packet(object):
     def __init__(self, rx_json):
