@@ -1,5 +1,7 @@
+import imp
 import sys
 import json
+from MES_data_logger import device_logger
 import MES_device
 import MES_storage
 import MES_packet_handler
@@ -14,26 +16,23 @@ import time
 #    В мейне тут же проверили ready_to_send, если вернул True CHECK > 
 #    Дулаем топики CHECK > Запихиваем в очередь которая проверяется в бесконечном цикле CHECK> и сразу чистим девайс CHECK.
 
-# TODO: Uspd status
-    # Done! Require tests!
+## TODO: Debug
+    # Remove TEST TOPIC prefix
+    # UNCOMENT TIME SEND 96 line
 
-# TODO: Time
-    #  Done! Require tests!
-
-# TODO: Settings
-    # Done! Require tests!
+# TODO: Devices
+    # Test hygrometer
     
 # TODO: Addittional
-    # TODO: CSV
-    # TODO: Chirpstack and gateway status
     # TODO: GPIO
     # TODO: MAKE PROPER COMMENTARIES!!
     # TODO: check that we getting values from accesors and mutators
     # TODO: Check that we gain values from accessors from external.
 
 #   --Arguments
-host = 'localhost'
-port = '1883'
+# host = 'localhost'
+host = '10.19.128.162'
+port = 1883
 args = sys.argv
 if (len(args) > 1):
     host = args[1]
@@ -59,8 +58,9 @@ server_info = MES_server.server_info(host, device_list)
 
 #   --MQTT
 def on_message(client, userdata, msg):
-    if msg.topic.endswith("/event/up") and msg.topic.startswith("application"):  
-        rx_json = json.load(msg.payload)
+    # Handle device data.
+    if msg.topic.endswith("/event/up") and msg.topic.startswith("application"):
+        rx_json = json.loads(msg.payload) # Getting sent device data from MQTT
         # Get device info
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
         rx_dev_type = rx_json['applicationName']
@@ -69,6 +69,7 @@ def on_message(client, userdata, msg):
         if rx_device == False:
             raise ValueError("Device not found in storage!")
         rx_device.set_chirpstack_name(rx_json['deviceName'])
+        print(f"[*] Debug: << PACKET {rx_dev_type} {rx_dev_eui} {rx_json['deviceName']}")  
         # Handle packet
         rx_packet = packet_factory.create_packet(rx_json)
         match rx_packet:
@@ -78,22 +79,34 @@ def on_message(client, userdata, msg):
             case "TIME_RQ":
                 print(f"Time request for {rx_dev_type} {rx_dev_eui} {rx_device.get_chirpstack_name()}")
                 rx_device.set_require_time_update()
+            case None:
+                # Попытка поймать не описанный в протоколе пакет.
+                with open('unknown_packets', 'a') as file:
+                    file.write(f"{rx_dev_type} {base64.b64decode(rx_json['data'])}\n")
+                return
         # Insert packet into device
         if packet_factory.is_measures(rx_packet):
             rx_device.insert_measure_packet(rx_packet, rx_packet.timestamp)
         elif packet_factory.is_status(rx_packet):
             rx_device.insert_status_packet(rx_packet)
+            if rx_device.get_status_state():
+                external_mqtt_client.publish(
+                    topic= rx_device.create_status_topic(),
+                    payload= rx_device.get_formatted_status(),
+                    qos=2
+                )
+            
         ##!--TIME REQUESTS
         if packet_factory.is_time_request(rx_packet) or rx_device.is_require_time_update(): # TODO: TEST!
             msgtopic = f"application/5/device/{rx_dev_type}/event/up"
             command_topic = current_topic_command(msgtopic)
             payload = server_info.get_formatted_command(type='time')
-            external_mqtt_client.publish(
-                topic=command_topic,
-                payload=payload,
-                qos=2
-            )
-            print(">>SEND_TIME")
+            # external_mqtt_client.publish(
+                # topic=command_topic,
+                # payload=payload,
+                # qos=2
+            # )
+            print(f">> SEND_TIME to {rx_dev_type} {rx_dev_eui}")
             print(command_topic)
             print(payload)
             rx_device.reset_require_time_update()
@@ -117,7 +130,9 @@ def on_message(client, userdata, msg):
                 measure_topic = rx_device.create_measure_topic(),
                 status_topic = rx_device.create_status_topic(),
                 measure_values = rx_device.get_formatted_measures(),
-                status_values = rx_device.get_formatted_status()
+                status_values = rx_device.get_formatted_status(),
+                dev_type = rx_dev_type,
+                dev_eui = rx_dev_eui
             )
             print(">>SEND_DEVICE_DATA")
             print(rx_device.create_measure_topic())
@@ -128,7 +143,6 @@ def on_message(client, userdata, msg):
             rx_device.reset_packets()
     if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
         server_info.set_gateway_online()
-    print(f"[*] Debug | QueueCount: {device_storage.get_queue_size()}")
         
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -175,6 +189,8 @@ def update_uspd_status(server_info_instance, mqtt_client):
             payload = value,
             qos= 2
         )
+        print(f"[*] update_spd_status send: {topic}")
+        print(f"[*] update_spd_status send: {value}")
 
 def current_topic_command(topic):
     splitted_topic = topic.split('/')
@@ -184,69 +200,6 @@ def current_topic_command(topic):
     command_topic += "command/down"
     return command_topic
 
-def on_message_debug(packet_type, json_obj):
-    if packet_type == 'device':  
-        rx_json = json.load(json_obj)
-        # Get device info
-        rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
-        rx_dev_type = rx_json['applicationName']
-        # Get device
-        rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
-        if rx_device == False:
-            raise ValueError("Device not found in storage!")
-        rx_device.set_chirpstack_name(rx_json['deviceName'])
-        # Handle packet
-        rx_packet = packet_factory.create_packet(rx_json)
-        match rx_packet:
-            case False:
-                print("Packet is discarded.")
-                return
-            case "TIME_RQ":
-                print(f"Time request for {rx_dev_type} {rx_dev_eui} {rx_device.get_chirpstack_name()}")
-                rx_device.set_require_time_update()
-        # Insert packet into device
-        if packet_factory.is_measures(rx_packet):
-            rx_device.insert_measure_packet(rx_packet, rx_packet.timestamp)
-        elif packet_factory.is_status(rx_packet):
-            rx_device.insert_status_packet(rx_packet)
-        ##!--TIME REQUESTS
-        if packet_factory.is_time_request(rx_packet) or rx_device.is_require_time_update(): # TODO: TEST!
-            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
-            command_topic = current_topic_command(msgtopic)
-            payload = server_info.get_formatted_command(type='time')
-            # external_mqtt_client.publish(
-            #     topic=command_topic,
-            #     payload=payload,
-            #     qos=2
-            # )
-            print(command_topic)
-            print(payload)
-            rx_device.reset_require_time_update()
-        if rx_device.is_require_settings_update():
-            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
-            command_topic = current_topic_command(msgtopic)
-            payload = server_info.get_formatted_command(type='settings')
-            # external_mqtt_client.publish(
-            #     topic=command_topic,
-            #     payload=payload,
-            #     qos=2
-            # )
-            print(command_topic)
-            print(payload)
-            rx_device.reset_require_settings_update()
-        ##!--
-        # Check ready statement and push data to mqtt
-        if rx_device.ready_to_send:
-            mqtt_payload = MES_storage.mqtt_device_object(
-                measure_topic = rx_device.create_measure_topic(),
-                status_topic = rx_device.create_status_topic(),
-                measure_values = rx_device.get_formatted_measures(),
-                status_values = rx_device.get_formatted_status()
-            )
-            device_storage.insert_to_send_queue(mqtt_payload)
-            rx_device.reset_packets()
-    # if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
-        # server_info.set_gateway_online()
 
 def main():
     print("[*] Bridge server start...")
@@ -264,6 +217,8 @@ def main():
     while(True):
         if device_storage.send_queue_not_empty():
             mqtt_device_object = device_storage.pop_mqtt_object()
+            print(mqtt_device_object.measure_topic)
+            print(mqtt_device_object.measure_values)
             external_mqtt_client.publish(
                 topic= mqtt_device_object.measure_topic,
                 payload= mqtt_device_object.measure_values, 
@@ -274,18 +229,24 @@ def main():
                 payload= mqtt_device_object.status_values,
                 qos=2
             )
-        if server_info.require_uspd_update():
+            device_logger.save_data(
+                dev_eui = mqtt_device_object.dev_eui,
+                mqtt_data= mqtt_device_object.measure_values,
+                type= mqtt_device_object.dev_type
+                )
+        if server_info.request_uspd_update:
             update_uspd_status(
-                server_info_instance= server_info,
+                server_info_instance=server_info,
                 mqtt_client= external_mqtt_client
                 )
+            server_info.request_uspd_update = False
             server_info.reset_gateway_state()
+            server_info.update_timer()
         device_settings_require_update = server_info.refresh_settings_config()
         if device_settings_require_update:
             device_storage.update_settings()
-            server_info.reset_sensor_config()
-            
-        time.sleep(0.2) 
+            server_info.refresh_settings_config()
+        time.sleep(0.5)
 
 def debug():
     # Thermometer example
@@ -389,5 +350,5 @@ def debug():
         # TODO: CHECK INCLINOMETER PROPER ORDER X Y IN get_formatted_measures()
     pass
 if __name__ == "__main__":
-    # main()
-    debug()
+    main()
+    # debug()

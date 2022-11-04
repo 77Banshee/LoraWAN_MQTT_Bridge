@@ -13,27 +13,22 @@ class server_info(object):
         self._sensor_config = self.refresh_settings_config()
         self.extrnal_mqtt_config = self.init_external_mqtt_conf()
         self.__gateway_state = False
-        self.__request_uspd_update = False
-        
+        self.request_uspd_update = False
+        self.uspd_update_timer = None
+        self.update_timer()    
     def set_uspd_update(self):
-        self.require_uspd_update = True    
-        
-    def update_status_timer(self):
-        upd_timer = threading.Timer(
-            interval=60,
-            function=self.set_uspd_update,
-            args=None,
-            kwargs=None
-            )
-        upd_timer.start()
-        
-    def require_uspd_update(self):
-        if self.__request_uspd_update:
-            self.__request_uspd_update = False
-            self.update_status_timer()
-            return True
-        return False
-    
+        self.request_uspd_update = True
+    def update_timer(self):
+            self.uspd_update_timer = self.uspd_update_timer = threading.Timer(
+            interval=60 * 5, # 5 minutes interval
+            function=self.set_uspd_update)
+            self.uspd_update_timer.start()
+    def check_uspd_update(self):
+        if self.request_uspd_update:
+            print("[*] Debug | require_uspd_update | True")
+            self.update_timer()
+        else:
+            print("[*] Debug | require_uspd_update | False")
     def get_gateway_state(self):
         match self.__gateway_state:
             case True:
@@ -43,8 +38,7 @@ class server_info(object):
     def reset_gateway_state(self):
         self.__gateway_state = False
     def set_gateway_online(self):
-        self.__gateway_state = True
-        
+        self.__gateway_state = True        
     def get_object_id_list(self):
         result_obj_id_list = []
         for i in self.device_list['devices']:
@@ -59,24 +53,24 @@ class server_info(object):
         return base64.b64decode(b_arr_settings_str).decode('ascii')
     def get_chirpstack_state(self):
         try:
-            chirpstack_http_code = urllib.request.urlopen('http://' + self.address + ':8080')
+            chirpstack_http_code = urllib.request.urlopen('http://' + self.address + ':8080').getcode()
             match chirpstack_http_code:
-                case '200':
+                case 200:
                     return "OK"
             return "ERROR"
         except:
             return "ERROR"
     def get_topic_status(self, object_id):
-        return (f"/Gorizont/{self.extrnal_mqtt_config['object_code']}/{object_id}/"
+        return (f"__/Gorizont/{self.extrnal_mqtt_config['object_code']}/{object_id}/" #TODO: TEST TOPIC!
                 + f"{self.extrnal_mqtt_config['uspd_code']}/status_measure")
     def get_uspd_status_value(self):
         return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
     def init_external_mqtt_conf(self):
-        with open("cfg/ExternalMqttConf.json") as descriptor:
+        with open("cfg/ExternalMqttConf.json", 'r') as descriptor:
             ext_mqtt_conf = json.load(descriptor)
         return ext_mqtt_conf
     def refresh_settings_config(self):
-        with open("cfg/SensorConfig.json") as descriptor:
+        with open("cfg/SensorConfig.json", 'r') as descriptor:
             sensor_conf = json.load(descriptor)
         self._sensor_config = sensor_conf
         require_update = self._sensor_config['update']
@@ -94,7 +88,7 @@ class server_info(object):
                 b_arr = bytearray()
                 for i in range(0, 8):
                     b_arr.append(b_settings[i])
-                b64data = base64.encode(b_arr).decode('ascii')
+                b64data = base64.b64encode(b_arr).decode('ascii')
             case "time":
                 current_time = int(time.time())
                 current_time_big = current_time.to_bytes(4, byteorder='big')
@@ -112,11 +106,6 @@ if __name__ == "__main__":
     for i in range(0, len(chirpstack_info.object_id_list)):
         print(chirpstack_info.get_topic_status(chirpstack_info.object_id_list[i]))
         print(chirpstack_info.get_uspd_status_value("OK"))
-
-
-
-
-
 
     # with open('SensorConfig.json', 'w') as descriptor:
         # json.dump(sensor_config, descriptor)

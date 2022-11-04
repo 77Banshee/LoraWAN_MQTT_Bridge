@@ -3,6 +3,7 @@ import json
 from re import I
 import struct
 import time
+from xmlrpc.client import Boolean
 #TODO: Проверить гигрометр.
 #TODO: Округлить все значения float до двух символов после запятой?
 

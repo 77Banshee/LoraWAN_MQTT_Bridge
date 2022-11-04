@@ -1,19 +1,15 @@
 import enum
 import time
 import MES_packet_handler
-from MES_packet_handler import battery_info_packet, status_info_packet # TODO: IS THAT REALLY NECESSARY?
 
 class device_factory(object):
     __device_created = 0
-  
     @staticmethod
-    def __count_increment(cls): 
-        cls.__device_created += 1
-    
+    def __count_increment(cls):
+        cls.__device_created += 1    
     @classmethod 
     def get_device_created(cls):
-        return cls.__device_created
-    
+        return cls.__device_created    
     @classmethod
     def create_device(cls, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         match dev_type:
@@ -31,7 +27,7 @@ class device_factory(object):
                 return hygrometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case _:
                 raise ValueError(f"Device not recognized: {type}")
-
+            
 class device(object):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):
         self._dev_eui = dev_eui.lower()
@@ -44,16 +40,19 @@ class device(object):
         self.measures = None
         self.sinfo = None
         self.sbat = None
+        self._status_is_ready = False
         self.ready_to_send = False
         self._require_time_update = False
-        self._reqire_setting_update = False
-
-    def is_correct_time(self, timestamp):
+        self._require_setting_update = False
+    def check_status_state(self):
+        self._status_is_ready = self.sinfo != None and self.sbat != None
+    def get_status_state(self):
+        return self._status_is_ready
+    def is_correct_time(self, timestamp): # Check time offset
         if abs(timestamp - int(time.time())) > 300:
             self._require_time_update = True
             return False
         return True
-        
     def is_require_time_update(self):
         return self._require_time_update
     def set_require_time_update(self):
@@ -61,11 +60,11 @@ class device(object):
     def reset_require_time_update(self):
         self._require_time_update = False
     def is_require_settings_update(self):
-        return self._reqire_setting_update
+        return self._require_setting_update
     def set_require_settings_update(self):
-        self._reqire_setting_update = True
-    def reset_require_settigs_update(self):
-        self.is_require_settings_update = False
+        self._require_setting_update = True
+    def reset_require_settings_update(self):
+        self._require_setting_update = False
     def get_devEui(self):
         return self._dev_eui
     def get_devType(self):
@@ -96,7 +95,8 @@ class device(object):
         self.sinfo = None
         self.sbat = None
         self.ready_to_send = False
-    def insert_measure_packet(self, packet, timestamp):
+    # Insert packet that and check for ready_to_send state.
+    def insert_measure_packet(self, packet, timestamp): 
         self.measures = packet
         if self.is_correct_time(timestamp):
             print(f"Time offset detected for: {self._dev_type} {self._dev_eui} {self._chirpstack_name}")
@@ -109,16 +109,18 @@ class device(object):
         self.sinfo = packet
         self.ready_to_send = self.__is_ready_or_not()
     def insert_status_packet(self, packet):
-        if status_info_packet.__name__ == packet.get_packet_type():
+        if MES_packet_handler.status_info_packet.__name__ == packet.get_packet_type():
             self.insert_sinfo_packet(packet)
-        elif battery_info_packet.__name__ == packet.get_packet_type():
+        elif MES_packet_handler.battery_info_packet.__name__ == packet.get_packet_type():
             self.insert_sbat_packet(packet)
+        self.check_status_state()
+    # Mqtt topic createion
     def create_measure_topic(self):
-        return (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" +
+        return (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" + #TODO: TEST TOPIC!
                 f"{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
     def create_status_topic(self):
-        return (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" +
-                f"/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
+        return (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" + #TODO: TEST TOPIC!
+                f"{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
     def get_formatted_status(self):
         if self.sinfo.error_code == device_error_code.no_error.value:
             device_status = 1
@@ -162,6 +164,11 @@ class thermometer(device):
             case 4:
                 self.measures['measures_4'] = packet
         self.ready_to_send = self.__is_ready_or_not()
+    def reset_packets(self):
+        self.measures = {}
+        self.sinfo = None
+        self.sbat = None
+        self.ready_to_send = False   
     def get_quantity(self):
         return self.__quantity
     def set_quantity(self, value):
@@ -180,8 +187,7 @@ class thermometer(device):
                 self.measures.update(containers)
             case quantity if 25 <= quantity <= 32:
                 containers = {"measures_1": None, "measures_2": None, "measures_3": None, "measures_4": None}
-                self.measures.update(containers)
-                    
+                self.measures.update(containers)             
     def __str__(self):
         return (super().__str__() 
                 + f'\nQuantity: {self.__quantity}'
@@ -193,8 +199,7 @@ class thermometer(device):
         measure_topic_value = f"{measures_array[-1].timestamp}\r\n{self.__quantity}\r\n"
         for i in range (0, len(measures_array)):
             measure_topic_value += measures_array[i].concat_measures()
-            print()
-        print(measure_topic_value)
+        return measure_topic_value
     
 class piezometer(device):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):

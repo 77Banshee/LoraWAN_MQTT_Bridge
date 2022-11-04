@@ -1,0 +1,188 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052D2027",
+            "MqttName": "BH002133",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DC611",
+            "MqttName": "BH002134",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D71A6",
+            "MqttName": "BH002135",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D012F",
+            "MqttName": "BH002136",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D7A4D",
+            "MqttName": "BH002137",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DFAD7",
+            "MqttName": "BH002138",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DA40F",
+            "MqttName": "BH002139",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DE794",
+            "MqttName": "BH002140",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DC7EB",
+            "MqttName": "BH002141",
+            "type": "Thermometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DD031",
+            "MqttName": "i1.1",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D5C11",
+            "MqttName": "i1.2",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DCA99",
+            "MqttName": "i1.3",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D7F09",
+            "MqttName": "i1.4",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D2ED2",
+            "MqttName": "i1.5",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D2A52",
+            "MqttName": "i1.6",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D7EED",
+            "MqttName": "i1.7",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D808A",
+            "MqttName": "i1.8",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052DACD5",
+            "MqttName": "i1.9",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D5FA3",
+            "MqttName": "i1.10",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D95DD",
+            "MqttName": "i1.11",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052D71F3",
+            "MqttName": "i1.12",
+            "type": "Inclinometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052C2752",
+            "MqttName": "TH1",
+            "type": "Hygrometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        },
+        {
+            "devEui": "07293314052CFC6A",
+            "MqttName": "TH2",
+            "type": "Hygrometer",
+            "object_id": "10000149",
+            "object_code": "NOK",
+            "uspd_code": "U0051"
+        }
+    ]
+}

@@ -29,38 +29,35 @@ class devices(metaclass=SingletonMetaClass):
             self.__piezometers[i].set_require_settings_update()
     def pop_mqtt_object(self):
         if self.send_queue_not_empty():
-            return False
-        return self.__to_send_queue.get()
+            return self.__to_send_queue.get()
+        return False
     def send_queue_not_empty(self):
         return self.__to_send_queue.qsize() > 0
     def get_queue_size(self):
         return self.__to_send_queue.qsize()
-
     def insert_to_send_queue(self, mqtt_obj):
-        self.__to_send_queue.put(mqtt_obj)
-   
+        self.__to_send_queue.put(mqtt_obj)  
     def allowed_type(cls, device): # check input instance for allowed type (to avoid the case with wrong input instance)
         if device.get_devType() in cls.__allowed_to_store:
             return True
         else:
             print(f"Not allowed: {device.get_devType()}")
         return False
-    
     def append_device(self, device):
         if self.allowed_type(device) and not self.contains_device(device):
             match device.get_devType():
                 case 'Inclinometer':
                     self.__inclinometers.append(device)
-                    print(f"Appended:\n" + device.__str__() + "\n")
+                    # print(f"Appended:\n" + device.__str__() + "\n")
                 case 'Thermometer':
                     self.__thermometers.append(device)
-                    print(f"Appended:\n" + device.__str__() + "\n")
+                    # print(f"Appended:\n" + device.__str__() + "\n")
                 case 'Piezometer':
                     self.__piezometers.append(device)
-                    print(f"Appended:\n" + device.__str__() + "\n")
+                    # print(f"Appended:\n" + device.__str__() + "\n")
                 case 'Hygrometer':
                     self.__hygrometers.append(device)
-                    print(f"Appended:\n" + device.__str__() + "\n")
+                    # print(f"Appended:\n" + device.__str__() + "\n")
         else:
             print("[*] append_device() ->  Device NOT allowd!")
 
@@ -108,11 +105,13 @@ class devices(metaclass=SingletonMetaClass):
         return False
     
 class mqtt_device_object(object):
-    def __init__(self, measure_topic, status_topic, measure_values, status_values) -> None:
+    def __init__(self, measure_topic, status_topic, measure_values, status_values, dev_type, dev_eui) -> None:
         self.measure_topic = measure_topic
         self.measure_values = measure_values
         self.status_topic = status_topic
         self.status_values = status_values
+        self.dev_type = dev_type
+        self.dev_eui = dev_eui
 
 class mqtt_uspd_object(object):
         pass

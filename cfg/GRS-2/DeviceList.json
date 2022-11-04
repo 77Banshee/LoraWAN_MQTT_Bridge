@@ -1,0 +1,84 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052D6042",
+            "MqttName": "i1.1",
+            "type": "Inclinometer",
+            "object_id": "10000014",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+        {
+            "devEui": "07293314052D92A9",
+            "MqttName": "i1.2",
+            "type": "Inclinometer",
+            "object_id": "10000014",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+        {
+            "devEui": "07293314052D7046",
+            "MqttName": "BH002029",
+            "type": "Thermometer",
+            "object_id": "10000014",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+        {
+            "devEui": "07293314052DF892",
+            "MqttName": "BH002030",
+            "type": "Thermometer",
+            "object_id": "10000014",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+        {
+            "devEui": "07293314052DFA2C",
+            "MqttName": "BH002179",
+            "type": "Thermometer",
+            "object_id": "10000014",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+	{
+            "devEui":"07293314052CB8A4",
+            "MqttName": "99900",
+            "type": "Thermometer",
+            "object_id": "100462",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+	{
+            "devEui": "07293314052D4D6A",
+            "MqttName": "99901",
+            "type": "Thermometer",
+            "object_id": "100462",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+	{
+            "devEui":"07293314052DE89A",
+            "MqttName": "99902",
+            "type": "Inclinometer",
+            "object_id": "100462",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+	    {
+            "devEui":"07293314052D9E3B",
+            "MqttName": "99903",
+            "type": "Inclinometer",
+            "object_id": "100462",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        },
+        {
+            "devEui":"07293314052D0061",
+            "MqttName": "99904",
+            "type": "Inclinometer",
+            "object_id": "100462",
+            "object_code": "NTG",
+            "uspd_code": "U0056"
+        }
+    ]
+}
