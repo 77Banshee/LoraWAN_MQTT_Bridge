@@ -1,6 +1,5 @@
 import base64
 import json
-from re import I
 import struct
 import time
 from xmlrpc.client import Boolean

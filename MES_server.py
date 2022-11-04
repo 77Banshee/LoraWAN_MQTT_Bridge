@@ -90,7 +90,7 @@ class server_info(object):
                     b_arr.append(b_settings[i])
                 b64data = base64.b64encode(b_arr).decode('ascii')
             case "time":
-                current_time = int(time.time())
+                current_time = int(time.time()) - (7 * 60 * 60)
                 current_time_big = current_time.to_bytes(4, byteorder='big')
                 b_arr.append(3)
                 for i in range(0, 4):

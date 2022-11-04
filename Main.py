@@ -65,6 +65,7 @@ def on_message(client, userdata, msg):
         # Get device info
         rx_dev_eui = base64.b64decode(rx_json['devEUI']).hex()
         rx_dev_type = rx_json['applicationName']
+        rx_application_id = rx_json['applicationID']
         # Get device
         rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
         if rx_device == False:
@@ -99,20 +100,22 @@ def on_message(client, userdata, msg):
             
         ##!--TIME REQUESTS
         if packet_factory.is_time_request(rx_packet) or rx_device.is_require_time_update(): # TODO: TEST!
-            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
+            # msgtopic = f"application/{rx_application_id}/device/{rx_dev_type}/event/up"
+            msgtopic = msg.topic
             command_topic = current_topic_command(msgtopic)
             payload = server_info.get_formatted_command(type='time')
-            # external_mqtt_client.publish(
-                # topic=command_topic,
-                # payload=payload,
-                # qos=2
-            # )
+            external_mqtt_client.publish(
+                topic=command_topic,
+                payload=payload,
+                qos=2
+            )
             print(f">> SEND_TIME to {rx_dev_type} {rx_dev_eui}")
             print(command_topic)
             print(payload)
             rx_device.reset_require_time_update()
         if rx_device.is_require_settings_update():
-            msgtopic = f"application/5/device/{rx_dev_type}/event/up"
+            # msgtopic = f"application/{rx_application_id}/device/{rx_dev_type}/event/up"
+            msgtopic = msg.topic
             command_topic = current_topic_command(msgtopic)
             payload = server_info.get_formatted_command(type='settings')
             external_mqtt_client.publish(
