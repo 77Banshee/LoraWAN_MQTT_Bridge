@@ -1,4 +1,3 @@
-import imp
 import sys
 import json
 from MES_data_logger import device_logger
