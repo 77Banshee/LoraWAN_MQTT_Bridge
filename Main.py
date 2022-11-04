@@ -30,7 +30,7 @@ import time
 
 #   --Arguments
 # host = 'localhost'
-host = '10.19.128.162'
+host = 'localhost'
 port = 1883
 args = sys.argv
 if (len(args) > 1):
