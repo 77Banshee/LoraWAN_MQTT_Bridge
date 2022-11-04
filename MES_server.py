@@ -66,18 +66,18 @@ class server_info(object):
     def get_uspd_status_value(self):
         return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
     def init_external_mqtt_conf(self):
-        with open("cfg/ExternalMqttConf.json", 'r') as descriptor:
-            ext_mqtt_conf = json.load(descriptor)
+        with open("cfg/ExternalMqttConf.json", 'r') as f:
+            ext_mqtt_conf = json.load(f)
         return ext_mqtt_conf
     def refresh_settings_config(self):
-        with open("cfg/SensorConfig.json", 'r') as descriptor:
-            sensor_conf = json.load(descriptor)
+        with open("cfg/SensorConfig.json", 'r') as f:
+            sensor_conf = json.load(f)
         self._sensor_config = sensor_conf
         require_update = self._sensor_config['update']
         if require_update:
             self._sensor_config['update'] = False
-            with open("cfg/SensorConfig.json", 'w') as descriptor:
-                json.dump(self._sensor_config, descriptor)
+            with open("cfg/SensorConfig.json", 'w') as f:
+                json.dump(self._sensor_config, f)
                 
         return require_update # Bool
     def get_formatted_command(self, type):

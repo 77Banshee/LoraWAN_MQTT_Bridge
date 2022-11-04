@@ -39,12 +39,14 @@ if (len(args) > 1):
 
 # --Init settings
 def init_device_list(device_list_path):
-    dev_list_file = open(device_list_path, 'r')
-    return json.load(dev_list_file)
+    with open(device_list_path, 'r') as f:
+        js = json.load(f)
+    return js
 
 def init_tk_config(tk_config_file):
-    tk_config_file = open(tk_config_file, 'r')
-    return json.load(tk_config_file)
+    with open(tk_config_file, 'r') as f:
+        js = json.load(f)
+    return js
 
 #   --Init instances
 device_list = init_device_list("cfg/DeviceList.json")

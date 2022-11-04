@@ -1,16 +1,7 @@
 import MES_device
 import queue
 
-#Implementation of Design Pattern - Singleton
-class SingletonMetaClass(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-        return cls._instances[cls]
-
-class devices(metaclass=SingletonMetaClass):
+class devices(object):
     __allowed_to_store = ["Inclinometer", "Thermometer", "Piezometer", "Hygrometer"]
     __inclinometers = []
     __thermometers = []
@@ -61,11 +52,9 @@ class devices(metaclass=SingletonMetaClass):
         else:
             print("[*] append_device() ->  Device NOT allowd!")
 
-    #TODO: IMPLEMENT!
     def remove_device(device):
         raise NotImplemented()    
 
-    #TODO: Require tests!
     def contains_device(self, device): 
         if isinstance(device, MES_device.device) == False:
             return
@@ -114,7 +103,7 @@ class mqtt_device_object(object):
         self.dev_eui = dev_eui
 
 class mqtt_uspd_object(object):
-        pass
+    pass
 
 class mqtt_command_object(object):
     pass
