@@ -16,8 +16,7 @@ import time
 #    Дулаем топики CHECK > Запихиваем в очередь которая проверяется в бесконечном цикле CHECK> и сразу чистим девайс CHECK.
 
 ## TODO: Debug
-    # Remove TEST TOPIC prefix
-    # UNCOMENT TIME SEND 96 line
+    # Remove TEST TOPIC prefix in MES_device.device func create_measure_topic and create_status_topic
 
 # TODO: Devices
     # Test hygrometer
