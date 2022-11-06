@@ -49,8 +49,7 @@ class device(object):
     def get_status_state(self):
         return self._status_is_ready
     def is_correct_time(self, timestamp): # Check time offset
-        if abs(timestamp - (int(time.time()) - 7 * 60 * 60)) > 300: # for win utc+7
-        # if abs(timestamp - (int(time.time())) > 300: # for simatic 
+        if abs(timestamp - (int(time.time()))) > 300: # for simatic 
             self._require_time_update = True
             return False
         return True

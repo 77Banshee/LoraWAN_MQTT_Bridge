@@ -16,14 +16,12 @@ import time
 #    Дулаем топики CHECK > Запихиваем в очередь которая проверяется в бесконечном цикле CHECK> и сразу чистим девайс CHECK.
 
 ## TODO: Debug
-    # Remove TEST TOPIC prefix in MES_device.device func create_measure_topic and create_status_topic
-    # Time correction for UTC and UTC+7(Krasnoyarsk): 
-        # MES_device line 52 is_correct_time(self, timestamp)
-        # MES_packet_handler line 221 time_response_packet __init__
-        # MES_server line 10 __init__, 67 get_uspd_status_value, 93 get_formatted_command
+    # Remove TEST profix from ExternalMqttConf
+    # Remove __ prefix in MES_device.device func create_measure_topic and create_status_topic
 
 # TODO: Devices
     # Test hygrometer
+    # Add flag status_has_sent and check for avoid double status topic publish
     
 # TODO: Addittional
     # TODO: GPIO
@@ -33,7 +31,7 @@ import time
 
 #   --Arguments
 # host = 'localhost'
-host = 'localhost'
+host = '172.31.99.220'
 port = 1883
 args = sys.argv
 if (len(args) > 1):

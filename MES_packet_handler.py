@@ -218,8 +218,7 @@ class time_response_packet(packet):
         return send_time
     def __init__(self, rx_json):
         super().__init__(rx_json)
-        # self.current_timestamp = int(time.time()) # for simatic utc
-        self.current_timestamp = int(time.time()) - (7 * 60 * 60) # for win utc+7
+        self.current_timestamp = int(time.time())
 
 class packet_factory(object):
     def __init__(self):
