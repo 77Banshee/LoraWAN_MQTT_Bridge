@@ -17,6 +17,10 @@ import time
 
 ## TODO: Debug
     # Remove TEST TOPIC prefix in MES_device.device func create_measure_topic and create_status_topic
+    # Time correction for UTC and UTC+7(Krasnoyarsk): 
+        # MES_device line 52 is_correct_time(self, timestamp)
+        # MES_packet_handler line 221 time_response_packet __init__
+        # MES_server line 10 __init__, 67 get_uspd_status_value, 93 get_formatted_command
 
 # TODO: Devices
     # Test hygrometer

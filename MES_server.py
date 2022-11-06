@@ -7,7 +7,8 @@ import threading
 class server_info(object):
     def __init__(self, address, device_list):
         self.address = address
-        self.start_time = time.time()
+        self.start_time = time.time()  - (7 * 60 * 60) # for win which UTC+7
+        # self.start_time = time.time()  # for simatic UTC
         self.device_list = device_list
         self.object_id_list = self.get_object_id_list()
         self._sensor_config = self.refresh_settings_config()
@@ -64,6 +65,9 @@ class server_info(object):
         return (f"__/Gorizont/{self.extrnal_mqtt_config['object_code']}/{object_id}/" #TODO: TEST TOPIC!
                 + f"{self.extrnal_mqtt_config['uspd_code']}/status_measure")
     def get_uspd_status_value(self):
+        # for win utc+7
+        # return f"Uptime: {int(time.time() - (7 * 60 * 60) - self.start_time)}\r\nGatway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
+        # for simatic utc
         return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
     def init_external_mqtt_conf(self):
         with open("cfg/ExternalMqttConf.json", 'r') as f:
@@ -90,7 +94,8 @@ class server_info(object):
                     b_arr.append(b_settings[i])
                 b64data = base64.b64encode(b_arr).decode('ascii')
             case "time":
-                current_time = int(time.time()) - (7 * 60 * 60)
+                current_time = int(time.time()) - (7 * 60 * 60) # for win utc+7
+                # current_time = int(time.time()) # for simatic
                 current_time_big = current_time.to_bytes(4, byteorder='big')
                 b_arr.append(3)
                 for i in range(0, 4):
