@@ -50,6 +50,7 @@ class device(object):
         return self._status_is_ready
     def is_correct_time(self, timestamp): # Check time offset
         if abs(timestamp - (int(time.time()))) > 300: # for simatic 
+            print(f"Time difference for {self._dev_type} {self._dev_eui}: {timestamp - (int(time.time()))}")
             self._require_time_update = True
             return False
         return True
@@ -196,6 +197,8 @@ class thermometer(device):
                 + f'\nsinfo: {self.sinfo}')
     def get_formatted_measures(self):
         measures_array = list(self.measures.values())
+        if measures_array.count == 0:
+            return
         measure_topic_value = f"{measures_array[-1].timestamp}\r\n{self.__quantity}\r\n"
         for i in range (0, len(measures_array)):
             measure_topic_value += measures_array[i].concat_measures()

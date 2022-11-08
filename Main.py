@@ -139,6 +139,9 @@ def on_message(client, userdata, msg):
                 dev_type = rx_dev_type,
                 dev_eui = rx_dev_eui
             )
+            if mqtt_payload.measure_values == None:
+                rx_device.reset_packets()
+                return
             print(">>SEND_DEVICE_DATA")
             print(rx_device.create_measure_topic())
             print(rx_device.create_status_topic())
