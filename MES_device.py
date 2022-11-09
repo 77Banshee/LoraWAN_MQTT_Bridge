@@ -57,7 +57,6 @@ class device(object):
         return True
     def check_status_state(self):
         self._status_is_ready = self.sinfo != None and self.sbat != None
-        print()
     def get_status_state(self):
         return self._status_is_ready
     def is_correct_time(self, timestamp): # Check time offset
@@ -134,11 +133,9 @@ class device(object):
     # Mqtt topic createion
     def create_measure_topic(self):
         measure_topic = (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
-        print(f"MEAS_TOPIC: {measure_topic}")
         return measure_topic  
     def create_status_topic(self):
         status_topic = (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
-        print(f"STATUS_TOPIC: {status_topic}")
         return status_topic
     def get_formatted_status(self):
         if self.sinfo.error_code == device_error_code.no_error.value:
@@ -180,7 +177,6 @@ class thermometer(device):
         return True
     def __is_ready_or_not(self):
         ready_or_not = (self.sbat != None) and (self.sinfo != None) and (None not in self.measures.values())
-        print(self.measures.values())
         return ready_or_not
     def insert_sbat_packet(self, packet):
         self.sbat = packet
@@ -240,7 +236,6 @@ class thermometer(device):
             case quantity if 25 <= quantity <= 32:
                 containers = {"measures_1": None, "measures_2": None, "measures_3": None, "measures_4": None}
                 self.measures.update(containers)
-        print("containers up")          
     def __str__(self):
         return (super().__str__() 
                 + f'\nQuantity: {self.__quantity}'

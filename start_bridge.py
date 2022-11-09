@@ -116,7 +116,7 @@ def on_message(client, userdata, msg):
                 payload=payload,
                 qos=2
             )
-            print(f"[*] >> SEND_TIME to {rx_dev_type} {rx_dev_eui}")
+            print(f">> SEND_TIME to {rx_dev_type} {rx_dev_eui}")
             print(command_topic)
             print(payload)
             rx_device.reset_require_time_update()
