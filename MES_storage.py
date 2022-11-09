@@ -94,13 +94,21 @@ class devices(object):
         return False
     
 class mqtt_device_object(object):
-    def __init__(self, measure_topic, status_topic, measure_values, status_values, dev_type, dev_eui) -> None:
+    def __init__(self, measure_topic, status_topic, measure_values, status_values, dev_type, dev_eui):
         self.measure_topic = measure_topic
         self.measure_values = measure_values
         self.status_topic = status_topic
         self.status_values = status_values
         self.dev_type = dev_type
         self.dev_eui = dev_eui
+        self.type = "full"
+        if status_topic == None and status_values == None:
+            self.type = "measures_only"
+        if measure_topic == None and measure_values == None:
+            self.type = "status_only"
+        if status_topic == None and status_values == None and measure_topic == None and measure_values == None:
+            print("Device data is empty! Discard.")
+            self = None
 
 class mqtt_uspd_object(object):
     pass

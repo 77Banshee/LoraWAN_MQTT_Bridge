@@ -44,8 +44,20 @@ class device(object):
         self.ready_to_send = False
         self._require_time_update = False
         self._require_setting_update = False
+        self.status_has_sent = False
+        self.packet_history = []
+    def clear_history(self):
+        self.packet_history = []
+    def is_duplicate_packet(self, packet):
+        return packet in self.packet_history
+    def append_to_history(self, packet):
+        if self.is_duplicate_packet(packet):
+            return False
+        self.packet_history.append(packet)
+        return True
     def check_status_state(self):
         self._status_is_ready = self.sinfo != None and self.sbat != None
+        print()
     def get_status_state(self):
         return self._status_is_ready
     def is_correct_time(self, timestamp): # Check time offset
@@ -90,12 +102,15 @@ class device(object):
                 f"USPD Code: {self._uspd_code}\n"
                 f"Chirpstack Name: {self._chirpstack_name}")
     def __is_ready_or_not(self):
-        return self.measures != None and self.sinfo != None and self.sbat != None
+        ready_or_not = self.measures != None and self.sinfo != None and self.sbat != None
+        return ready_or_not
     def reset_packets(self):
         self.measures = None
         self.sinfo = None
         self.sbat = None
         self.ready_to_send = False
+        self.status_has_sent = False
+        self.clear_history()
     # Insert packet that and check for ready_to_send state.
     def insert_measure_packet(self, packet, timestamp): 
         self.measures = packet
@@ -115,13 +130,16 @@ class device(object):
         elif MES_packet_handler.battery_info_packet.__name__ == packet.get_packet_type():
             self.insert_sbat_packet(packet)
         self.check_status_state()
+        return 0
     # Mqtt topic createion
     def create_measure_topic(self):
-        return (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" + #TODO: TEST TOPIC!
-                f"{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
+        measure_topic = (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
+        print(f"MEAS_TOPIC: {measure_topic}")
+        return measure_topic  
     def create_status_topic(self):
-        return (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/" + #TODO: TEST TOPIC!
-                f"{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
+        status_topic = (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
+        print(f"STATUS_TOPIC: {status_topic}")
+        return status_topic
     def get_formatted_status(self):
         if self.sinfo.error_code == device_error_code.no_error.value:
             device_status = 1
@@ -149,27 +167,60 @@ class thermometer(device):
         super().__init__(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
         self.__quantity = 0
         self.measures = {}
+        self.packet_history = []
+        self.ready_to_send = False
+    def clear_history(self):
+        self.packet_history = []
+    def is_duplicate_packet(self, packet):
+        return packet in self.packet_history
+    def append_to_history(self, packet):
+        if self.is_duplicate_packet(packet):
+            return False
+        self.packet_history.append(packet)
+        return True
     def __is_ready_or_not(self):
-        return (self.sbat != None) and (self.sinfo != None) and (None not in self.measures.values())
+        ready_or_not = (self.sbat != None) and (self.sinfo != None) and (None not in self.measures.values())
+        print(self.measures.values())
+        return ready_or_not
+    def insert_sbat_packet(self, packet):
+        self.sbat = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_sinfo_packet(self, packet):
+        self.sinfo = packet
+        self.ready_to_send = self.__is_ready_or_not()
+    def insert_status_packet(self, packet):
+        if MES_packet_handler.status_info_packet.__name__ == packet.get_packet_type():
+            self.insert_sinfo_packet(packet)
+        elif MES_packet_handler.battery_info_packet.__name__ == packet.get_packet_type():
+            self.insert_sbat_packet(packet)
+        self.check_status_state()
+        return 0
     def insert_measure_packet(self, packet, timestamp):
+        result = 1
         match packet.stage:
             case 1:
                 self.measures['measures_1'] = packet
                 if self.is_correct_time(timestamp):
                     print(f"Time offset detected for: {self._dev_type} {self._dev_eui} {self._chirpstack_name}")
                 self.set_require_time_update()
+                result = 0
             case 2:
                 self.measures['measures_2'] = packet
+                result = 0
             case 3:
                 self.measures['measures_3'] = packet
+                result = 0
             case 4:
                 self.measures['measures_4'] = packet
         self.ready_to_send = self.__is_ready_or_not()
+        return result
     def reset_packets(self):
         self.measures = {}
+        self.__init_measure_container(self.__quantity)
         self.sinfo = None
         self.sbat = None
-        self.ready_to_send = False   
+        self.ready_to_send = False
+        self.clear_history()
     def get_quantity(self):
         return self.__quantity
     def set_quantity(self, value):
@@ -188,7 +239,8 @@ class thermometer(device):
                 self.measures.update(containers)
             case quantity if 25 <= quantity <= 32:
                 containers = {"measures_1": None, "measures_2": None, "measures_3": None, "measures_4": None}
-                self.measures.update(containers)             
+                self.measures.update(containers)
+        print("containers up")          
     def __str__(self):
         return (super().__str__() 
                 + f'\nQuantity: {self.__quantity}'
@@ -197,7 +249,7 @@ class thermometer(device):
                 + f'\nsinfo: {self.sinfo}')
     def get_formatted_measures(self):
         measures_array = list(self.measures.values())
-        if measures_array.count == 0:
+        if len(measures_array) == 0:
             return
         measure_topic_value = f"{measures_array[-1].timestamp}\r\n{self.__quantity}\r\n"
         for i in range (0, len(measures_array)):

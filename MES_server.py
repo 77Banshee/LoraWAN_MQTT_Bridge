@@ -20,7 +20,7 @@ class server_info(object):
         self.request_uspd_update = True
     def update_timer(self):
             self.uspd_update_timer = self.uspd_update_timer = threading.Timer(
-            interval=60 * 5, # 5 minutes interval
+            interval=60 * 15, # 15 minutes interval
             function=self.set_uspd_update)
             self.uspd_update_timer.start()
     def check_uspd_update(self):

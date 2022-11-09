@@ -2,7 +2,6 @@ import base64
 import json
 import struct
 import time
-from xmlrpc.client import Boolean
 #TODO: Проверить гигрометр.
 #TODO: Округлить все значения float до двух символов после запятой?
 
@@ -41,7 +40,7 @@ class packet(object):
     def get_packet_type(self):
         return self.__class__.__name__
     def __eq__(self, other):
-        if isinstance(other, Boolean) or other == None:
+        if isinstance(other, bool) or other == None:
             return False
         elif isinstance(other, str):
             return str(self) == other
@@ -180,6 +179,7 @@ class battery_info_packet(packet):
         super().__init__(rx_json)
         self.battery_level = None
         self.u_battery = None
+        self.meta_time = rx_json["publishedAt"]
         self.__battery_info_decode(self._hex_data)
     def __str__(self) -> str:
         return (super().__str__() 
@@ -198,6 +198,7 @@ class status_info_packet(packet):
         self.protocol_version = None
         self.firmmware_version = None
         self.device_version = None
+        self.meta_time = rx_json["publishedAt"]
         self.__decode_status(self._hex_data)
     def __str__(self):
         return (super().__str__() 
@@ -222,25 +223,9 @@ class time_response_packet(packet):
 
 class packet_factory(object):
     def __init__(self):
-       self.__received_packet_history = []
        self.__measure_packet_types = []
        self.__status_packet_types = []
        self.__fill_packet_types() # TODO: CHECK!
-    def __received_history_free(self):
-        if len(self.__received_packet_history) >= 20:
-            self.__received_packet_history.pop(0)
-    def is_dublicate(self, packet):
-        if packet in self.__received_packet_history:
-            return True
-        else:
-            return False
-    def __append_to_history(self, packet):
-        if self.is_dublicate(packet):
-            return False
-        else:
-            self.__received_packet_history.append(packet)
-            self.__received_history_free()
-            return True
     def create_packet(self, rx_json):
         hex_data = base64.b64decode(rx_json['data'])
         current_packet = None
@@ -255,15 +240,11 @@ class packet_factory(object):
                 current_packet =  thermometer_data_packet(rx_json)
             case 0x1b:
                 current_packet =  piezometer_data_packet(rx_json)
-                pass
             case 0x1a:
                 current_packet = hygrometer_data_packet(rx_json)
             case 0x03:
                 return "TIME_RQ"
                 #TODO: IMPLEMENT!
-        if self.__append_to_history(current_packet) != True:
-            return False
-        #TODO: CHECK FOR DUBLICATE
         return current_packet
     def __fill_packet_types(self):
         #fill measures
@@ -276,10 +257,12 @@ class packet_factory(object):
         self.__status_packet_types.append(battery_info_packet.__name__)
     def is_measures(self, packet):
         if type(packet) == str:
+            print("[*] Debug: is_measure: TYPE STR! BREAK")
             return
         return packet.get_packet_type() in self.__measure_packet_types
     def is_status(self, packet):
         if type(packet) == str:
+            print("[*] Debug: is_status: TYPE STR! BREAK")
             return
         return packet.get_packet_type() in self.__status_packet_types
     def is_time_request(self, packet):
