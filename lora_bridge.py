@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import json
 from MES_data_logger import device_logger
 import MES_device
@@ -33,11 +33,40 @@ import time
 # host = 'localhost'
 host = '10.19.128.162'
 port = 1883
-args = sys.argv
-if (len(args) > 1):
-    host = args[1]
+use_siemens = False
+device_list_path = "cfg/DeviceList.json"
 
 # --Init settings
+def arg_parse():
+    args = sys.argv
+    if '--help' in args:
+        print("./lora_bridge -host [127.0.0.1] | -simatic | -mqttport [1883]")
+        print("| -object [GRS-2/ZAP_ABK/USNK]")
+        os._exit(0)
+    if '-simatic' in args:
+        global use_siemens
+        use_siemens = True
+    if '-host' in args:
+        global host
+        host = args[args.index('-host') + 1]
+    if '-mqttport' in args:
+        global port
+        port = int(args[args.index('-mqttport') + 1])
+    if '-object' in args:
+        global device_list_path
+        path = 'cfg/{}/DeviceList.json'
+        match args[args.index('-object') + 1]:
+            case 'GRS-2':
+                device_list_path = path.format("GRS-2")
+            case 'ZAP_ABK':
+                device_list_path = path.format("ZAP_ABK")
+            case 'USNK':
+                device_list_path = path.format("USNK")
+            case _:
+                pass
+                
+    
+
 def init_device_list(device_list_path):
     with open(device_list_path, 'r') as f:
         js = json.load(f)
@@ -49,13 +78,13 @@ def init_tk_config(tk_config_file):
     return js
 
 #   --Init instances
-device_list = init_device_list("cfg/DeviceList.json")
 tk_config = init_tk_config("cfg/TkConfig.json")
 device_storage = MES_storage.devices()
 packet_factory = MES_packet_handler.packet_factory()
 local_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
-server_info = MES_server.server_info(host, device_list)
+# server_info = None
+
 
 #   --MQTT
 def on_message(client, userdata, msg):
@@ -227,8 +256,12 @@ def current_topic_command(topic):
 
 
 def main():
+    global server_info
+    arg_parse()
     print("[*] Bridge server start...")
+    device_list = init_device_list(device_list_path)
     device_count = init_devices(device_list, tk_config)
+    server_info = MES_server.server_info(host, device_list)
     local_mqtt_client.connect(host, port)
     local_mqtt_client.subscribe('application/+/device/+/event/up', qos=2)
     local_mqtt_client.subscribe('gateway/+/event/#', qos=2)
