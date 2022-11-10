@@ -1,4 +1,6 @@
 import sys, os
+if '-simatic' in sys.argv:
+    import mraa
 import json
 from MES_data_logger import device_logger
 import MES_device
@@ -30,8 +32,7 @@ import time
     # TODO: Check that we gain values from accessors from external.
 
 #   --Arguments
-# host = 'localhost'
-host = '10.19.128.162'
+host = 'localhost'
 port = 1883
 use_siemens = False
 device_list_path = "cfg/DeviceList.json"
