@@ -1,0 +1,76 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052D67D1",
+            "MqttName": "BH002160",
+            "type": "Thermometer",
+            "object_id": "10000026",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052D29E8",
+            "MqttName": "BH002161",
+            "type": "Thermometer",
+            "object_id": "10000026",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052D4EE2",
+            "MqttName": "BH002162",
+            "type": "Thermometer",
+            "object_id": "10000026",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052D37C4",
+            "MqttName": "BH002163",
+            "type": "Thermometer",
+            "object_id": "10000027",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052D6C9B",
+            "MqttName": "BH002164",
+            "type": "Thermometer",
+            "object_id": "10000027",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052DCC56",
+            "MqttName": "BH002165",
+            "type": "Thermometer",
+            "object_id": "10000027",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052DE8A4",
+            "MqttName": "BH002166",
+            "type": "Thermometer",
+            "object_id": "10000028",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052DB628",
+            "MqttName": "BH002167",
+            "type": "Thermometer",
+            "object_id": "10000028",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        },
+        {
+            "devEui": "07293314052DABC1",
+            "MqttName": "BH002168",
+            "type": "Thermometer",
+            "object_id": "10000028",
+            "object_code": "NGP",
+            "uspd_code": "U0054"
+        }
+    ]
+}

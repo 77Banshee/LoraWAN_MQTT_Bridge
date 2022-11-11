@@ -5,13 +5,13 @@ import time
 import threading
 
 class server_info(object):
-    def __init__(self, address, device_list):
+    def __init__(self, address, device_list, external_mqtt_config):
         self.address = address
-        self.start_time = time.time()  # for simatic UTC
+        self.start_time = time.time()
         self.device_list = device_list
         self.object_id_list = self.get_object_id_list()
         self._sensor_config = self.refresh_settings_config()
-        self.extrnal_mqtt_config = self.init_external_mqtt_conf()
+        self.extrnal_mqtt_config = external_mqtt_config
         self.__gateway_state = False
         self.request_uspd_update = False
         self.uspd_update_timer = None
@@ -65,10 +65,6 @@ class server_info(object):
                 + f"{self.extrnal_mqtt_config['uspd_code']}/status_measure")
     def get_uspd_status_value(self):
         return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
-    def init_external_mqtt_conf(self):
-        with open("cfg/ExternalMqttConf.json", 'r') as f:
-            ext_mqtt_conf = json.load(f)
-        return ext_mqtt_conf
     def refresh_settings_config(self):
         with open("cfg/SensorConfig.json", 'r') as f:
             sensor_conf = json.load(f)

@@ -1,6 +1,7 @@
 import sys, os
-if '-simatic' in sys.argv:
-    import mraa
+if '-gpio' in sys.argv:
+    import MES_gpio
+    pass
 import json
 from MES_data_logger import device_logger
 import MES_device
@@ -18,7 +19,7 @@ import time
 #    Дулаем топики CHECK > Запихиваем в очередь которая проверяется в бесконечном цикле CHECK> и сразу чистим девайс CHECK.
 
 ## TODO: Debug
-    # Remove TEST profix from ExternalMqttConf
+    # Remove TEST prefix from ExternalMqttConf
     # Remove __ prefix in MES_device.device func create_measure_topic and create_status_topic
 
 # TODO: Devices
@@ -35,38 +36,93 @@ import time
 host = 'localhost'
 port = 1883
 use_siemens = False
+if '-gpio' in sys.argv:
+    use_siemens = True
 device_list_path = "cfg/DeviceList.json"
+external_mqtt_conf_path = "cfg/ExternalMqttConf.json"
 
-# --Init settings
-def arg_parse():
-    args = sys.argv
-    if '--help' in args:
-        print("./lora_bridge -host [127.0.0.1] | -simatic | -mqttport [1883]")
-        print("| -object [GRS-2/ZAP_ABK/USNK]")
-        os._exit(0)
-    if '-simatic' in args:
-        global use_siemens
-        use_siemens = True
-    if '-host' in args:
-        global host
-        host = args[args.index('-host') + 1]
-    if '-mqttport' in args:
-        global port
-        port = int(args[args.index('-mqttport') + 1])
-    if '-object' in args:
-        global device_list_path
-        path = 'cfg/{}/DeviceList.json'
-        match args[args.index('-object') + 1]:
-            case 'GRS-2':
-                device_list_path = path.format("GRS-2")
-            case 'ZAP_ABK':
-                device_list_path = path.format("ZAP_ABK")
-            case 'USNK':
-                device_list_path = path.format("USNK")
-            case _:
-                pass
-                
-    
+# --Parse arguments
+# def arg_parse():
+args = sys.argv
+if '--help' in args:
+    print("./lora_bridge -host [127.0.0.1] | -gpio | -mqttport [1883] | -object [GRS-2/ZAP_ABK/USNK]")
+    os._exit(0)
+if '-host' in args:
+    # global host
+    host = args[args.index('-host') + 1]
+if '-mqttport' in args:
+    # global port
+    port = int(args[args.index('-mqttport') + 1])
+if '-object' in args:
+    # global device_list_path
+    devlist_path_pattern = 'cfg/{}/DeviceList.json'
+    extconf_path_pattern = 'cfg/{}/ExternalMqttConf.json'
+    match args[args.index('-object') + 1]:
+        case 'GRS-2':
+            device_list_path = devlist_path_pattern.format("GRS-2")
+            external_mqtt_conf_path = extconf_path_pattern.format("GRS-2")
+        case 'ZAP_ABK':
+            device_list_path = devlist_path_pattern.format("ZAP_ABK")
+            external_mqtt_conf_path = extconf_path_pattern.format("ZAP_ABK")
+        case 'USNK':
+            device_list_path = devlist_path_pattern.format("USNK")
+            external_mqtt_conf_path = extconf_path_pattern.format("USNK")
+        case 'BVC':
+            device_list_path = devlist_path_pattern.format("BVC")
+            external_mqtt_conf_path = extconf_path_pattern.format("BVC")
+        case 'CGTS':
+            device_list_path = devlist_path_pattern.format("CGTS")
+            external_mqtt_conf_path = extconf_path_pattern.format("CGTS")
+        case 'CMVI':
+            device_list_path = devlist_path_pattern.format("CMVI")
+            external_mqtt_conf_path = extconf_path_pattern.format("CMVI")
+        case 'CTMP':
+            device_list_path = devlist_path_pattern.format("CTMP")
+            external_mqtt_conf_path = extconf_path_pattern.format("CTMP")
+        case 'Dudinka':
+            device_list_path = devlist_path_pattern.format("Dudinka")
+            external_mqtt_conf_path = extconf_path_pattern.format("Dudinka")
+        case 'FOK':
+            device_list_path = devlist_path_pattern.format("FOK")
+            external_mqtt_conf_path = extconf_path_pattern.format("FOK")
+        case 'GRS-1':
+            device_list_path = devlist_path_pattern.format("GRS-1")
+            external_mqtt_conf_path = extconf_path_pattern.format("GRS-1")
+        case 'Mayak_ABK':
+            device_list_path = devlist_path_pattern.format("Mayak_ABK")
+            external_mqtt_conf_path = extconf_path_pattern.format("Mayak_ABK")
+        case 'Mayak_PZK':
+            device_list_path = devlist_path_pattern.format("Mayak_PZK")
+            external_mqtt_conf_path = extconf_path_pattern.format("Mayak_PZK")
+        case 'Messoyaha':
+            device_list_path = devlist_path_pattern.format("Messoyaha")
+            external_mqtt_conf_path = extconf_path_pattern.format("Messoyaha")
+        case 'Nasos-2':
+            device_list_path = devlist_path_pattern.format("Nasos-2")
+            external_mqtt_conf_path = extconf_path_pattern.format("Nasos-2")
+        case 'NOV3':
+            device_list_path = devlist_path_pattern.format("NOV3")
+            external_mqtt_conf_path = extconf_path_pattern.format("NOV3")
+        case 'Pelyatka':
+            device_list_path = devlist_path_pattern.format("Pelyatka")
+            external_mqtt_conf_path = extconf_path_pattern.format("Pelyatka")
+        case 'PESH_BIO':
+            device_list_path = devlist_path_pattern.format("PESH_BIO")
+            external_mqtt_conf_path = extconf_path_pattern.format("PESH_BIO")
+        case 'Plot_3':
+            device_list_path = devlist_path_pattern.format("Plot_3")
+            external_mqtt_conf_path = extconf_path_pattern.format("Plot_3")
+        case 'PNS-3':
+            device_list_path = devlist_path_pattern.format("PNS-3")
+            external_mqtt_conf_path = extconf_path_pattern.format("PNS-3")
+        case 'Tuhard':
+            device_list_path = devlist_path_pattern.format("Tuhard")
+            external_mqtt_conf_path = extconf_path_pattern.format("Tuhard")
+        case 'ZAP_9BIS':
+            device_list_path = devlist_path_pattern.format("ZAP_9BIS")
+            external_mqtt_conf_path = extconf_path_pattern.format("ZAP_9BIS")
+        case _:
+            raise Exception(f"Config files for object not found! Check cfg folder.")
 
 def init_device_list(device_list_path):
     with open(device_list_path, 'r') as f:
@@ -78,12 +134,20 @@ def init_tk_config(tk_config_file):
         js = json.load(f)
     return js
 
+def init_external_mqtt_conf(path):
+        with open(path, 'r') as f:
+            ext_mqtt_conf = json.load(f)
+        return ext_mqtt_conf
+
 #   --Init instances
 tk_config = init_tk_config("cfg/TkConfig.json")
 device_storage = MES_storage.devices()
 packet_factory = MES_packet_handler.packet_factory()
 local_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
+if use_siemens:
+    simmatic = MES_gpio.simatic()
+external_mqtt_conf = init_external_mqtt_conf(external_mqtt_conf_path)
 # server_info = None
 
 
@@ -133,9 +197,7 @@ def on_message(client, userdata, msg):
                     qos=2
                 )
                 rx_device.status_has_sent = True
-                
-                
-            
+
         ##!--TIME REQUESTS
         if packet_factory.is_time_request(rx_packet) or rx_device.is_require_time_update() and msg.topic != "application/trigger": #TODO: REMOVER TRIGGER AFTER TESTS
             msgtopic = msg.topic
@@ -213,7 +275,7 @@ def init_devices(device_list_json, tk_config_json):
     device_counter = 0
     for i in range(0, len(device_list['devices'])):
         j_object = device_list['devices'][i]
-        dev_eui = j_object['devEui'] 
+        dev_eui = j_object['devEui']
         dev_mqtt_name = j_object['MqttName']
         dev_type = j_object['type']
         dev_object_id = j_object['object_id']
@@ -255,14 +317,39 @@ def current_topic_command(topic):
     command_topic += "command/down"
     return command_topic
 
+if use_siemens:
+    #Trigggers for gpio
+    def gpio_interrupt(gpio):
+        time_uts = int(time.time())
+        if gpio.getPin(True) == simmatic.input_port_1.getPin(True):
+            print('Port1 alarm')
+            door_topic = '__/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/door_open/measure'
+            print(door_topic)
+            door_value = str(time_uts) + '\r\n' + repr(gpio.read())
+            mqtt_uspd_object = MES_storage.mqtt_uspd_object(door_topic, door_value)
+            device_storage.insert_uspd_queue(mqtt_uspd_object)
+        if gpio.getPin(True) == simmatic.input_port_2.getPin(True):
+            print('Port2 alarm')
+            ups_topic = '__/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/UPS_status/measure'
+            print(ups_topic)
+            ups_value = str(time_uts) + '\r\n' + repr(1-gpio.read())
+            mqtt_uspd_object = MES_storage.mqtt_uspd_object(ups_topic,ups_value)
+            device_storage.insert_uspd_queue(mqtt_uspd_object)
+
+        print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
+    
+    def button_interrupt(gpio):
+        print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
+    simmatic.set_button_interrupt(button_interrupt)
+    simmatic.set_gpio_interrupt(gpio_interrupt)
 
 def main():
     global server_info
-    arg_parse()
+    # arg_parse()
     print("[*] Bridge server start...")
     device_list = init_device_list(device_list_path)
     device_count = init_devices(device_list, tk_config)
-    server_info = MES_server.server_info(host, device_list)
+    server_info = MES_server.server_info(host, device_list, external_mqtt_conf)
     local_mqtt_client.connect(host, port)
     local_mqtt_client.subscribe('application/+/device/+/event/up', qos=2)
     local_mqtt_client.subscribe('gateway/+/event/#', qos=2)
@@ -273,8 +360,24 @@ def main():
     external_mqtt_client.connect(host, port)
     external_mqtt_client.loop_start()
     print(f"[*] Devices initialized: {device_count}")
+    
 
     while(True):
+        if use_siemens:
+            if device_storage.uspd_queue_not_empty():
+                mqtt_uspd_object = device_storage.pop_uspd_queue()
+                print(mqtt_uspd_object.topic)
+                print(mqtt_uspd_object.value)
+                external_mqtt_client.publish(
+                        topic= mqtt_uspd_object.topic,
+                        payload= mqtt_uspd_object.value,
+                        qos=2
+                    )
+                device_logger.save_uspd(chirpstack_state=server_info.get_chirpstack_state(),
+                                        gateway_state=server_info.get_gateway_state(),
+                                        input1_response= simmatic.get_input_port_1(),
+                                        input2_response= simmatic.get_input_port_2(),
+                                        start_time=server_info.start_time)
         if device_storage.send_queue_not_empty():
             mqtt_device_object = device_storage.pop_mqtt_object()
             match mqtt_device_object.type:
@@ -296,10 +399,10 @@ def main():
                     )
                     
                     device_logger.save_data(
-                    dev_eui = mqtt_device_object.dev_eui,
-                    mqtt_data= mqtt_device_object.measure_values,
-                    type= mqtt_device_object.dev_type
-                )
+                        dev_eui = mqtt_device_object.dev_eui,
+                        mqtt_data= mqtt_device_object.measure_values,
+                        type= mqtt_device_object.dev_type
+                    )
                 case "measures_only":
                     print(mqtt_device_object.measure_topic)
                     print(mqtt_device_object.measure_values)
@@ -334,6 +437,10 @@ def main():
         if device_settings_require_update:
             device_storage.update_settings()
             server_info.refresh_settings_config()
+        if use_siemens:
+            simmatic.led_port_on()
+            time.sleep(0.05)
+            simmatic.led_port_off()
         time.sleep(0.5)
 
 if __name__ == "__main__":

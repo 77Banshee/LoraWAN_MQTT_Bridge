@@ -1,0 +1,604 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052D7468",
+            "MqttName": "i4.1",
+            "type": "Inclinometer",
+            "object_id": "10000009",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D7F16",
+            "MqttName": "i4.2",
+            "type": "Inclinometer",
+            "object_id": "10000009",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DAE6B",
+            "MqttName": "i5.1",
+            "type": "Inclinometer",
+            "object_id": "10000010",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D1287",
+            "MqttName": "i5.2",
+            "type": "Inclinometer",
+            "object_id": "10000010",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D332A",
+            "MqttName": "i6.1",
+            "type": "Inclinometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D46B4",
+            "MqttName": "i6.2",
+            "type": "Inclinometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D399D",
+            "MqttName": "i6.3",
+            "type": "Inclinometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D8766",
+            "MqttName": "i6.4",
+            "type": "Inclinometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D2460",
+            "MqttName": "i6.5",
+            "type": "Inclinometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DC4A3",
+            "MqttName": "i6.6",
+            "type": "Inclinometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D6F3B",
+            "MqttName": "i7.1",
+            "type": "Inclinometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D40F1",
+            "MqttName": "i7.2",
+            "type": "Inclinometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D41AD",
+            "MqttName": "i7.3",
+            "type": "Inclinometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D1782",
+            "MqttName": "i7.4",
+            "type": "Inclinometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D5AC0",
+            "MqttName": "i7.5",
+            "type": "Inclinometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DA1CB",
+            "MqttName": "i7.6",
+            "type": "Inclinometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D7D81",
+            "MqttName": "i8.1",
+            "type": "Inclinometer",
+            "object_id": "10000019",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DE976",
+            "MqttName": "i8.2",
+            "type": "Inclinometer",
+            "object_id": "10000019",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D3BA1",
+            "MqttName": "i8.3",
+            "type": "Inclinometer",
+            "object_id": "10000019",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D32B0",
+            "MqttName": "i8.4",
+            "type": "Inclinometer",
+            "object_id": "10000019",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DDD0A",
+            "MqttName": "i9.1",
+            "type": "Inclinometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D4C7C",
+            "MqttName": "i9.2",
+            "type": "Inclinometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D9976",
+            "MqttName": "i9.3",
+            "type": "Inclinometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D357D",
+            "MqttName": "i9.4",
+            "type": "Inclinometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D0965",
+            "MqttName": "i10.1",
+            "type": "Inclinometer",
+            "object_id": "10000021",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DBF64",
+            "MqttName": "i10.2",
+            "type": "Inclinometer",
+            "object_id": "10000021",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DACA2",
+            "MqttName": "i10.3",
+            "type": "Inclinometer",
+            "object_id": "10000021",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DC2F5",
+            "MqttName": "i10.4",
+            "type": "Inclinometer",
+            "object_id": "10000021",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D66DD",
+            "MqttName": "i11.1",
+            "type": "Inclinometer",
+            "object_id": "10000022",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D02F7",
+            "MqttName": "i11.2",
+            "type": "Inclinometer",
+            "object_id": "10000022",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D0B34",
+            "MqttName": "i11.3",
+            "type": "Inclinometer",
+            "object_id": "10000022",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DFAF5",
+            "MqttName": "i11.4",
+            "type": "Inclinometer",
+            "object_id": "10000022",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DC23E",
+            "MqttName": "BH002197",
+            "type": "Thermometer",
+            "object_id": "10000001",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DD5CD",
+            "MqttName": "BH002198",
+            "type": "Thermometer",
+            "object_id": "10000001",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D152E",
+            "MqttName": "BH002199",
+            "type": "Thermometer",
+            "object_id": "10000001",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D92A3",
+            "MqttName": "BH002200",
+            "type": "Thermometer",
+            "object_id": "10000001",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D7E68",
+            "MqttName": "BH002201",
+            "type": "Thermometer",
+            "object_id": "10000002",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DD026",
+            "MqttName": "BH002202",
+            "type": "Thermometer",
+            "object_id": "10000002",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D42AB",
+            "MqttName": "BH002203",
+            "type": "Thermometer",
+            "object_id": "10000002",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D2157",
+            "MqttName": "BH002204",
+            "type": "Thermometer",
+            "object_id": "10000002",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052CCC43",
+            "MqttName": "BH002000",
+            "type": "Thermometer",
+            "object_id": "10000003",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D972F",
+            "MqttName": "BH002001",
+            "type": "Thermometer",
+            "object_id": "10000003",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D9461",
+            "MqttName": "BH002002",
+            "type": "Thermometer",
+            "object_id": "10000003",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D14B0",
+            "MqttName": "BH002003",
+            "type": "Thermometer",
+            "object_id": "10000003",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DB459",
+            "MqttName": "BH002004",
+            "type": "Thermometer",
+            "object_id": "10000009",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D25BC",
+            "MqttName": "BH002005",
+            "type": "Thermometer",
+            "object_id": "10000009",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DBC01",
+            "MqttName": "BH002006",
+            "type": "Thermometer",
+            "object_id": "10000009",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D8BF5",
+            "MqttName": "BH002007",
+            "type": "Thermometer",
+            "object_id": "10000009",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DA0A3",
+            "MqttName": "BH002008",
+            "type": "Thermometer",
+            "object_id": "10000010",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D68B6",
+            "MqttName": "BH002009",
+            "type": "Thermometer",
+            "object_id": "10000010",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D60EE",
+            "MqttName": "BH002010",
+            "type": "Thermometer",
+            "object_id": "10000010",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DFD9A",
+            "MqttName": "BH002011",
+            "type": "Thermometer",
+            "object_id": "10000010",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D7F48",
+            "MqttName": "BH002012",
+            "type": "Thermometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D4AD8",
+            "MqttName": "BH002013",
+            "type": "Thermometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D24BB",
+            "MqttName": "BH002014",
+            "type": "Thermometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DF486",
+            "MqttName": "BH002015",
+            "type": "Thermometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D2D77",
+            "MqttName": "BH002016",
+            "type": "Thermometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D329F",
+            "MqttName": "BH002017",
+            "type": "Thermometer",
+            "object_id": "10000011",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D3F88",
+            "MqttName": "BH002018",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D10B2",
+            "MqttName": "BH002019",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D8A67",
+            "MqttName": "BH002020",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D338D",
+            "MqttName": "BH002021",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D8B21",
+            "MqttName": "BH002022",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D93C6",
+            "MqttName": "BH002023",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DA925",
+            "MqttName": "BH002024",
+            "type": "Thermometer",
+            "object_id": "10000012",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DA3F2",
+            "MqttName": "BH002039",
+            "type": "Thermometer",
+            "object_id": "10000019",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D292D",
+            "MqttName": "BH002040",
+            "type": "Thermometer",
+            "object_id": "10000019",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DE64A",
+            "MqttName": "BH002041",
+            "type": "Thermometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D87E2",
+            "MqttName": "BH002042",
+            "type": "Thermometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DA60B",
+            "MqttName": "BH002043",
+            "type": "Thermometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DDF85",
+            "MqttName": "BH002044",
+            "type": "Thermometer",
+            "object_id": "10000020",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DFB10",
+            "MqttName": "BH002045",
+            "type": "Thermometer",
+            "object_id": "10000021",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D53B3",
+            "MqttName": "BH002046",
+            "type": "Thermometer",
+            "object_id": "10000021",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052D7BC5",
+            "MqttName": "BH002048",
+            "type": "Thermometer",
+            "object_id": "10000022",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        },
+        {
+            "devEui": "07293314052DCC5A",
+            "MqttName": "BH002049",
+            "type": "Thermometer",
+            "object_id": "10000022",
+            "object_code": "NTG",
+            "uspd_code": "U0037"
+        }
+    ]
+}

@@ -1,0 +1,100 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052D8BA9",
+            "MqttName": "BH002148",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052DC27C",
+            "MqttName": "BH002149",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052DF78E",
+            "MqttName": "BH002150",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052D8D75",
+            "MqttName": "BH002151",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052DE6CF",
+            "MqttName": "BH002152",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052D16AA",
+            "MqttName": "BH002153",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052D7A18",
+            "MqttName": "BH002154",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052D61DF",
+            "MqttName": "BH002155",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052DEE09",
+            "MqttName": "BH002156",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052D973A",
+            "MqttName": "BH002157",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052D2F44",
+            "MqttName": "BH002158",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        },
+        {
+            "devEui": "07293314052DAC8C",
+            "MqttName": "BH002159",
+            "type": "Thermometer",
+            "object_id": "10000084",
+            "object_code": "GNN",
+            "uspd_code": "U0053"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+	"host": "localhost",
+        "port": 1883,
+	"client_id": "empty",
+	"object_id": "10000099",
+	"object_code":"MRY",
+	"uspd_code": "U0049",
+	"use_auth": false,
+	"login": "",
+	"password": ""
+}

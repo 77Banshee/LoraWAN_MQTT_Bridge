@@ -33,9 +33,22 @@ class device_logger(object):
             file.write('\n')
             # file.write(self.__mqtt_to_csv_data_format(mqtt_data))
             print("Saved!")
-    
+    @classmethod
+    def save_uspd(self, chirpstack_state, gateway_state, input1_response, input2_response, start_time):
+        filename = f"{log_folder}/Status_"+time.strftime("%Y.%m.csv", time.localtime(time.time()))
+        put_header = True
+        if os.path.exists(filename):
+            put_header = False
+        with open(filename, "a") as file:
+            #write header in new file
+            if put_header:
+                file.write('Unix Time;Uptime;Gateway;Chirpstack;Door;UPS\r\n')
+            current_time = int(time.time())
+            uptime = current_time - start_time
+            inputs_str = f"{str(current_time)};{uptime};{gateway_state};{chirpstack_state};{input1_response};{input2_response}"
+            file.write(inputs_str)
+            file.write('\r\n')
+            file.close()
+            
 if __name__ == "__main__":
-    print("[*] data_logger DEBUG")
-    device_logger.save_data("07293314052d6d1f", "1666533296\r\n-5312.7265625\r\n-3195.140625", "Inclinometer")
-    device_logger.save_data("AAAAAAAAA","1666537289\r\n17\r\n0.1\r\n0.78\r\n1.47\r\n3.49\r\n5.92\r\n7.83\r\n8.94\r\n9.73\r\n9.79\r\n9.85\r\n9.77\r\n9.6\r\n9.46\r\n9.52\r\n9.61\r\n9.75", "Thermometer")
-    
+    device_logger.save_uspd("0","0",1)

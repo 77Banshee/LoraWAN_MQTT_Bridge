@@ -8,6 +8,7 @@ class devices(object):
     __piezometers = []
     __hygrometers = []
     __to_send_queue = queue.Queue()
+    __uspd_to_send_queue = queue.Queue()
    
     def update_settings(self):
         for i in range(0, len(self.__inclinometers)):
@@ -27,7 +28,17 @@ class devices(object):
     def get_queue_size(self):
         return self.__to_send_queue.qsize()
     def insert_to_send_queue(self, mqtt_obj):
-        self.__to_send_queue.put(mqtt_obj)  
+        self.__to_send_queue.put(mqtt_obj)
+    def pop_uspd_queue(self):
+        if self.uspd_queue_not_empty():
+            return self.__uspd_to_send_queue.get()
+        return False
+    def uspd_queue_not_empty(self):
+        return self.__uspd_to_send_queue.qsize() > 0
+    def get_uspd_queue_size(self):
+        return self.__uspd_to_send_queue.qsize()
+    def insert_uspd_queue(self, mqtt_obj):
+        self.__uspd_to_send_queue.put(mqtt_obj)
     def allowed_type(cls, device): # check input instance for allowed type (to avoid the case with wrong input instance)
         if device.get_devType() in cls.__allowed_to_store:
             return True
@@ -111,7 +122,9 @@ class mqtt_device_object(object):
             self = None
 
 class mqtt_uspd_object(object):
-    pass
+    def __init__(self, topic, value):
+        self.topic = topic
+        self.value = value
 
 class mqtt_command_object(object):
     pass

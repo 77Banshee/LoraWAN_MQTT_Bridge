@@ -1,0 +1,300 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314052D2450",
+            "MqttName": "i1.1",
+            "type": "Inclinometer",
+            "object_id": "10000062",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DC82F",
+            "MqttName": "i1.2",
+            "type": "Inclinometer",
+            "object_id": "10000062",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DCF6B",
+            "MqttName": "i1.3",
+            "type": "Inclinometer",
+            "object_id": "10000062",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DF6E5",
+            "MqttName": "i1.4",
+            "type": "Inclinometer",
+            "object_id": "10000062",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DF467",
+            "MqttName": "i2.1",
+            "type": "Inclinometer",
+            "object_id": "10000063",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DBB03",
+            "MqttName": "i2.2",
+            "type": "Inclinometer",
+            "object_id": "10000063",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D2649",
+            "MqttName": "i2.3",
+            "type": "Inclinometer",
+            "object_id": "10000063",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DBC5D",
+            "MqttName": "i2.4",
+            "type": "Inclinometer",
+            "object_id": "10000063",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DD54A",
+            "MqttName": "i3.1",
+            "type": "Inclinometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D368C",
+            "MqttName": "i3.2",
+            "type": "Inclinometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D0271",
+            "MqttName": "i3.3",
+            "type": "Inclinometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DDD7F",
+            "MqttName": "i3.4",
+            "type": "Inclinometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DB1F0",
+            "MqttName": "i5.1",
+            "type": "Inclinometer",
+            "object_id": "10000151",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D6A73",
+            "MqttName": "i5.2",
+            "type": "Inclinometer",
+            "object_id": "10000151",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D0A54",
+            "MqttName": "i5.3",
+            "type": "Inclinometer",
+            "object_id": "10000151",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D87E5",
+            "MqttName": "i5.4",
+            "type": "Inclinometer",
+            "object_id": "10000151",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D0EFE",
+            "MqttName": "i7.1",
+            "type": "Inclinometer",
+            "object_id": "10000153",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D22E7",
+            "MqttName": "i7.2",
+            "type": "Inclinometer",
+            "object_id": "10000153",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DAB1B",
+            "MqttName": "i7.3",
+            "type": "Inclinometer",
+            "object_id": "10000153",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D818C",
+            "MqttName": "i7.4",
+            "type": "Inclinometer",
+            "object_id": "10000153",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D217A",
+            "MqttName": "i4.1",
+            "type": "Inclinometer",
+            "object_id": "10000150",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D7428",
+            "MqttName": "i4.2",
+            "type": "Inclinometer",
+            "object_id": "10000150",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D37C0",
+            "MqttName": "i4.3",
+            "type": "Inclinometer",
+            "object_id": "10000150",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DF729",
+            "MqttName": "i4.4",
+            "type": "Inclinometer",
+            "object_id": "10000150",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D0DC1",
+            "MqttName": "i6.1",
+            "type": "Inclinometer",
+            "object_id": "10000152",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D69F3",
+            "MqttName": "i6.2",
+            "type": "Inclinometer",
+            "object_id": "10000152",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D2609",
+            "MqttName": "i6.3",
+            "type": "Inclinometer",
+            "object_id": "10000152",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DFDB4",
+            "MqttName": "i6.4",
+            "type": "Inclinometer",
+            "object_id": "10000152",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D4523",
+            "MqttName": "BH002071",
+            "type": "Thermometer",
+            "object_id": "10000062",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052CBC14",
+            "MqttName": "BH002072",
+            "type": "Thermometer",
+            "object_id": "10000063",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052C52B6",
+            "MqttName": "BH002073",
+            "type": "Thermometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DA096",
+            "MqttName": "BH002074",
+            "type": "Thermometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DBA70",
+            "MqttName": "BH002075",
+            "type": "Thermometer",
+            "object_id": "10000064",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D6853",
+            "MqttName": "BH002076",
+            "type": "Thermometer",
+            "object_id": "10000151",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DCD41",
+            "MqttName": "BH002077",
+            "type": "Thermometer",
+            "object_id": "10000153",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052D73E1",
+            "MqttName": "BH002080",
+            "type": "Thermometer",
+            "object_id": "10000152",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        },
+        {
+            "devEui": "07293314052DFB1F",
+            "MqttName": "BH002081",
+            "type": "Thermometer",
+            "object_id": "10000152",
+            "object_code": "GNN",
+            "uspd_code": "U0041"
+        }
+    ]
+}

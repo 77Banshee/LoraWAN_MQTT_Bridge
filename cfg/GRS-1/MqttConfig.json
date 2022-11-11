@@ -1,0 +1,11 @@
+{
+	"host": "localhost",
+        "port": 1883,
+	"client_id": "empty",
+	"object_id": "10000015",
+	"object_code":"NTG",
+	"uspd_code": "U0057",
+	"use_auth": false,
+	"login": "",
+	"password": ""
+}

@@ -2,91 +2,74 @@ import mraa
 import time
 
 class simatic(object):
-    def ButtonInterrupt(gpio):
-        print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
-  
-    #Этот метод нужно перенести в мейн.
-    def GpioInterrupt(self, gpio):
-            global GpioIntFlag
-            time_uts = int(time.time())
-            if gpio.getPin(True) == self.InputPort1.getPin(True):
-                print('Port1 alarm')
-                
-                #Формирование топика
-                # tts = '/Gorizont/'+ ExternMqttConf['object_code'] +'/'+ ExternMqttConf['object_id'] + '/' + ExternMqttConf['uspd_code'] + '/door_open/measure'
-                res_msg = str(time_uts) + '\r\n' + repr(gpio.read())
-                
-                #Флаг для логгирования. Вместо него будем вызывать метод лога сразу после отработки.
-                # GpioIntFlag = True
-                
-                #Отправка
-                print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
-                return res_msg
-            
-            if gpio.getPin(True) == self.InputPort2.getPin(True):
-                print('Port2 alarm')
-                
-                #Формирование топика
-                # tts = '/Gorizont/'+ ExternMqttConf['object_code'] +'/'+ ExternMqttConf['object_id'] + '/' + ExternMqttConf['uspd_code'] + '/UPS_status/measure'
-                res_msg = str(time_uts) + '\r\n' + repr(1-gpio.read())
-                #Флаг для логгирования
-                # GpioIntFlag = True
-                print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
-                return res_msg
+    def set_gpio_interrupt(self, gpio_interrupt):
+        self.input_port_1.isr(mraa.EDGE_BOTH, gpio_interrupt, self.input_port_1) # При нажатии и отпускании
+        self.input_port_2.isr(mraa.EDGE_BOTH, gpio_interrupt, self.input_port_2) # При нажатии и отпускании
+        self.input_port_3.isr(mraa.EDGE_BOTH, gpio_interrupt, self.input_port_3) # При нажатии и отпускании
+        self.input_port_4.isr(mraa.EDGE_BOTH, gpio_interrupt, self.input_port_4) # При нажатии и отпускании
+        self.gpio_interrupt_has_set = True
+
+    def set_button_interrupt(self, button_interrupt):
+        self.button_port.isr(mraa.EDGE_FALLING, button_interrupt, self.button_port) # При отпускании кнопки
+        self.button_interrupt_has_set = True
+        
+    def get_input_port_1(self):
+        return repr(self.input_port_1.read())
+    
+    def get_input_port_2(self):
+        return repr(1 - self.input_port_2.read())
+    
+    def led_port_on(self):
+        self.led_port.write(1)
+    
+    def led_port_off(self):
+        self.led_port.write(0)
     
     def __init__(self, startup_delay = True):
-        self.LedPort = mraa.Gpio(13)
-        self.LedPort.dir(mraa.DIR_OUT) # Direction pin output
+        self.button_interrupt_has_set = False
+        self.gpio_interrupt_has_set = False
+        self.led_port = mraa.Gpio(13)
+        self.led_port.dir(mraa.DIR_OUT) # Direction pin output
         
-        self.ButtonPort = mraa.Gpio(20) #button 20
-        self.ButtonPort.isr(mraa.EDGE_FALLING, self.ButtonInterrupt, self.ButtonPort) # При отпускании кнопки
+        self.button_port = mraa.Gpio(20) #button 20
         
-        self.InputPort1 = mraa.Gpio(8)
-        self.InputPort1.dir(mraa.DIR_IN) # Direction pin input
-        self.InputPort1.isr(mraa.EDGE_BOTH, self.GpioInterrupt, self.InputPort1) # При нажатии и отпускании
+        self.input_port_1 = mraa.Gpio(8)
+        self.input_port_1.dir(mraa.DIR_IN) # Direction pin input
         
-        self.InputPort2 = mraa.Gpio(9)
-        self.InputPort2.dir(mraa.DIR_IN) # Direction pin input
-        self.InputPort2.isr(mraa.EDGE_BOTH, self.GpioInterrupt, self.InputPort2) # При нажатии и отпускании
+        self.input_port_2 = mraa.Gpio(9)
+        self.input_port_2.dir(mraa.DIR_IN) # Direction pin input
 
-        self.InputPort3 = mraa.Gpio(10)
-        self.InputPort3.dir(mraa.DIR_IN) # Direction pin input
-        self.InputPort3.isr(mraa.EDGE_BOTH, self.GpioInterrupt, self.InputPort3) # При нажатии и отпускании
+        self.input_port_3 = mraa.Gpio(10)
+        self.input_port_3.dir(mraa.DIR_IN) # Direction pin input
 
-        self.InputPort4 = mraa.Gpio(11)
-        self.InputPort4.dir(mraa.DIR_IN) # Direction pin input
-        self.InputPort4.isr(mraa.EDGE_BOTH, self.GpioInterrupt, self.InputPort4) # При нажатии и отпускании
+        self.input_port_4 = mraa.Gpio(11)
+        self.input_port_4.dir(mraa.DIR_IN) # Direction pin input
         
-        self.PanelLed1R = mraa.Led(1)
-        self.PanelLed1G = mraa.Led(0)
-        self.PanelLed2R = mraa.Led(3)
-        self.PanelLed2G = mraa.Led(2)    
+        self.panel_led_1R = mraa.Led(1)
+        self.panel_led_1G = mraa.Led(0)
+        self.panel_led_2R = mraa.Led(3)
+        self.panel_led_2G = mraa.Led(2)    
         
-        self.PanelLed1R.setBrightness(0)
-        self.PanelLed1G.setBrightness(0)
-        self.PanelLed2R.setBrightness(0)
-        self.PanelLed2G.setBrightness(0)
+        self.panel_led_1R.setBrightness(0)
+        self.panel_led_1G.setBrightness(0)
+        self.panel_led_2R.setBrightness(0)
+        self.panel_led_2G.setBrightness(0)
         self.startup_delay = startup_delay
-        if startup_delay:
-            for i in range(0, 60): 
-                self.PanelLed1G.setBrightness(255)
-                self.PanelLed1R.setBrightness(0)
-                time.sleep(0.5)
-                self.PanelLed1G.setBrightness(0)
-                self.PanelLed1R.setBrightness(0)
-                time.sleep(0.5)
-        self.PanelLed1R.setBrightness(255) # При успешной инициализции зажигаем LED 1R.
-            
- 
-    
-
-
-
+        
+        # if startup_delay:
+        #     for i in range(0, 60): 
+        #         self.panel_led_1G.setBrightness(255)
+        #         self.panel_led_1R.setBrightness(0)
+        #         time.sleep(0.5)
+        #         self.panel_led_1G.setBrightness(0)
+        #         self.panel_led_1R.setBrightness(0)
+        #         time.sleep(0.5)
+        self.panel_led_1R.setBrightness(255) # При успешной инициализции зажигаем LED 1R.
 
 if __name__ == '__main__':
     simatic = simatic()
     print('Input states:')
-    print(str(simatic.InputPort1.read()))
-    print(str(simatic.InputPort2.read()))
-    print(str(simatic.InputPort3.read()))
-    print(str(simatic.InputPort4.read())) 
+    print("Port1: " + str(simatic.input_port_1.read()))
+    print("Port2: " + str(simatic.input_port_2.read()))
+    print("Port3: " + str(simatic.input_port_3.read()))
+    print("Port4: " + str(simatic.input_port_4.read())) 

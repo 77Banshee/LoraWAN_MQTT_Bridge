@@ -1,0 +1,11 @@
+{
+	"host": "localhost",
+        "port": 1883,
+	"client_id": "empty",
+	"object_id": "10000062",
+	"object_code":"GNN",
+	"uspd_code": "U0041",
+	"use_auth": false,
+	"login": "",
+	"password": ""
+}
