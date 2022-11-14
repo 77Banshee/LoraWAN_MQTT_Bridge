@@ -60,7 +60,7 @@ class device(object):
     def get_status_state(self):
         return self._status_is_ready
     def is_correct_time(self, timestamp): # Check time offset
-        if abs(timestamp - (int(time.time()))) > 300: # for simatic 
+        if abs(timestamp - (int(time.time()))) > 600: # for simatic 
             print(f"Time difference for {self._dev_type} {self._dev_eui}: {timestamp - (int(time.time()))}")
             self._require_time_update = True
             return False
