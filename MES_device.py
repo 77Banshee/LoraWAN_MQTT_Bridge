@@ -132,10 +132,10 @@ class device(object):
         return 0
     # Mqtt topic createion
     def create_measure_topic(self):
-        measure_topic = (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
+        measure_topic = (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/measure")
         return measure_topic  
     def create_status_topic(self):
-        status_topic = (f"__/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
+        status_topic = (f"/Gorizont/{self._object_code}/{self._object_id}/{self._uspd_code}/{self._dev_type}/{self._object_id}_{self._mqtt_name}/from_device/status")
         return status_topic
     def get_formatted_status(self):
         if self.sinfo.error_code == device_error_code.no_error.value:
