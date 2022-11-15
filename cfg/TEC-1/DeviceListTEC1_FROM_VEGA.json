@@ -1,0 +1,852 @@
+{
+    "devices": [
+        {
+            "devEui": "07293314051D009F",
+            "MqttName": "10191",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D00A5",
+            "MqttName": "10192",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D0779",
+            "MqttName": "10194",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D08E1",
+            "MqttName": "10195",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D0987",
+            "MqttName": "10196",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D09B6",
+            "MqttName": "10197",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D0F8C",
+            "MqttName": "10198",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D1287",
+            "MqttName": "10200",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D1721",
+            "MqttName": "10201",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D179D",
+            "MqttName": "10203",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D1EEF",
+            "MqttName": "10204",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D2020",
+            "MqttName": "10205",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D219B",
+            "MqttName": "10206",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D21BE",
+            "MqttName": "10207",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D22AA",
+            "MqttName": "10209",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D22F3",
+            "MqttName": "10211",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D2FAD",
+            "MqttName": "10212",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D3106",
+            "MqttName": "10214",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D335A",
+            "MqttName": "10215",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D33CF",
+            "MqttName": "10216",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D36A9",
+            "MqttName": "10217",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D3939",
+            "MqttName": "10218",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D3B71",
+            "MqttName": "10220",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D4104",
+            "MqttName": "10221",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D411E",
+            "MqttName": "10222",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D424C",
+            "MqttName": "10223",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D4431",
+            "MqttName": "10224",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D4E5E",
+            "MqttName": "10225",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D4FD4",
+            "MqttName": "10226",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D505A",
+            "MqttName": "10227",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D5127",
+            "MqttName": "10228",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D5428",
+            "MqttName": "10229",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D5783",
+            "MqttName": "10232",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D5857",
+            "MqttName": "10233",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D5CCA",
+            "MqttName": "10235",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D5EDC",
+            "MqttName": "10236",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D60B8",
+            "MqttName": "10238",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D6690",
+            "MqttName": "10239",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D6B42",
+            "MqttName": "10240",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D6B97",
+            "MqttName": "10241",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D6C4A",
+            "MqttName": "10242",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D6F9F",
+            "MqttName": "10245",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D6FE3",
+            "MqttName": "10249",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D72F1",
+            "MqttName": "10250",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D7382",
+            "MqttName": "10251",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D754E",
+            "MqttName": "10252",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D75ED",
+            "MqttName": "10257",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D778B",
+            "MqttName": "10259",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D7BD3",
+            "MqttName": "10260",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D7BFC",
+            "MqttName": "10261",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D80D5",
+            "MqttName": "10262",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D8306",
+            "MqttName": "10263",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D8560",
+            "MqttName": "10264",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D8661",
+            "MqttName": "10266",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D86C1",
+            "MqttName": "10268",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D8875",
+            "MqttName": "10269",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D8A3F",
+            "MqttName": "10270",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D8E94",
+            "MqttName": "10272",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D98A2",
+            "MqttName": "10275",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D9C96",
+            "MqttName": "10276",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D9DA4",
+            "MqttName": "10278",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051D9DFE",
+            "MqttName": "10280",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DA094",
+            "MqttName": "10281",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DA1EC",
+            "MqttName": "10282",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DA903",
+            "MqttName": "10285",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DAE28",
+            "MqttName": "10286",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DB0AF",
+            "MqttName": "10288",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DB188",
+            "MqttName": "10289",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DB230",
+            "MqttName": "10291",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DB50E",
+            "MqttName": "10292",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DB5DB",
+            "MqttName": "10293",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DB9A5",
+            "MqttName": "10294",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DBB8A",
+            "MqttName": "10295",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DBDFE",
+            "MqttName": "10296",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DC03D",
+            "MqttName": "10297",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DC072",
+            "MqttName": "10298",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DC224",
+            "MqttName": "10299",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DC57A",
+            "MqttName": "10300",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DC6C5",
+            "MqttName": "10301",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DC7EF",
+            "MqttName": "10302",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DCDEE",
+            "MqttName": "10303",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DCE81",
+            "MqttName": "10304",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DCEDE",
+            "MqttName": "10305",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DCF31",
+            "MqttName": "10306",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DCF7C",
+            "MqttName": "10307",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DCFFC",
+            "MqttName": "10308",
+            "type": "Inclinometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DD210",
+            "MqttName": "10309",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DD3A9",
+            "MqttName": "10310",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051DD463",
+            "MqttName": "10311",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E03AD",
+            "MqttName": "1210",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E0BDF",
+            "MqttName": "1211",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E1B02",
+            "MqttName": "1212",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E21FF",
+            "MqttName": "1213",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E2213",
+            "MqttName": "1214",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E2398",
+            "MqttName": "1215",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E256F",
+            "MqttName": "1216",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E278D",
+            "MqttName": "1217",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E2EAA",
+            "MqttName": "1218",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E35B3",
+            "MqttName": "1219",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E3723",
+            "MqttName": "1220",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E3F10",
+            "MqttName": "1221",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E59F2",
+            "MqttName": "1222",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E6628",
+            "MqttName": "1223",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314051E6D1B",
+            "MqttName": "1224",
+            "type": "Thermometer",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "07293314052D18F2",
+            "MqttName": "Inc_0001",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        },
+        {
+            "devEui": "313330346E307713",
+            "MqttName": "Tester",
+            "type": "Unknown",
+            "object_id": "11223344",
+            "object_code": "TEC-1",
+            "uspd_code": "U1122"
+        }
+    ]
+}

@@ -62,9 +62,9 @@ class server_info(object):
             return "ERROR"
     def get_topic_status(self, object_id):
         return (f"/Gorizont/{self.extrnal_mqtt_config['object_code']}/{object_id}/" #TODO: TEST TOPIC!
-                + f"{self.extrnal_mqtt_config['uspd_code']}/status_measure")
+                + f"{self.extrnal_mqtt_config['uspd_code']}/status/measure")
     def get_uspd_status_value(self):
-        return f"Uptime: {int(time.time() - self.start_time)}\r\nGatway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
+        return f"Uptime: {int(time.time() - self.start_time)}\r\nGateway:{self.get_gateway_state()}\r\nChirpstack:{self.get_chirpstack_state()}"
     def refresh_settings_config(self):
         with open("cfg/SensorConfig.json", 'r') as f:
             sensor_conf = json.load(f)

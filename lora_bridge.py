@@ -140,6 +140,7 @@ def init_external_mqtt_conf(path):
         return ext_mqtt_conf
 
 #   --Init instances
+FIRST_LOOP = True
 tk_config = init_tk_config("cfg/TkConfig.json")
 device_storage = MES_storage.devices()
 packet_factory = MES_packet_handler.packet_factory()
@@ -342,6 +343,10 @@ if use_siemens:
         print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
     simmatic.set_button_interrupt(button_interrupt)
     simmatic.set_gpio_interrupt(gpio_interrupt)
+    if FIRST_LOOP: # Для публикации статуса USPD при первом запуске.
+        gpio_interrupt()
+        FIRST_LOOP = False
+    
 
 def main():
     global server_info
