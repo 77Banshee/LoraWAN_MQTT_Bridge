@@ -147,7 +147,7 @@ packet_factory = MES_packet_handler.packet_factory()
 local_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 if use_siemens:
-    simmatic = MES_gpio.simatic()
+    simatic = MES_gpio.simatic()
 external_mqtt_conf = init_external_mqtt_conf(external_mqtt_conf_path)
 # server_info = None
 
@@ -322,14 +322,14 @@ if use_siemens:
     #Trigggers for gpio
     def gpio_interrupt(gpio):
         time_uts = int(time.time())
-        if gpio.getPin(True) == simmatic.input_port_1.getPin(True):
+        if gpio.getPin(True) == simatic.input_port_1.getPin(True):
             print('Port1 alarm')
             door_topic = '/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/door_open/measure'
             print(door_topic)
             door_value = str(time_uts) + '\r\n' + repr(gpio.read())
             mqtt_uspd_object = MES_storage.mqtt_uspd_object(door_topic, door_value)
             device_storage.insert_uspd_queue(mqtt_uspd_object)
-        if gpio.getPin(True) == simmatic.input_port_2.getPin(True):
+        if gpio.getPin(True) == simatic.input_port_2.getPin(True):
             print('Port2 alarm')
             ups_topic = '/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/UPS_status/measure'
             print(ups_topic)
@@ -341,10 +341,11 @@ if use_siemens:
     
     def button_interrupt(gpio):
         print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
-    simmatic.set_button_interrupt(button_interrupt)
-    simmatic.set_gpio_interrupt(gpio_interrupt)
+    simatic.set_button_interrupt(button_interrupt)
+    simatic.set_gpio_interrupt(gpio_interrupt)
     if FIRST_LOOP: # Для публикации статуса USPD при первом запуске.
-        gpio_interrupt()
+        gpio_interrupt(simatic.input_port_1)
+        gpio_interrupt(simatic.input_port_2)
         FIRST_LOOP = False
     
 
@@ -380,8 +381,8 @@ def main():
                     )
                 device_logger.save_uspd(chirpstack_state=server_info.get_chirpstack_state(),
                                         gateway_state=server_info.get_gateway_state(),
-                                        input1_response= simmatic.get_input_port_1(),
-                                        input2_response= simmatic.get_input_port_2(),
+                                        input1_response= simatic.get_input_port_1(),
+                                        input2_response= simatic.get_input_port_2(),
                                         start_time=server_info.start_time)
         if device_storage.send_queue_not_empty():
             mqtt_device_object = device_storage.pop_mqtt_object()
@@ -443,9 +444,9 @@ def main():
             device_storage.update_settings()
             server_info.refresh_settings_config()
         if use_siemens:
-            simmatic.led_port_on()
+            simatic.led_port_on()
             time.sleep(0.05)
-            simmatic.led_port_off()
+            simatic.led_port_off()
         time.sleep(0.5)
 
 if __name__ == "__main__":
