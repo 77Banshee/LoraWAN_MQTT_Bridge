@@ -26,7 +26,7 @@ User=root
 Type=simple
 
 # Main task
-ExecStart=sudo /bin/sh /MES/start.sh 
+ExecStart=sudo /bin/sh /LoraWAN_MQTT_Bridge/start.sh 
 
 # Required to see Python output in logs
 Environment="PYTHONUNBUFFERED=x"

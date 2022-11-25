@@ -323,14 +323,14 @@ if use_siemens:
     def gpio_interrupt(gpio):
         time_uts = int(time.time())
         if gpio.getPin(True) == simatic.input_port_1.getPin(True):
-            print('Port1 alarm')
+            print('Door_open alarm')
             door_topic = '/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/door_open/measure'
             print(door_topic)
             door_value = str(time_uts) + '\r\n' + repr(gpio.read())
             mqtt_uspd_object = MES_storage.mqtt_uspd_object(door_topic, door_value)
             device_storage.insert_uspd_queue(mqtt_uspd_object)
         if gpio.getPin(True) == simatic.input_port_2.getPin(True):
-            print('Port2 alarm')
+            print('UPS_status alarm')
             ups_topic = '/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/UPS_status/measure'
             print(ups_topic)
             ups_value = str(time_uts) + '\r\n' + repr(1-gpio.read())

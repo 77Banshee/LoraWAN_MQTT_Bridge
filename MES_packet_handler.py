@@ -88,7 +88,7 @@ class thermometer_data_packet(packet):
             bMeasure = bytearray()
             bMeasure.append(measures_hex_data[0])
             bMeasure.append(measures_hex_data[1])
-            measures_hex_data = measures_hex_data[2:]
+            measures_hex_data = measures_hex_data[2:] # отрезаем записанные значения
             self.measures[i] = int.from_bytes(bMeasure, 'big', signed=True) / 100
     def __init__(self, rx_json) -> None:
         super().__init__(rx_json)
