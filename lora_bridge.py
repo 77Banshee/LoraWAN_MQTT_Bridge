@@ -149,7 +149,6 @@ external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 if use_siemens:
     simatic = MES_gpio.simatic()
 external_mqtt_conf = init_external_mqtt_conf(external_mqtt_conf_path)
-# server_info = None
 
 
 #   --MQTT
@@ -197,6 +196,7 @@ def on_message(client, userdata, msg):
                     payload= status_payload,
                     qos=2
                 )
+                print("[*] Status has sent:", status_topic, status_payload)
                 rx_device.status_has_sent = True
 
         ##!--TIME REQUESTS

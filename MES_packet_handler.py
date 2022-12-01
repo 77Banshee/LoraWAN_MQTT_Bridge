@@ -257,12 +257,12 @@ class packet_factory(object):
         self.__status_packet_types.append(battery_info_packet.__name__)
     def is_measures(self, packet):
         if type(packet) == str:
-            print("[*] Debug: is_measure: TYPE STR! BREAK")
+            print(f"[*] Debug: is_measure: str {packet}")
             return
         return packet.get_packet_type() in self.__measure_packet_types
     def is_status(self, packet):
         if type(packet) == str:
-            print("[*] Debug: is_status: TYPE STR! BREAK")
+            print(f"[*] Debug: is_status: str {packet}")
             return
         return packet.get_packet_type() in self.__status_packet_types
     def is_time_request(self, packet):
