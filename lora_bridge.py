@@ -97,9 +97,6 @@ if '-object' in args:
         case 'Messoyaha':
             device_list_path = devlist_path_pattern.format("Messoyaha")
             external_mqtt_conf_path = extconf_path_pattern.format("Messoyaha")
-        case 'Nasos-2':
-            device_list_path = devlist_path_pattern.format("Nasos-2")
-            external_mqtt_conf_path = extconf_path_pattern.format("Nasos-2")
         case 'NOV3':
             device_list_path = devlist_path_pattern.format("NOV3")
             external_mqtt_conf_path = extconf_path_pattern.format("NOV3")
@@ -121,6 +118,9 @@ if '-object' in args:
         case 'ZAP_9BIS':
             device_list_path = devlist_path_pattern.format("ZAP_9BIS")
             external_mqtt_conf_path = extconf_path_pattern.format("ZAP_9BIS")
+        case 'NASOS-2':
+            device_list_path = devlist_path_pattern.format("NASOS-2")
+            external_mqtt_conf_path = extconf_path_pattern.format("NASOS-2")
         case _:
             raise Exception(f"Config files for object not found! Check cfg folder.")
 
@@ -140,7 +140,6 @@ def init_external_mqtt_conf(path):
         return ext_mqtt_conf
 
 #   --Init instances
-FIRST_LOOP = True
 tk_config = init_tk_config("cfg/TkConfig.json")
 device_storage = MES_storage.devices()
 packet_factory = MES_packet_handler.packet_factory()
@@ -149,6 +148,7 @@ external_mqtt_client = mqtt.Client(reconnect_on_failure=True)
 if use_siemens:
     simatic = MES_gpio.simatic()
 external_mqtt_conf = init_external_mqtt_conf(external_mqtt_conf_path)
+ups_door_time = time.time() + 60 * 15
 
 
 #   --MQTT
@@ -330,8 +330,8 @@ if use_siemens:
             mqtt_uspd_object = MES_storage.mqtt_uspd_object(door_topic, door_value)
             device_storage.insert_uspd_queue(mqtt_uspd_object)
         if gpio.getPin(True) == simatic.input_port_2.getPin(True):
-            print('UPS_status alarm')
-            ups_topic = '/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/UPS_status/measure'
+            print('ups_status alarm')
+            ups_topic = '/Gorizont/'+ external_mqtt_conf['object_code'] +'/'+ external_mqtt_conf['object_id'] + '/' + external_mqtt_conf['uspd_code'] + '/ups_status/measure'
             print(ups_topic)
             ups_value = str(time_uts) + '\r\n' + repr(1-gpio.read())
             mqtt_uspd_object = MES_storage.mqtt_uspd_object(ups_topic,ups_value)
@@ -343,14 +343,11 @@ if use_siemens:
         print("pin " + repr(gpio.getPin(True)) + " = " + repr(gpio.read()))
     simatic.set_button_interrupt(button_interrupt)
     simatic.set_gpio_interrupt(gpio_interrupt)
-    if FIRST_LOOP: # Для публикации статуса USPD при первом запуске.
-        gpio_interrupt(simatic.input_port_1)
-        gpio_interrupt(simatic.input_port_2)
-        FIRST_LOOP = False
     
 
 def main():
     global server_info
+    global ups_door_time
     # arg_parse()
     print("[*] Bridge server start...")
     device_list = init_device_list(device_list_path)
@@ -444,6 +441,10 @@ def main():
             device_storage.update_settings()
             server_info.refresh_settings_config()
         if use_siemens:
+            if ups_door_time <= time.time():
+                ups_door_time = time.time() + 60 * 15
+                gpio_interrupt(simatic.input_port_1)
+                gpio_interrupt(simatic.input_port_2)
             simatic.led_port_on()
             time.sleep(0.05)
             simatic.led_port_off()

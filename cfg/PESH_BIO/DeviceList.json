@@ -195,7 +195,7 @@
         {
             "devEui": "07293314052D0CA3",
             "MqttName": "BH002142",
-            "type": "Thermo",
+            "type": "Thermometer",
             "object_id": "10000073",
             "object_code": "GNN",
             "uspd_code": "U0052"
@@ -203,7 +203,7 @@
         {
             "devEui": "07293314052D5FAC",
             "MqttName": "BH002143",
-            "type": "Thermo",
+            "type": "Thermometer",
             "object_id": "10000073",
             "object_code": "GNN",
             "uspd_code": "U0052"
@@ -211,7 +211,7 @@
         {
             "devEui": "07293314052DF3DC",
             "MqttName": "BH002144",
-            "type": "Thermo",
+            "type": "Thermometer",
             "object_id": "10000073",
             "object_code": "GNN",
             "uspd_code": "U0052"
@@ -219,7 +219,7 @@
         {
             "devEui": "07293314052D246F",
             "MqttName": "BH002145",
-            "type": "Thermo",
+            "type": "Thermometer",
             "object_id": "10000073",
             "object_code": "GNN",
             "uspd_code": "U0052"
@@ -227,7 +227,7 @@
         {
             "devEui": "07293314052DD17D",
             "MqttName": "BH002146",
-            "type": "Thermo",
+            "type": "Thermometer",
             "object_id": "10000073",
             "object_code": "GNN",
             "uspd_code": "U0052"
@@ -235,7 +235,7 @@
         {
             "devEui": "07293314052DC417",
             "MqttName": "BH002147",
-            "type": "Thermo",
+            "type": "Thermometer",
             "object_id": "10000073",
             "object_code": "GNN",
             "uspd_code": "U0052"

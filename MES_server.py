@@ -5,9 +5,10 @@ import time
 import threading
 
 class server_info(object):
-    def __init__(self, address, device_list, external_mqtt_config):
+    def __init__(self, address, device_list, external_mqtt_config, server_type = 'chirpstack'):
         self.address = address
         self.start_time = time.time()
+        self.server_type = server_type
         self.device_list = device_list
         self.object_id_list = self.get_object_id_list()
         self._sensor_config = self.refresh_settings_config()
@@ -25,10 +26,10 @@ class server_info(object):
             self.uspd_update_timer.start()
     def check_uspd_update(self):
         if self.request_uspd_update:
-            print("[*] Debug | require_uspd_update | True")
+            # print("[*] Debug | require_uspd_update | True")
             self.update_timer()
-        else:
-            print("[*] Debug | require_uspd_update | False")
+        # else:
+            # print("[*] Debug | require_uspd_update | False")
     def get_gateway_state(self):
         match self.__gateway_state:
             case True:
@@ -53,7 +54,10 @@ class server_info(object):
         return base64.b64decode(b_arr_settings_str).decode('ascii')
     def get_chirpstack_state(self):
         try:
-            chirpstack_http_code = urllib.request.urlopen('http://' + self.address + ':8080').getcode()
+            if self.server_type == 'chirpstack':
+                chirpstack_http_code = urllib.request.urlopen('http://' + self.address + ':8080').getcode()
+            elif self.server_type == 'vega':
+                chirpstack_http_code = urllib.request.urlopen('http://' + self.address + ':80').getcode()
             match chirpstack_http_code:
                 case 200:
                     return "OK"
@@ -80,18 +84,26 @@ class server_info(object):
         b_arr = bytearray()
         match type:
             case "settings":
-                b_settings = bytes.fromhex(self._sensor_config['settings_str_hex'])
-                b_arr = bytearray()
-                for i in range(0, 8):
-                    b_arr.append(b_settings[i])
-                b64data = base64.b64encode(b_arr).decode('ascii')
+                if self.server_type == 'chirpstack':
+                    b_settings = bytes.fromhex(self._sensor_config['settings_str_hex'])
+                    b_arr = bytearray()
+                    for i in range(0, 8):
+                        b_arr.append(b_settings[i])
+                    b64data = base64.b64encode(b_arr).decode('ascii')
+                elif self.server_type == 'vega':
+                    pass #TODO
             case "time":
                 current_time = int(time.time()) # for simatic
-                current_time_big = current_time.to_bytes(4, byteorder='big')
-                b_arr.append(3)
-                for i in range(0, 4):
-                    b_arr.append(current_time_big[i])
-                b64data = base64.b64encode(b_arr).decode('ascii') 
+                if self.server_type == 'chirpstack':
+                    current_time_big = current_time.to_bytes(4, byteorder='big')
+                    b_arr.append(3)
+                    for i in range(0, 4):
+                        b_arr.append(current_time_big[i])
+                    b64data = base64.b64encode(b_arr).decode('ascii') 
+                elif self.server_type == 'vega':
+                    pass #TODO
+        if self.server_type == 'vega':
+            return "MAKE PROPER JSON"
         return json.dumps({"confirmed": False, "fPort": 60, "data": b64data})
     
 
