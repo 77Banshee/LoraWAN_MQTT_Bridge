@@ -258,7 +258,8 @@ def on_message(client, userdata, msg):
             device_storage.insert_to_send_queue(mqtt_payload)
             rx_device.reset_packets()
     if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
-        server_info.set_gateway_online()
+        gw_id =  msg.topic.split('/')[1]
+        server_info.gw_append_or_update(gw_id)
         
 def on_connect(client, userdata, flags, rc):
     if rc == 0:

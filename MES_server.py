@@ -16,7 +16,14 @@ class server_info(object):
         self.__gateway_state = False
         self.request_uspd_update = False
         self.uspd_update_timer = None
-        self.update_timer()    
+        self.gateway_dict = {}
+        self.update_timer()  
+    def gw_append_or_update(self, gw_id: str):
+        gw = {gw_id: True}
+        if gw_id in self.gateway_dict.keys():
+            self.gateway_dict.update()
+        self.gateway_dict.update(gw)
+        # print(f"GW LIST: {self.gateway_dict}")
     def set_uspd_update(self):
         self.request_uspd_update = True
     def update_timer(self):
@@ -31,15 +38,20 @@ class server_info(object):
         # else:
             # print("[*] Debug | require_uspd_update | False")
     def get_gateway_state(self):
+        # print(f"[-- TEST --] DEBUG PRE USPD STATUS SEND: {self.gateway_dict}")
+        if False in self.gateway_dict.values():
+            self.__gateway_state = False
+        else:
+            self.__gateway_state = True
         match self.__gateway_state:
             case True:
                 return "OK"
             case False:
                 return "ERROR"
     def reset_gateway_state(self):
-        self.__gateway_state = False
-    def set_gateway_online(self):
-        self.__gateway_state = True        
+        for _ in self.gateway_dict:
+            self.gateway_dict = {gw: False for gw in self.gateway_dict}
+        # print(f'GW_LIST: {self.gateway_dict}')
     def get_object_id_list(self):
         result_obj_id_list = []
         for i in self.device_list['devices']:
