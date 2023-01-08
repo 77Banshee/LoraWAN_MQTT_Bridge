@@ -41,7 +41,10 @@ class server_info(object):
         # print(f"[-- TEST --] DEBUG PRE USPD STATUS SEND: {self.gateway_dict}")
         if False in self.gateway_dict.values():
             self.__gateway_state = False
+<<<<<<< HEAD
             print(f"[*] GATEWAY ERROR | {self.gateway_dict}")
+=======
+>>>>>>> f04be7711a139e42414826ec69b905435fa9e2ab
         else:
             self.__gateway_state = True
         match self.__gateway_state:

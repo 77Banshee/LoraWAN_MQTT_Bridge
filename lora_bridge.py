@@ -260,7 +260,10 @@ def on_message(client, userdata, msg):
             rx_device.reset_packets()
     if msg.topic.startswith("gateway"):  # топик для получения статуса geteway
         gw_id =  msg.topic.split('/')[1]
+<<<<<<< HEAD
         print(f"[*] << GW {gw_id} | time: %s" % datetime.datetime.now())
+=======
+>>>>>>> f04be7711a139e42414826ec69b905435fa9e2ab
         server_info.gw_append_or_update(gw_id)
         
 def on_connect(client, userdata, flags, rc):
