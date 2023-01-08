@@ -64,7 +64,7 @@ class devices(object):
             print("[*] append_device() ->  Device NOT allowd!")
 
     def remove_device(device):
-        raise NotImplemented()    
+        raise NotImplemented()
 
     def contains_device(self, device): 
         if isinstance(device, MES_device.device) == False:

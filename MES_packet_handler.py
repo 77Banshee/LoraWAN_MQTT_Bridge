@@ -270,28 +270,3 @@ class packet_factory(object):
 
 if __name__ == "__main__":
     print("Entry point: MES_package_handler")
-    # inc_11_o = open("debug/Inclinometer_07293314052DFF9E/11.txt", 'r')
-    # rx_json = json.load(inc_11_o)
-    # p = inclinometer_data_packet(rx_json)
-    # print(p.__str__())
-    
-    # inc_12_o = open("debug/Inclinometer_07293314052DFF9E/12.txt", 'r')
-    # rx_json = json.load(inc_12_o)
-    # sp = status_packet_info(rx_json)
-    # print(sp.__str__())
-
-
-    # inc_13_o = open("debug/Thermometer_07293314052dff55/13.txt", 'r')
-    # rx_json = json.load(inc_13_o)
-    # p_bat = battery_info_packet(rx_json)
-    # print(p_bat.__str__())
-
-    # thermo_05_o = open("debug/thermo_07293314052d6646/5.json", 'r')
-    # rx_json = json.load(thermo_05_o)
-    # thermo = thermometer_data_packet(rx_json)
-    # print(thermo.__str__())
-
-    piez_1b_o = open("debug/piezometer_zap_07293314052d2ef0/3.json", 'r')
-    rx_json = json.load(piez_1b_o)
-    piez = piezometer_data_packet(rx_json)
-    print(piez.__str__())
