@@ -26,7 +26,9 @@ class device_factory(object):
                 cls.__count_increment(cls)
                 return hygrometer(dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code)
             case _:
-                raise ValueError(f"Device not recognized: {type}")
+                print(f"[*] WARNING! | Device not recognized: {type}")
+                with open("unknown_device", 'a') as f:
+                    f.write(f"MES_device.device_factory.create_device() {dev_eui}\n")
             
 class device(object):
     def __init__(self, dev_eui, mqtt_name, dev_type, object_id, object_code, uspd_code):

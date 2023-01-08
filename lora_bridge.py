@@ -166,7 +166,9 @@ def on_message(client, userdata, msg):
         # Get device
         rx_device = device_storage.get_device(rx_dev_eui, rx_dev_type)
         if rx_device == False:
-            raise ValueError(f"Device not found in storage! {rx_dev_type} {rx_dev_eui}")
+            print(f"Device not found in storage! {rx_dev_type} {rx_dev_eui}")
+            with open("unknown_device", 'a') as f:
+                f.write(f"main | on_message | 168 line:  {rx_dev_type} {rx_dev_eui}\n")
         rx_device.set_chirpstack_name(rx_json['deviceName'])
         print(f"[*] Debug: << PACKET {rx_dev_type} {rx_dev_eui} {rx_json['deviceName']} | DATA: {base64.b64decode(rx_json['data']).hex()}")  
         # Handle packet
